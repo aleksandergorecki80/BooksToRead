@@ -4,5 +4,3 @@ export const newBook = {
   category: '',
   priority: '',
 };
-
-export const booksList = [];

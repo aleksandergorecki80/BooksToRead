@@ -12,7 +12,7 @@ import { Select } from './formElements/selectClass';
 import { RadioInput } from './formElements/radioInputClass';
 import { Submit } from './formElements/submitClass';
 import { Book } from './state/book';
-import { newBook, booksList } from './state/state';
+import { newBook } from './state/state';
 import { createLabel } from './functions/functions';
 
 const categories = [
@@ -24,6 +24,7 @@ const categories = [
   { value: 'naukiScisle', tekst: 'Nauki ścisłe' },
 ];
 
+let booksList = [];
 const form = crateForm();
 
 const titleInput = new TextInput('input-title', 'text', 'title', '', 'Podaj tytuł');
@@ -76,19 +77,13 @@ radios.forEach((radio) => {
 
 const ulBookList = document.getElementById('book-list');
 
-function createListOfBooks() {
-  return booksList.map((book) => {
+function createListOfBooks(books) {
+  return books.map((book) => {
     const li = `<li id=${book.id}>
           ${book.title} - ${book.author}. 
           category: ${book.category}
-          jak bardzo chcę przeczytać w skali 1-5: ${book.priority} <button class=remove-book>Delete</button></li>`;
+          jak bardzo chcę przeczytać w skali 1-5: ${book.priority} <button id=${book.id} class=remove-book>Delete</button></li>`;
     return li;
-  });
-}
-
-function ulRemoveBook(title) {
-  return booksList.filter((book) => {
-    return book.title === title;
   });
 }
 
@@ -103,7 +98,7 @@ submitForm.addEventListener('submit', (event) => {
   booksList.push(book);
 
   const liToAppend = document.createElement('li');
-  const liContent = createListOfBooks();
+  const liContent = createListOfBooks(booksList);
   liToAppend.innerHTML = liContent;
 
   ulBookList.appendChild(liToAppend);
@@ -112,8 +107,22 @@ submitForm.addEventListener('submit', (event) => {
 ulBookList.addEventListener('click', (event) => {
   if (event.target.className === 'remove-book') {
     // event.target.parentElement.remove();
-    console.log(event.target.parentElement.parentElement);
-    console.log(event.target.parentElement.parentElement);
+    // console.log(event.target.parentElement.parentElement.id);
+    if (ulBookList.childElementCount > 0) {
+      for (let i = 0; i < ulBookList.childElementCount; i++) {
+        ulBookList.removeChild(ulBookList.childNodes[i]);
+      }
+    }
+
+    const newBooksList = booksList.filter((book) => {
+      return book.id !== event.target.parentElement.id;
+    });
+    booksList = newBooksList;
+    const liToAppend = document.createElement('li');
+    const liContent = createListOfBooks(newBooksList);
+    liToAppend.innerHTML = liContent;
+
+    ulBookList.appendChild(liToAppend);
   }
 });
 

@@ -1,9 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { Submit } from '../formElements/submitClass';
 
-
-
-const deleteBook = new Submit('', 'submit', 'remove', 'Usuń książkę', 'remove-book');
 export class Book {
   constructor(title, author, category, priority) {
     this.id = uuidv4();
