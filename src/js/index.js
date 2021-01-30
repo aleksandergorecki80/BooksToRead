@@ -30,7 +30,7 @@ const titleInput = new TextInput('input-title', 'text', 'title', '', 'Podaj tytu
 const authorInput = new TextInput('input-author', 'text', 'author', '', 'Podaj autora');
 const selectCategory = new Select('select-list', 'select-list', categories);
 
-const app = document.getElementById('app');
+const app = document.getElementById('form');
 form.appendChild(titleInput.createTextInput());
 form.appendChild(authorInput.createTextInput());
 
@@ -74,9 +74,49 @@ radios.forEach((radio) => {
   });
 });
 
+const ulBookList = document.getElementById('book-list');
+
+function createListOfBooks() {
+  return booksList.map((book) => {
+    const li = `<li id=${book.id}>
+          ${book.title} - ${book.author}. 
+          category: ${book.category}
+          jak bardzo chcę przeczytać w skali 1-5: ${book.priority} <button class=remove-book>Delete</button></li>`;
+    return li;
+  });
+}
+
+function ulRemoveBook(title) {
+  return booksList.filter((book) => {
+    return book.title === title;
+  });
+}
+
 submitForm.addEventListener('submit', (event) => {
   event.preventDefault();
+  if (ulBookList.childElementCount > 0) {
+    for (let i = 0; i < ulBookList.childElementCount; i++) {
+      ulBookList.removeChild(ulBookList.childNodes[i]);
+    }
+  }
   const book = new Book(newBook.title, newBook.author, newBook.category, newBook.priority);
   booksList.push(book);
-  app.appendChild(book.buildNewBook());
+
+  const liToAppend = document.createElement('li');
+  const liContent = createListOfBooks();
+  liToAppend.innerHTML = liContent;
+
+  ulBookList.appendChild(liToAppend);
 });
+
+ulBookList.addEventListener('click', (event) => {
+  if (event.target.className === 'remove-book') {
+    // event.target.parentElement.remove();
+    console.log(event.target.parentElement.parentElement);
+    console.log(event.target.parentElement.parentElement);
+  }
+});
+
+window.onload = function () {
+  //   console.log('LOADED!');
+};
