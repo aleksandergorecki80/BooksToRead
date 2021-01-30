@@ -1,7 +1,13 @@
 export class Input {
-  constructor(type, name, placeholder) {
+  constructor(type, inputName) {
     this.type = type;
-    this.name = name;
+    this.inputName = inputName;
+  }
+}
+
+export class TextInput extends Input {
+  constructor(type, inputName, placeholder) {
+    super(type, inputName);
     this.placeholder = placeholder;
   }
 
@@ -11,5 +17,11 @@ export class Input {
     input.setAttribute('name', this.name);
     input.setAttribute('placeholder', this.placeholder);
     return input;
+  }
+}
+
+export class RadioInput extends Input {
+  constructor(type, inputName) {
+    super(type, inputName);
   }
 }

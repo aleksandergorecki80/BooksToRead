@@ -7,7 +7,7 @@
 // custom console
 
 import { crateForm } from './form';
-import { Input } from './inputClass';
+import { TextInput } from './inputClass';
 import { Select } from './selectClass';
 
 const categories = [
@@ -21,8 +21,8 @@ const categories = [
 
 const form = crateForm();
 
-const titleInput = new Input('text', 'Title', 'Podaj tytuł');
-const authorInput = new Input('text', 'Author', 'Podaj autora');
+const titleInput = new TextInput('text', 'Title', 'Podaj tytuł');
+const authorInput = new TextInput('text', 'Author', 'Podaj autora');
 const selectCategory = new Select(categories);
 
 // const titleForAttach = title();
