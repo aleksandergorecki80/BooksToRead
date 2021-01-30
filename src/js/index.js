@@ -21,16 +21,35 @@ const intValue = () => {
 };
 
 let booksList = intValue();
+const app = document.getElementById('app');
 
-const ulBookList = document.getElementById('book-list');
-printListOfBooks(booksList, ulBookList);
-const form = crateForm();
+// Licznik książek
+const booksCounter = document.createElement('div');
+booksCounter.innerHTML = booksList.length;
+app.appendChild(booksCounter);
+console.log(booksList.length);
+
+const divBookList = document.createElement('div');
+const ulBooksList = document.createElement('ul');
+ulBooksList.id = "book-list";
+divBookList.appendChild(ulBooksList);
+
+const listOfBooks = document.getElementById('book-list');
+printListOfBooks(booksList, listOfBooks);
+
 
 const titleInput = new TextInput('input-title', 'text', 'title', '', 'Podaj tytuł');
 const authorInput = new TextInput('input-author', 'text', 'author', '', 'Podaj autora');
 const selectCategory = new Select('select-list', 'select-list', categories);
 
-const app = document.getElementById('form');
+// const formDiv = document.getElementById('form');
+
+// Formulaż
+const form = crateForm();
+const formDiv = document.createElement('div');
+formDiv.id = 'form';
+app.appendChild(formDiv);
+
 form.appendChild(titleInput.createTextInput());
 form.appendChild(authorInput.createTextInput());
 
@@ -54,8 +73,10 @@ for (let i = 1; i <= 5; i++) {
 
 const submitButton = new Submit('submit-button', 'submit', 'submit', 'Zapisz książkę');
 form.appendChild(submitButton.creteSubmit());
-app.appendChild(form);
+formDiv.appendChild(form);
 
+
+// Eventy
 document.getElementById('input-title').addEventListener('keyup', (event) => {
   newBook.title = event.target.value;
 });
@@ -72,25 +93,27 @@ radios.forEach((radio) => {
   });
 });
 
+// Submit form
 const submitForm = document.getElementById('form');
 submitForm.addEventListener('submit', (event) => {
   event.preventDefault();
 
-  if (ulBookList.childElementCount > 0) {
-    while (ulBookList.firstChild) {
-      ulBookList.removeChild(ulBookList.lastChild);
+  if (listOfBooks.childElementCount > 0) {
+    while (listOfBooks.firstChild) {
+        listOfBooks.removeChild(listOfBooks.lastChild);
     }
   }
   const book = new Book(newBook.title, newBook.author, newBook.category, newBook.priority);
   booksList.push(book);
   localStorage.setItem('books', JSON.stringify(booksList));
-  printListOfBooks(booksList, ulBookList);
+  printListOfBooks(booksList, listOfBooks);
 });
 
-ulBookList.addEventListener('click', (event) => {
+// Delete book
+listOfBooks.addEventListener('click', (event) => {
   if (event.target.className === 'remove-book') {
-    while (ulBookList.firstChild) {
-      ulBookList.removeChild(ulBookList.lastChild);
+    while (listOfBooks.firstChild) {
+        listOfBooks.removeChild(listOfBooks.lastChild);
     }
   }
   const newBooksList = booksList.filter((book) => {
@@ -98,5 +121,5 @@ ulBookList.addEventListener('click', (event) => {
   });
   booksList = newBooksList;
   localStorage.setItem('books', JSON.stringify(booksList));
-  printListOfBooks(booksList, ulBookList);
+  printListOfBooks(booksList, listOfBooks);
 });

@@ -21,3 +21,7 @@ export const printListOfBooks = (books, place) => {
     );
   });
 };
+
+export const creteCounter = () => {
+
+}
