@@ -12,19 +12,18 @@ import { Select } from './formElements/selectClass';
 import { RadioInput } from './formElements/radioInputClass';
 import { Submit } from './formElements/submitClass';
 import { Book } from './state/book';
-import { newBook } from './state/state';
-import { createLabel } from './functions/functions';
+import { newBook, categories } from './state/state';
+import { createLabel, printListOfBooks } from './functions/functions';
 
-const categories = [
-  { value: 'kryminal', tekst: 'Kryminał' },
-  { value: 'sciFi', tekst: 'Science fiction' },
-  { value: 'fantasy', tekst: 'Fantasy' },
-  { value: 'poezja', tekst: 'Poezja' },
-  { value: 'dramat', tekst: 'Dramat' },
-  { value: 'naukiScisle', tekst: 'Nauki ścisłe' },
-];
+const intValue = () => {
+  const localData = localStorage.getItem('books');
+  return localData ? JSON.parse(localData) : [];
+};
 
-let booksList = [];
+let booksList = intValue();
+
+const ulBookList = document.getElementById('book-list');
+printListOfBooks(booksList, ulBookList);
 const form = crateForm();
 
 const titleInput = new TextInput('input-title', 'text', 'title', '', 'Podaj tytuł');
@@ -57,8 +56,6 @@ const submitButton = new Submit('submit-button', 'submit', 'submit', 'Zapisz ksi
 form.appendChild(submitButton.creteSubmit());
 app.appendChild(form);
 
-const submitForm = document.getElementById('form');
-
 document.getElementById('input-title').addEventListener('keyup', (event) => {
   newBook.title = event.target.value;
 });
@@ -75,57 +72,31 @@ radios.forEach((radio) => {
   });
 });
 
-const ulBookList = document.getElementById('book-list');
-
-function createListOfBooks(books) {
-  return books.map((book) => {
-    const li = `<li id=${book.id}>
-          ${book.title} - ${book.author}. 
-          category: ${book.category}
-          jak bardzo chcę przeczytać w skali 1-5: ${book.priority} <button id=${book.id} class=remove-book>Delete</button></li>`;
-    return li;
-  });
-}
-
+const submitForm = document.getElementById('form');
 submitForm.addEventListener('submit', (event) => {
   event.preventDefault();
+
   if (ulBookList.childElementCount > 0) {
-    for (let i = 0; i < ulBookList.childElementCount; i++) {
-      ulBookList.removeChild(ulBookList.childNodes[i]);
+    while (ulBookList.firstChild) {
+      ulBookList.removeChild(ulBookList.lastChild);
     }
   }
   const book = new Book(newBook.title, newBook.author, newBook.category, newBook.priority);
   booksList.push(book);
-
-  const liToAppend = document.createElement('li');
-  const liContent = createListOfBooks(booksList);
-  liToAppend.innerHTML = liContent;
-
-  ulBookList.appendChild(liToAppend);
+  localStorage.setItem('books', JSON.stringify(booksList));
+  printListOfBooks(booksList, ulBookList);
 });
 
 ulBookList.addEventListener('click', (event) => {
   if (event.target.className === 'remove-book') {
-    // event.target.parentElement.remove();
-    // console.log(event.target.parentElement.parentElement.id);
-    if (ulBookList.childElementCount > 0) {
-      for (let i = 0; i < ulBookList.childElementCount; i++) {
-        ulBookList.removeChild(ulBookList.childNodes[i]);
-      }
+    while (ulBookList.firstChild) {
+      ulBookList.removeChild(ulBookList.lastChild);
     }
-
-    const newBooksList = booksList.filter((book) => {
-      return book.id !== event.target.parentElement.id;
-    });
-    booksList = newBooksList;
-    const liToAppend = document.createElement('li');
-    const liContent = createListOfBooks(newBooksList);
-    liToAppend.innerHTML = liContent;
-
-    ulBookList.appendChild(liToAppend);
   }
+  const newBooksList = booksList.filter((book) => {
+    return book.id !== event.target.parentElement.id;
+  });
+  booksList = newBooksList;
+  localStorage.setItem('books', JSON.stringify(booksList));
+  printListOfBooks(booksList, ulBookList);
 });
-
-window.onload = function () {
-  //   console.log('LOADED!');
-};
