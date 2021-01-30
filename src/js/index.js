@@ -6,12 +6,14 @@
 
 // custom console
 
-import { crateForm } from './form';
-import { TextInput } from './textInputClass';
-import { Select } from './selectClass';
-import { RadioInput } from './radioInputClass';
-import { createLabel } from './functions';
-import { Submit } from './submitClass';
+import { crateForm } from './formElements/form';
+import { TextInput } from './formElements/textInputClass';
+import { Select } from './formElements/selectClass';
+import { RadioInput } from './formElements/radioInputClass';
+import { Submit } from './formElements/submitClass';
+import { Book } from './state/book';
+import { newBook, booksList } from './state/state';
+import { createLabel } from './functions/functions';
 
 const categories = [
   { value: 'kryminal', tekst: 'Kryminał' },
@@ -26,9 +28,8 @@ const form = crateForm();
 
 const titleInput = new TextInput('input-title', 'text', 'title', '', 'Podaj tytuł');
 const authorInput = new TextInput('input-author', 'text', 'author', '', 'Podaj autora');
-const selectCategory = new Select('select-list', categories);
+const selectCategory = new Select('select-list', 'select-list', categories);
 
-// const titleForAttach = title();
 const app = document.getElementById('app');
 form.appendChild(titleInput.createTextInput());
 form.appendChild(authorInput.createTextInput());
@@ -41,7 +42,7 @@ form.appendChild(selectCategoryList);
 const labelForRadiosList = createLabel('select', 'Jak barszo chcesz przeczytać');
 form.appendChild(labelForRadiosList);
 for (let i = 1; i <= 5; i++) {
-  const priorityButton = new RadioInput(`${i}-priority`, 'radio', 'priority', '');
+  const priorityButton = new RadioInput(`${i}-priority`, 'radio', 'priority', i);
   const label = document.createElement('label');
   label.htmlFor = 'priority';
   const description = document.createTextNode(i);
@@ -53,5 +54,29 @@ for (let i = 1; i <= 5; i++) {
 
 const submitButton = new Submit('submit-button', 'submit', 'submit', 'Zapisz książkę');
 form.appendChild(submitButton.creteSubmit());
-
 app.appendChild(form);
+
+const submitForm = document.getElementById('form');
+
+document.getElementById('input-title').addEventListener('keyup', (event) => {
+  newBook.title = event.target.value;
+});
+document.getElementById('input-author').addEventListener('keyup', (event) => {
+  newBook.author = event.target.value;
+});
+document.getElementById('select-list').addEventListener('change', (event) => {
+  newBook.category = event.target.value;
+});
+const radios = document.querySelectorAll('input[type=radio]');
+radios.forEach((radio) => {
+  radio.addEventListener('change', (event) => {
+    newBook.priority = event.target.value;
+  });
+});
+
+submitForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const book = new Book(newBook.title, newBook.author, newBook.category, newBook.priority);
+  booksList.push(book);
+  app.appendChild(book.buildNewBook());
+});
