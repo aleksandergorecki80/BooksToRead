@@ -9,7 +9,7 @@ import { BooksList } from './classes/booksListClass';
 import { resetForm, displayForm } from './formElements/form';
 import { Select } from './formElements/selectClass';
 import { Book } from './state/book';
-import { categories, sortBy } from './state/state';
+import {  } from './state/state';
 import {
   createLabel,
   displayTotalBooksAmountCounter,
@@ -22,6 +22,8 @@ import {
   booksDataEnteredInForm,
   updateBooksDataEnteredInForm,
   findUpdatedPositionAndUpdate,
+  categories,
+  sortBy
 } from './events/evants';
 
 const intValue = () => {

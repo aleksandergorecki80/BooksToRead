@@ -3,7 +3,7 @@ import { Select } from './selectClass';
 import { RadioInput } from './radioInputClass';
 import { Submit } from './submitClass';
 import { booksDataEnteredInForm } from '../events/evants';
-import { categories } from '../state/state';
+import { categories } from '../events/evants';
 import { createLabel } from '../functions/functions';
 
 export const crateForm = () => {
