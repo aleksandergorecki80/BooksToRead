@@ -20,7 +20,8 @@ export const booksDataEnteredInForm = {
   title: '',
   author: '',
   category: '',
-  priority: '',
+  categoryId: '',
+  priority: 5,
 };
 
 export function updateBooksDataEnteredInForm(dataToEdition) {
@@ -39,12 +40,23 @@ export function formFieldEvents() {
     booksDataEnteredInForm.author = event.target.value;
   });
   document.getElementById('select-list').addEventListener('change', (event) => {
-    booksDataEnteredInForm.category = event.target.value;
+    console.log(event.target)
+    // booksDataEnteredInForm.categoryId = event.target.value;
+    const tekst = categories.find((category)=>{
+      if(category.name === event.target.value){
+        return category;
+      }
+    });
+    console.log(tekst.tekst);
+    booksDataEnteredInForm.category = tekst.tekst;
+    booksDataEnteredInForm.categoryId = event.target.value;
   });
   const radios = document.querySelectorAll('input[type=radio]');
   radios.forEach((radio) => {
     radio.addEventListener('change', (event) => {
+      
       booksDataEnteredInForm.priority = event.target.value;
+      console.log(booksDataEnteredInForm)
     });
   });
 }
@@ -63,3 +75,5 @@ export const findUpdatedPositionAndUpdate = (totalBooksCollection, bookData) => 
     return bookOnList;
   });
 };
+
+console.log(booksDataEnteredInForm)

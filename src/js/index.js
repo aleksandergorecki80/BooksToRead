@@ -9,7 +9,7 @@ import { BooksList } from './classes/booksListClass';
 import { resetForm, displayForm } from './formElements/form';
 import { Select } from './formElements/selectClass';
 import { Book } from './state/book';
-import {  } from './state/state';
+import {} from './state/state';
 import {
   createLabel,
   displayTotalBooksAmountCounter,
@@ -23,7 +23,7 @@ import {
   updateBooksDataEnteredInForm,
   findUpdatedPositionAndUpdate,
   categories,
-  sortBy
+  sortBy,
 } from './events/evants';
 
 const intValue = () => {
@@ -132,9 +132,9 @@ submitForm.addEventListener('submit', (event) => {
       booksDataEnteredInForm.title,
       booksDataEnteredInForm.author,
       booksDataEnteredInForm.category,
+      booksDataEnteredInForm.categoryId,
       booksDataEnteredInForm.priority
     );
-
     totalBooksCollection.push(book);
     localStorage.setItem('books', JSON.stringify(totalBooksCollection));
 
@@ -222,4 +222,3 @@ document.querySelectorAll('.category-counters').forEach((item) => {
 });
 
 // const submitButton = new Submit('submit-button', 'submit', 'submit', 'Zapisz książkę');
-console.log(totalBooksCollection);
