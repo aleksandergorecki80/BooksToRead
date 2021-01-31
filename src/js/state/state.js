@@ -6,6 +6,7 @@ export const newBook = {
 };
 
 export const categories = [
+  { value: '', tekst: ' -- Wybież kategorię -- ' },
   { value: 'kryminal', tekst: 'Kryminał' },
   { value: 'sciFi', tekst: 'Science fiction' },
   { value: 'fantasy', tekst: 'Fantasy' },

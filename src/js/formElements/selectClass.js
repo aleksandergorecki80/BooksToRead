@@ -14,6 +14,11 @@ export class Select {
       const tekst = document.createTextNode(element.tekst);
       option.value = element.tekst;
       //   option.setAttribute('value', element.value);
+
+      if (element.value === '') {
+        option.disabled = true;
+        option.selected = true;
+      }
       option.appendChild(tekst);
       select.appendChild(option);
     });

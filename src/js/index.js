@@ -13,7 +13,12 @@ import { RadioInput } from './formElements/radioInputClass';
 import { Submit } from './formElements/submitClass';
 import { Book } from './state/book';
 import { newBook, categories } from './state/state';
-import { createLabel, printListOfBooks } from './functions/functions';
+import {
+  createLabel,
+  printListOfBooks,
+  categoriesCounter,
+  displayHowManyBooksInCategories,
+} from './functions/functions';
 
 const intValue = () => {
   const localData = localStorage.getItem('books');
@@ -23,32 +28,15 @@ const intValue = () => {
 let booksList = intValue();
 const app = document.getElementById('app');
 
-// Licznik książek
-const booksCounter = document.createElement('div');
-booksCounter.innerHTML = booksList.length;
-app.appendChild(booksCounter);
-console.log(booksList.length);
-
-const divBookList = document.createElement('div');
-const ulBooksList = document.createElement('ul');
-ulBooksList.id = "book-list";
-divBookList.appendChild(ulBooksList);
-
-const listOfBooks = document.getElementById('book-list');
-printListOfBooks(booksList, listOfBooks);
-
+// Formulaż
 
 const titleInput = new TextInput('input-title', 'text', 'title', '', 'Podaj tytuł');
 const authorInput = new TextInput('input-author', 'text', 'author', '', 'Podaj autora');
 const selectCategory = new Select('select-list', 'select-list', categories);
 
-// const formDiv = document.getElementById('form');
-
-// Formulaż
 const form = crateForm();
-const formDiv = document.createElement('div');
-formDiv.id = 'form';
-app.appendChild(formDiv);
+const divToPlaceFor = document.createElement('div');
+divToPlaceFor.id = 'form';
 
 form.appendChild(titleInput.createTextInput());
 form.appendChild(authorInput.createTextInput());
@@ -73,8 +61,42 @@ for (let i = 1; i <= 5; i++) {
 
 const submitButton = new Submit('submit-button', 'submit', 'submit', 'Zapisz książkę');
 form.appendChild(submitButton.creteSubmit());
-formDiv.appendChild(form);
+divToPlaceFor.appendChild(form);
+app.appendChild(divToPlaceFor);
 
+// Licznik książek
+const countersPlacer = document.createElement('div');
+const booksCounterPlacer = document.createElement('div');
+const booksInCategoriesCountersPlacer = document.createElement('div');
+countersPlacer.append(booksCounterPlacer, booksInCategoriesCountersPlacer);
+
+const howManyCryminals = categoriesCounter(booksList, 'Kryminał');
+const howManySciFi = categoriesCounter(booksList, 'Science fiction');
+const howManyFantasy = categoriesCounter(booksList, 'Poezja');
+const howManyPoezja = categoriesCounter(booksList, 'Fantasy');
+const howManyDramat = categoriesCounter(booksList, 'Dramat');
+const howManyNaukiScisle = categoriesCounter(booksList, 'Nauki ścisłe');
+
+app.appendChild(countersPlacer);
+displayTotalBooksAmountCounters();
+booksInCategoriesCountersPlacer.innerHTML = displayHowManyBooksInCategories(
+  howManyCryminals,
+  howManySciFi,
+  howManyFantasy,
+  howManyPoezja,
+  howManyDramat,
+  howManyNaukiScisle
+);
+
+// Wyświetlanie książek
+const divToPlaceBookList = document.createElement('div');
+const ulBooksList = document.createElement('ul');
+ulBooksList.id = 'book-list';
+divToPlaceBookList.appendChild(ulBooksList);
+app.appendChild(divToPlaceBookList);
+
+const listOfBooks = document.getElementById('book-list');
+printListOfBooks(booksList, listOfBooks);
 
 // Eventy
 document.getElementById('input-title').addEventListener('keyup', (event) => {
@@ -100,26 +122,40 @@ submitForm.addEventListener('submit', (event) => {
 
   if (listOfBooks.childElementCount > 0) {
     while (listOfBooks.firstChild) {
-        listOfBooks.removeChild(listOfBooks.lastChild);
+      listOfBooks.removeChild(listOfBooks.lastChild);
     }
   }
   const book = new Book(newBook.title, newBook.author, newBook.category, newBook.priority);
   booksList.push(book);
   localStorage.setItem('books', JSON.stringify(booksList));
   printListOfBooks(booksList, listOfBooks);
+  displayTotalBooksAmountCounters();
 });
 
 // Delete book
 listOfBooks.addEventListener('click', (event) => {
   if (event.target.className === 'remove-book') {
     while (listOfBooks.firstChild) {
-        listOfBooks.removeChild(listOfBooks.lastChild);
+      listOfBooks.removeChild(listOfBooks.lastChild);
     }
+    const newBooksList = booksList.filter((book) => {
+      return book.id !== event.target.parentElement.id;
+    });
+    booksList = newBooksList;
+    localStorage.setItem('books', JSON.stringify(booksList));
+    printListOfBooks(booksList, listOfBooks);
+    displayTotalBooksAmountCounters();
   }
-  const newBooksList = booksList.filter((book) => {
-    return book.id !== event.target.parentElement.id;
-  });
-  booksList = newBooksList;
-  localStorage.setItem('books', JSON.stringify(booksList));
-  printListOfBooks(booksList, listOfBooks);
+});
+
+function displayTotalBooksAmountCounters() {
+  booksCounterPlacer.innerHTML = `<p>Na liście jest ${booksList.length} książek</p>`;
+}
+
+const selectedCategoryButton = document.getElementsByClassName('category-counters');
+const selectedCategoryButtonArr = [...selectedCategoryButton];
+// kryminalyKategoriaButton.addEventListener('click')
+console.log(selectedCategoryButton);
+selectedCategoryButtonArr.forEach((element) => {
+  console.log(element);
 });

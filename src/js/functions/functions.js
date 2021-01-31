@@ -10,7 +10,7 @@ export const createLabel = (htmlForValue, descriptionText) => {
 export const printListOfBooks = (books, place) => {
   return books.map((book) => {
     place.insertAdjacentHTML(
-      'afterbegin',
+      'beforeend',
       `<li id=${book.id}>  
           Tytuł: ${book.title} - 
           Autor: ${book.author} 
@@ -22,6 +22,29 @@ export const printListOfBooks = (books, place) => {
   });
 };
 
-export const creteCounter = () => {
+export const categoriesCounter = (booksList, selectedCategory) => {
+  let howManyBooksInTheCategory = 0;
+  booksList.map((book) => {
+    if (book.category === selectedCategory) {
+      howManyBooksInTheCategory++;
+    }
+  });
+  return howManyBooksInTheCategory;
+};
 
-}
+export const displayHowManyBooksInCategories = (
+  howManyCryminals,
+  howManySciFi,
+  howManyFantasy,
+  howManyPoezja,
+  howManyDramat,
+  howManyNaukiScisle
+) => {
+  return `<button class=category-counters>Kryminały</button>: ${howManyCryminals}
+  <button class=category-counters>Science fiction</button>: ${howManySciFi}
+  <button class=category-counters>Fantasy</button>: ${howManyFantasy}
+  <button class=category-counters>Poezja</button>: ${howManyPoezja}
+  <button class=category-counters>Dramat</button>: ${howManyDramat}
+  <button class=category-counters>Nauki ścisłe</button>: ${howManyNaukiScisle}
+          `;
+};
