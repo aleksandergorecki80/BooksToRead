@@ -4,16 +4,39 @@ export class BooksList {
     this.filteredOrSortedState = '';
   }
 
-  getTotalCollectionOfBooks(){
+  getTotalCollectionOfBooks() {
     return this.totalBooksCollection;
+  }
+
+  setTotalBooksCollection(data) {
+    this.totalBooksCollection = [...this.totalBooksCollection, data];
+  }
+
+  replaceTotalBooksCollection(data) {
+    this.totalBooksCollection = data;
+  }
+
+  gettFilteredOrSortedState() {
+    return this.filteredOrSortedState;
   }
 
   setFilteredOrSortedState(state) {
     this.filteredOrSortedState = state;
   }
 
-  gettFilteredOrSortedState() {
-    return this.filteredOrSortedState;
+  updateTotalCollectionOfBooks(data) {
+    return this.totalBooksCollection.map((bookOnList) => {
+      if (bookOnList.id === data.id) {
+        return {
+          id: data.id,
+          title: data.title,
+          author: data.author,
+          category: data.category,
+          priority: data.priority,
+        };
+      }
+      return bookOnList;
+    });
   }
 
   sortByPriority() {

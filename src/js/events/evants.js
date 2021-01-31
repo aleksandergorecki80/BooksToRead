@@ -48,18 +48,3 @@ export function formFieldEvents() {
     });
   });
 }
-
-export const findUpdatedPositionAndUpdate = (totalBooksCollection, bookData) => {
-  return totalBooksCollection.map((bookOnList) => {
-    if (bookOnList.id === bookData.id) {
-      return {
-        id: bookData.id,
-        title: bookData.title,
-        author: bookData.author,
-        category: bookData.category,
-        priority: bookData.priority,
-      };
-    }
-    return bookOnList;
-  });
-};
