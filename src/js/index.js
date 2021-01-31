@@ -6,11 +6,8 @@
 
 // custom console
 
-import { crateForm } from './formElements/form';
-import { TextInput } from './formElements/textInputClass';
+import { resetForm, displayForm } from './formElements/form';
 import { Select } from './formElements/selectClass';
-import { RadioInput } from './formElements/radioInputClass';
-import { Submit } from './formElements/submitClass';
 import { Book } from './state/book';
 import { categories, sortBy } from './state/state';
 import {
@@ -36,50 +33,8 @@ let totalBooksCollection = intValue();
 const app = document.getElementById('app');
 
 // Formulaż
-const form = crateForm();
-const divToPlaceFor = document.createElement('div');
-divToPlaceFor.id = 'form';
+displayForm();
 
-const titleInput = new TextInput(
-  'input-title',
-  'text',
-  'title',
-  booksDataEnteredInForm.title,
-  'Podaj tytuł'
-);
-const authorInput = new TextInput(
-  'input-author',
-  'text',
-  'author',
-  booksDataEnteredInForm.author,
-  'Podaj autora'
-);
-form.appendChild(titleInput.createTextInput());
-form.appendChild(authorInput.createTextInput());
-
-const selectCategory = new Select('select-list', 'select-list', categories);
-const labelForSelect = createLabel('select-list', 'Wybierz kategorię');
-const selectCategoryList = selectCategory.createSelect();
-form.appendChild(labelForSelect);
-form.appendChild(selectCategoryList);
-
-const labelForRadiosList = createLabel('select', 'Jak barszo chcesz przeczytać');
-form.appendChild(labelForRadiosList);
-for (let i = 1; i <= 5; i++) {
-  const priorityButton = new RadioInput(`${i}-priority`, 'radio', 'priority', i);
-  const label = document.createElement('label');
-  label.htmlFor = 'priority';
-  const description = document.createTextNode(i);
-  label.appendChild(description);
-  form.appendChild(priorityButton.crateRadioInput());
-  form.appendChild(label);
-  form.appendChild(description);
-}
-
-const submitButton = new Submit('submit-button', 'submit', 'submit', 'Zapisz książkę');
-form.appendChild(submitButton.creteSubmit());
-divToPlaceFor.appendChild(form);
-app.appendChild(divToPlaceFor);
 
 // Eventy formulaza
 formFieldEvents();
@@ -156,10 +111,9 @@ submitForm.addEventListener('submit', (event) => {
     locationForListOfBooks.innerHTML = '';
     locationForListOfBooks.innerHTML = totalListOfBooks;
 
+    resetForm();
+
     displayTotalBooksAmountCounter(totalBooksCollection, booksCounterPlacer);
-    // const listOfCategoriesToDisplay = printListOfCategories(categories, totalBooksCollection);
-    // booksInCategoriesCountersPlacer.innerHTML = listOfCategoriesToDisplay;
-    // location.reload();
   } else {
     // EDYTOWANIE
     const updatedBooksCollection = findUpdatedPositionAndUpdate(
@@ -169,6 +123,7 @@ submitForm.addEventListener('submit', (event) => {
     localStorage.setItem('books', JSON.stringify(updatedBooksCollection));
     const totalListOfBooks = displayTotalListOfBooks(updatedBooksCollection);
     locationForListOfBooks.innerHTML = totalListOfBooks;
+    resetForm();
 
     displayTotalBooksAmountCounter(updatedBooksCollection, booksCounterPlacer);
     // const listOfCategoriesToDisplay = printListOfCategories(categories, updatedBooksCollection);

@@ -8,5 +8,4 @@ export const categories = [
   { name: 'naukiScisle', tekst: 'Nauki ścisłe' },
 ];
 
-export const sortBy = [
-  {tekst: 'Tytuł'}, {tekst: 'Autor'}, {tekst: 'Priorytet'}];
+export const sortBy = [{ tekst: 'Tytuł' }, { tekst: 'Autor' }, { tekst: 'Priorytet' }];
