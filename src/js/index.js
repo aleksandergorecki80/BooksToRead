@@ -15,7 +15,6 @@ import {
   displayTotalBooksAmountCounter,
   printListOfBooksFromSelectedCategory,
   displayTotalListOfBooks,
-  categoriesCounter,
 } from './functions/functions';
 import {
   formFieldEvents,
@@ -58,19 +57,12 @@ categories.forEach((category) => {
 
     document.getElementById('sort-and-filter').appendChild(button);
     document.getElementById(category.name).addEventListener('click', () => {
-      const booksInCategory = printListOfBooksFromSelectedCategory(
-        totalBooksCollection,
-        category.tekst
-      );
-
-      const filteredArrayOfBooks = totalCollectionOfBooks.filterByCategory(category.name);
-      totalCollectionOfBooks.setFilteredOrSortedState(booksInCategory);
-
+      const filteredArrayOfBooks = totalCollectionOfBooks.filterByCategory(category.tekst);
+      totalCollectionOfBooks.setFilteredOrSortedState(filteredArrayOfBooks);
+      const totalListOfBooks = displayTotalListOfBooks(filteredArrayOfBooks);
+      locationForListOfBooks.innerHTML = totalListOfBooks;
       const booksCounter = document.getElementById('books-counter');
-      const amount = categoriesCounter(totalBooksCollection, category.tekst);
-      booksCounter.innerHTML = `Na liście jest ${amount} pozycji.`;
-
-      document.getElementById('book-list').innerHTML = booksInCategory;
+      booksCounter.innerHTML = `Na liście jest ${filteredArrayOfBooks.length} pozycji.`;
     });
   }
 });
@@ -228,4 +220,3 @@ document.querySelectorAll('.category-counters').forEach((item) => {
     locationForListOfBooks.innerHTML = listOfBooksFromSelectedCategory;
   });
 });
-

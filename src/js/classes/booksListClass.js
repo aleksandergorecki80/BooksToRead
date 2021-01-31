@@ -27,8 +27,9 @@ export class BooksList {
   }
 
   filterByCategory(category) {
-    return this.totalBooksCollection.map((book) => {
-      return category === book.categoryId;
+    return this.totalBooksCollection.filter((book) => {
+      if(category === book.category)
+      return book;
     });
   }
 }
