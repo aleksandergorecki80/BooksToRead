@@ -16,9 +16,9 @@ import { categories } from './state/state';
 import {
   createLabel,
   displayTotalBooksAmountCounter,
-  printListOfCategories,
   printListOfBooksFromSelectedCategory,
   displayTotalListOfBooks,
+  categoriesCounter,
 } from './functions/functions';
 import {
   formFieldEvents,
@@ -88,17 +88,34 @@ formFieldEvents();
 // Submit form
 const submitForm = document.getElementById('form');
 
+// Kategorie
+categories.forEach((category) => {
+  if (category.name !== '') {
+    const button = document.createElement('button');
+    button.innerHTML = category.tekst;
+    button.id = category.name;
+    document.getElementById('app').appendChild(button);
+    document.getElementById(category.name).addEventListener('click', () => {
+      const booksInCategory = printListOfBooksFromSelectedCategory(
+        totalBooksCollection,
+        category.tekst
+      );
+
+      const booksCounter = document.getElementById('books-counter');
+      const amount = categoriesCounter(totalBooksCollection, category.tekst);
+      booksCounter.innerHTML = `Na liście jest ${amount} pozycji.`;
+
+      document.getElementById('book-list').innerHTML = booksInCategory;
+    });
+  }
+});
+
 // Liczniki książek
-const countersPlacer = document.createElement('div');
+
 const booksCounterPlacer = document.createElement('div');
-const booksInCategoriesCountersPlacer = document.createElement('div');
-countersPlacer.append(booksCounterPlacer, booksInCategoriesCountersPlacer);
-
-const listOfCategoriesToDisplay = printListOfCategories(categories, totalBooksCollection);
-booksInCategoriesCountersPlacer.innerHTML = listOfCategoriesToDisplay;
-
+booksCounterPlacer.id = 'books-counter';
+app.appendChild(booksCounterPlacer);
 displayTotalBooksAmountCounter(totalBooksCollection, booksCounterPlacer);
-app.appendChild(countersPlacer);
 
 // Wyświetlanie książek
 const divToPlaceBookList = document.createElement('div');
@@ -130,9 +147,9 @@ submitForm.addEventListener('submit', (event) => {
     locationForListOfBooks.innerHTML = totalListOfBooks;
 
     displayTotalBooksAmountCounter(totalBooksCollection, booksCounterPlacer);
-    const listOfCategoriesToDisplay = printListOfCategories(categories, totalBooksCollection);
-    booksInCategoriesCountersPlacer.innerHTML = listOfCategoriesToDisplay;
-    location.reload();
+    // const listOfCategoriesToDisplay = printListOfCategories(categories, totalBooksCollection);
+    // booksInCategoriesCountersPlacer.innerHTML = listOfCategoriesToDisplay;
+    // location.reload();
   } else {
     // EDYTOWANIE
     const updatedBooksCollection = findUpdatedPositionAndUpdate(
@@ -140,14 +157,13 @@ submitForm.addEventListener('submit', (event) => {
       booksDataEnteredInForm
     );
     localStorage.setItem('books', JSON.stringify(updatedBooksCollection));
-    console.log(updatedBooksCollection);
     const totalListOfBooks = displayTotalListOfBooks(updatedBooksCollection);
-    locationForListOfBooks.innerHTML = updatedBooksCollection;
+    locationForListOfBooks.innerHTML = totalListOfBooks;
 
     displayTotalBooksAmountCounter(updatedBooksCollection, booksCounterPlacer);
-    const listOfCategoriesToDisplay = printListOfCategories(categories, updatedBooksCollection);
-    booksInCategoriesCountersPlacer.innerHTML = listOfCategoriesToDisplay;
-    location.reload();
+    // const listOfCategoriesToDisplay = printListOfCategories(categories, updatedBooksCollection);
+    // booksInCategoriesCountersPlacer.innerHTML = listOfCategoriesToDisplay;
+    // location.reload();
   }
 });
 
@@ -164,9 +180,9 @@ locationForListOfBooks.addEventListener('click', (event) => {
     locationForListOfBooks.innerHTML = totalListOfBooks;
 
     displayTotalBooksAmountCounter(totalBooksCollection, booksCounterPlacer);
-    const listOfCategoriesToDisplay = printListOfCategories(categories, totalBooksCollection);
-    booksInCategoriesCountersPlacer.innerHTML = listOfCategoriesToDisplay;
-    location.reload();
+    // const listOfCategoriesToDisplay = printListOfCategories(categories, totalBooksCollection);
+    // booksInCategoriesCountersPlacer.innerHTML = listOfCategoriesToDisplay;
+    // location.reload();
   }
 });
 
@@ -209,13 +225,4 @@ document.querySelectorAll('.category-counters').forEach((item) => {
   });
 });
 
-document.querySelectorAll('.author-filter').forEach((item) => {
-  item.addEventListener('click', (event) => {
-    console.log('klik')
-    // const listOfBooksFromSelectedCategory = printListOfBooksFromSelectedCategory(
-    //   totalBooksCollection,
-    //   event.target.innerText
-    // );
-    // locationForListOfBooks.innerHTML = listOfBooksFromSelectedCategory;
-  });
-});
+// const submitButton = new Submit('submit-button', 'submit', 'submit', 'Zapisz książkę');

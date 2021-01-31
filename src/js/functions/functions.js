@@ -16,8 +16,12 @@ export const categoriesCounter = (booksList, selectedCategory) => {
   return howManyBooksInTheCategory;
 };
 
-export function displayTotalBooksAmountCounter(totalAmoutOfBooks, booksCounterPlacer) {
-  booksCounterPlacer.innerHTML = `<p>Na liście jest ${totalAmoutOfBooks.length} książek</p>`;
+export function displayTotalBooksAmountCounter(totalBooksCollection, booksCounter) {
+  booksCounter.innerHTML = `<p>Na liście jest ${totalBooksCollection.length} książek</p>`;
+}
+
+export function displayBooksAmountInCategory(number, booksCounterPlacer) {
+  booksCounterPlacer.innerHTML = `<p>Na liście jest ${toString(number)} książek</p>`;
 }
 
 export const printListOfCategories = (categories, totalAmoutOfBooks) => {
@@ -34,9 +38,9 @@ export const printListOfCategories = (categories, totalAmoutOfBooks) => {
   return result;
 };
 
-export const printListOfBooksFromSelectedCategory = (totalAmoutOfBooks, selectedCategory) => {
+export const printListOfBooksFromSelectedCategory = (totalBooksCollection, selectedCategory) => {
   let result = '';
-  totalAmoutOfBooks.forEach((book) => {
+  totalBooksCollection.forEach((book) => {
     if (book.category === selectedCategory) {
       result += `<li id=${book.id}>  
   Tytuł: ${book.title} - 
