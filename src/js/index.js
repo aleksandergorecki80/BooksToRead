@@ -102,11 +102,11 @@ app.appendChild(countersPlacer);
 
 // Wyświetlanie książek
 const divToPlaceBookList = document.createElement('div');
-const containerForSingleBook = document.createElement('ul');
-containerForSingleBook.id = 'book-list';
-divToPlaceBookList.appendChild(containerForSingleBook);
+const locationForListOfBooks = document.createElement('ul');
+locationForListOfBooks.id = 'book-list';
+divToPlaceBookList.appendChild(locationForListOfBooks);
 app.appendChild(divToPlaceBookList);
-const locationForListOfBooks = document.getElementById('book-list');
+// const locationForListOfBooks = document.getElementById('book-list');
 const totalListOfBooks = displayTotalListOfBooks(totalBooksCollection);
 locationForListOfBooks.innerHTML = totalListOfBooks;
 
@@ -121,10 +121,12 @@ submitForm.addEventListener('submit', (event) => {
       booksDataEnteredInForm.category,
       booksDataEnteredInForm.priority
     );
+
     totalBooksCollection.push(book);
     localStorage.setItem('books', JSON.stringify(totalBooksCollection));
 
     const totalListOfBooks = displayTotalListOfBooks(totalBooksCollection);
+    locationForListOfBooks.innerHTML = '';
     locationForListOfBooks.innerHTML = totalListOfBooks;
 
     displayTotalBooksAmountCounter(totalBooksCollection, booksCounterPlacer);
@@ -137,7 +139,15 @@ submitForm.addEventListener('submit', (event) => {
       totalBooksCollection,
       booksDataEnteredInForm
     );
+    localStorage.setItem('books', JSON.stringify(updatedBooksCollection));
     console.log(updatedBooksCollection);
+    const totalListOfBooks = displayTotalListOfBooks(updatedBooksCollection);
+    locationForListOfBooks.innerHTML = updatedBooksCollection;
+
+    displayTotalBooksAmountCounter(updatedBooksCollection, booksCounterPlacer);
+    const listOfCategoriesToDisplay = printListOfCategories(categories, updatedBooksCollection);
+    booksInCategoriesCountersPlacer.innerHTML = listOfCategoriesToDisplay;
+    location.reload();
   }
 });
 
@@ -196,5 +206,16 @@ document.querySelectorAll('.category-counters').forEach((item) => {
       event.target.innerText
     );
     locationForListOfBooks.innerHTML = listOfBooksFromSelectedCategory;
+  });
+});
+
+document.querySelectorAll('.author-filter').forEach((item) => {
+  item.addEventListener('click', (event) => {
+    console.log('klik')
+    // const listOfBooksFromSelectedCategory = printListOfBooksFromSelectedCategory(
+    //   totalBooksCollection,
+    //   event.target.innerText
+    // );
+    // locationForListOfBooks.innerHTML = listOfBooksFromSelectedCategory;
   });
 });

@@ -40,7 +40,7 @@ export const printListOfBooksFromSelectedCategory = (totalAmoutOfBooks, selected
     if (book.category === selectedCategory) {
       result += `<li id=${book.id}>  
   Tytuł: ${book.title} - 
-  Autor: ${book.author} 
+  Autor: <a class="author-filter">${book.author}</a> 
   Kategoria: ${book.category} 
   Priorytet: ${book.priority}
   <button class="remove-book">Usuń</button>
@@ -56,7 +56,7 @@ export const displayTotalListOfBooks = (totalAmoutOfBooks) => {
   totalAmoutOfBooks.forEach((book) => {
     resutl += `<li id=${book.id}>  
     Tytuł: ${book.title} - 
-    Autor: ${book.author} 
+    Autor: <a class="author-filter">${book.author} </a>
     Kategoria: ${book.category} 
     Priorytet: ${book.priority}
     <button class="remove-book">Usuń</button>
