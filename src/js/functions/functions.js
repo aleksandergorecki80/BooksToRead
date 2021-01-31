@@ -32,32 +32,18 @@ export const categoriesCounter = (booksList, selectedCategory) => {
   return howManyBooksInTheCategory;
 };
 
-export const displayHowManyBooksInCategories = (
-  howManyCryminals,
-  howManySciFi,
-  howManyFantasy,
-  howManyPoezja,
-  howManyDramat,
-  howManyNaukiScisle
-) => {
-  return `<button class=category-counters>Kryminały</button>: ${howManyCryminals}
-  <button class=category-counters>Science fiction</button>: ${howManySciFi}
-  <button class=category-counters>Fantasy</button>: ${howManyFantasy}
-  <button class=category-counters>Poezja</button>: ${howManyPoezja}
-  <button class=category-counters>Dramat</button>: ${howManyDramat}
-  <button class=category-counters>Nauki ścisłe</button>: ${howManyNaukiScisle}
-          `;
-};
-
 export function displayTotalBooksAmountCounter(totalAmoutOfBooks, booksCounterPlacer) {
   booksCounterPlacer.innerHTML = `<p>Na liście jest ${totalAmoutOfBooks.length} książek</p>`;
 }
 
-export const printListOfCategories = (categories) => {
+export const printListOfCategories = (categories, totalAmoutOfBooks) => {
   let result = '<ul>';
   categories.forEach((category) => {
     if (category.value !== '') {
-      result += `<li> ${category.tekst} </li>`;
+      result += `<li> <a href=# class=category-counters>${category.tekst}</a> : ${categoriesCounter(
+        totalAmoutOfBooks,
+        category.tekst
+      )}</li>`;
     }
   });
   result += '</ul>';

@@ -16,8 +16,6 @@ import { categories } from './state/state';
 import {
   createLabel,
   printListOfBooks,
-  categoriesCounter,
-  displayHowManyBooksInCategories,
   displayTotalBooksAmountCounter,
   printListOfCategories,
 } from './functions/functions';
@@ -78,18 +76,10 @@ const booksCounterPlacer = document.createElement('div');
 const booksInCategoriesCountersPlacer = document.createElement('div');
 countersPlacer.append(booksCounterPlacer, booksInCategoriesCountersPlacer);
 
-// const howManyCryminals = categoriesCounter(totalAmoutOfBooks, 'Kryminał');
-// const howManySciFi = categoriesCounter(totalAmoutOfBooks, 'Science fiction');
-// const howManyFantasy = categoriesCounter(totalAmoutOfBooks, 'Poezja');
-// const howManyPoezja = categoriesCounter(totalAmoutOfBooks, 'Fantasy');
-// const howManyDramat = categoriesCounter(totalAmoutOfBooks, 'Dramat');
-// const howManyNaukiScisle = categoriesCounter(totalAmoutOfBooks, 'Nauki ścisłe');
-console.log(categories);
-const listOfCategoriesToDisplay = printListOfCategories(categories);
+const listOfCategoriesToDisplay = printListOfCategories(categories, totalAmoutOfBooks);
 booksInCategoriesCountersPlacer.innerHTML = listOfCategoriesToDisplay;
 
 displayTotalBooksAmountCounter(totalAmoutOfBooks, booksCounterPlacer);
-// displayAmountOfBooksInEachCategory();
 app.appendChild(countersPlacer);
 
 // Wyświetlanie książek
@@ -98,56 +88,45 @@ const containerForSingleBook = document.createElement('ul');
 containerForSingleBook.id = 'book-list';
 divToPlaceBookList.appendChild(containerForSingleBook);
 app.appendChild(divToPlaceBookList);
-const listOfBooks = document.getElementById('book-list');
-printListOfBooks(totalAmoutOfBooks, listOfBooks);
+const locationForListOfBooks = document.getElementById('book-list');
+printListOfBooks(totalAmoutOfBooks, locationForListOfBooks);
 
 submitForm.addEventListener('submit', (event) => {
   event.preventDefault();
-  if (listOfBooks.childElementCount > 0) {
-    while (listOfBooks.firstChild) {
-      listOfBooks.removeChild(listOfBooks.lastChild);
+  if (locationForListOfBooks.childElementCount > 0) {
+    while (locationForListOfBooks.firstChild) {
+      locationForListOfBooks.removeChild(locationForListOfBooks.lastChild);
     }
   }
   const book = new Book(newBook.title, newBook.author, newBook.category, newBook.priority);
   totalAmoutOfBooks.push(book);
   localStorage.setItem('books', JSON.stringify(totalAmoutOfBooks));
-  printListOfBooks(totalAmoutOfBooks, listOfBooks);
+  printListOfBooks(totalAmoutOfBooks, locationForListOfBooks);
   displayTotalBooksAmountCounter(totalAmoutOfBooks, booksCounterPlacer);
-  // displayAmountOfBooksInEachCategory();
+  const listOfCategoriesToDisplay = printListOfCategories(categories, totalAmoutOfBooks);
+  booksInCategoriesCountersPlacer.innerHTML = listOfCategoriesToDisplay;
 });
 
 // Delete book
-listOfBooks.addEventListener('click', (event) => {
+locationForListOfBooks.addEventListener('click', (event) => {
   if (event.target.className === 'remove-book') {
-    while (listOfBooks.firstChild) {
-      listOfBooks.removeChild(listOfBooks.lastChild);
+    while (locationForListOfBooks.firstChild) {
+      locationForListOfBooks.removeChild(locationForListOfBooks.lastChild);
     }
     const newBooksList = totalAmoutOfBooks.filter((book) => {
       return book.id !== event.target.parentElement.id;
     });
     totalAmoutOfBooks = newBooksList;
     localStorage.setItem('books', JSON.stringify(totalAmoutOfBooks));
-    printListOfBooks(totalAmoutOfBooks, listOfBooks);
+    printListOfBooks(totalAmoutOfBooks, locationForListOfBooks);
     displayTotalBooksAmountCounter(totalAmoutOfBooks, booksCounterPlacer);
-    // displayAmountOfBooksInEachCategory();
+    const listOfCategoriesToDisplay = printListOfCategories(categories, totalAmoutOfBooks);
+    booksInCategoriesCountersPlacer.innerHTML = listOfCategoriesToDisplay;
   }
 });
 
-// function displayAmountOfBooksInEachCategory(){
-//     booksInCategoriesCountersPlacer.innerHTML = displayHowManyBooksInCategories(
-//         howManyCryminals,
-//         howManySciFi,
-//         howManyFantasy,
-//         howManyPoezja,
-//         howManyDramat,
-//         howManyNaukiScisle
-//       );
-// }
-
-const selectedCategoryButton = document.getElementsByClassName('category-counters');
-const selectedCategoryButtonArr = [...selectedCategoryButton];
-// kryminalyKategoriaButton.addEventListener('click')
-
-selectedCategoryButtonArr.forEach((element) => {
-  // console.log(element);
-});
+document.querySelectorAll('.category-counters').forEach(item => {
+  item.addEventListener('click', event => {
+    console.log(event.target.innerText)
+  })
+})
