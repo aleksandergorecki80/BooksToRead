@@ -30,7 +30,7 @@ const intValue = () => {
   return localData ? JSON.parse(localData) : [];
 };
 
-let totalBooksCollection = intValue();
+const totalBooksCollection = intValue();
 const totalCollectionOfBooks = new BooksList(totalBooksCollection);
 totalCollectionOfBooks.setFilteredOrSortedState(totalBooksCollection);
 
@@ -110,8 +110,10 @@ document.getElementById('sort-list').addEventListener('change', (event) => {
 
 const booksCounterPlacer = document.createElement('div');
 booksCounterPlacer.id = 'books-counter';
+const collectionOfBooks = totalCollectionOfBooks.getTotalCollectionOfBooks();
+booksCounterPlacer.innerHTML = `<p>Na liście jest ${collectionOfBooks.length} pozycji.`;
 app.appendChild(booksCounterPlacer);
-displayTotalBooksAmountCounter(totalBooksCollection, booksCounterPlacer);
+
 
 // Wyświetlanie książek
 const divToPlaceBookList = document.createElement('div');

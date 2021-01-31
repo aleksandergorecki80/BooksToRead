@@ -4,6 +4,10 @@ export class BooksList {
     this.filteredOrSortedState = '';
   }
 
+  getTotalCollectionOfBooks(){
+    return this.totalBooksCollection;
+  }
+
   setFilteredOrSortedState(state) {
     this.filteredOrSortedState = state;
   }
@@ -28,8 +32,7 @@ export class BooksList {
 
   filterByCategory(category) {
     return this.totalBooksCollection.filter((book) => {
-      if(category === book.category)
-      return book;
+      if (category === book.category) return book;
     });
   }
 }
