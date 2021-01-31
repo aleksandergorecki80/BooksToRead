@@ -1,9 +1,14 @@
-export const newBook = {
+export let newBook = {
   title: '',
   author: '',
   category: '',
   priority: '',
 };
+
+export function updateNewBook(dataToEdition) {
+  newBook.title = dataToEdition.title;
+  console.log(newBook);
+}
 
 export function formFieldEvents() {
   // Eventy dla selectów w formulazu
@@ -23,3 +28,5 @@ export function formFieldEvents() {
     });
   });
 }
+
+

@@ -6,22 +6,6 @@ export const createLabel = (htmlForValue, descriptionText) => {
   return label;
 };
 
-// export remove
-export const printListOfBooks = (books, place) => {
-  return books.map((book) => {
-    place.insertAdjacentHTML(
-      'beforeend',
-      `<li id=${book.id}>  
-          Tytuł: ${book.title} - 
-          Autor: ${book.author} 
-          Kategoria: ${book.category} 
-          Priorytet: ${book.priority}
-          <button class="remove-book">Usuń</button>
-       </li>`
-    );
-  });
-};
-
 export const categoriesCounter = (booksList, selectedCategory) => {
   let howManyBooksInTheCategory = 0;
   booksList.map((book) => {
@@ -39,8 +23,8 @@ export function displayTotalBooksAmountCounter(totalAmoutOfBooks, booksCounterPl
 export const printListOfCategories = (categories, totalAmoutOfBooks) => {
   let result = '<ul>';
   categories.forEach((category) => {
-    if (category.value !== '') {
-      result += `<li> <a href=# class=category-counters>${category.tekst}</a> : ${categoriesCounter(
+    if (category.name !== '') {
+      result += `<li> <a class="category-counters">${category.tekst}</a> : ${categoriesCounter(
         totalAmoutOfBooks,
         category.tekst
       )}</li>`;
@@ -48,4 +32,36 @@ export const printListOfCategories = (categories, totalAmoutOfBooks) => {
   });
   result += '</ul>';
   return result;
+};
+
+export const printListOfBooksFromSelectedCategory = (totalAmoutOfBooks, selectedCategory) => {
+  let result = '';
+  totalAmoutOfBooks.forEach((book) => {
+    if (book.category === selectedCategory) {
+      result += `<li id=${book.id}>  
+  Tytuł: ${book.title} - 
+  Autor: ${book.author} 
+  Kategoria: ${book.category} 
+  Priorytet: ${book.priority}
+  <button class="remove-book">Usuń</button>
+  <button class="edit-book">Edit</button>
+</li>`;
+    }
+  });
+  return result;
+};
+
+export const displayTotalListOfBooks = (totalAmoutOfBooks) => {
+  let resutl = '';
+  totalAmoutOfBooks.forEach((book) => {
+    resutl += `<li id=${book.id}>  
+    Tytuł: ${book.title} - 
+    Autor: ${book.author} 
+    Kategoria: ${book.category} 
+    Priorytet: ${book.priority}
+    <button class="remove-book">Usuń</button>
+    <button class="edit-book">Edit</button>
+  </li>`;
+  });
+  return resutl;
 };

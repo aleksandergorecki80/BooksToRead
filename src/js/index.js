@@ -15,11 +15,12 @@ import { Book } from './state/book';
 import { categories } from './state/state';
 import {
   createLabel,
-  printListOfBooks,
   displayTotalBooksAmountCounter,
   printListOfCategories,
+  printListOfBooksFromSelectedCategory,
+  displayTotalListOfBooks,
 } from './functions/functions';
-import { formFieldEvents, newBook } from './events/evants';
+import { formFieldEvents, newBook, updateNewBook } from './events/evants';
 
 const intValue = () => {
   const localData = localStorage.getItem('books');
@@ -31,8 +32,8 @@ const app = document.getElementById('app');
 
 // Formulaż
 const form = crateForm();
-const titleInput = new TextInput('input-title', 'text', 'title', '', 'Podaj tytuł');
-const authorInput = new TextInput('input-author', 'text', 'author', '', 'Podaj autora');
+const titleInput = new TextInput('input-title', 'text', 'title', newBook.title, 'Podaj tytuł');
+const authorInput = new TextInput('input-author', 'text', 'author', newBook.author, 'Podaj autora');
 const selectCategory = new Select('select-list', 'select-list', categories);
 
 const divToPlaceFor = document.createElement('div');
@@ -89,44 +90,71 @@ containerForSingleBook.id = 'book-list';
 divToPlaceBookList.appendChild(containerForSingleBook);
 app.appendChild(divToPlaceBookList);
 const locationForListOfBooks = document.getElementById('book-list');
-printListOfBooks(totalAmoutOfBooks, locationForListOfBooks);
+const totalListOfBooks = displayTotalListOfBooks(totalAmoutOfBooks);
+locationForListOfBooks.innerHTML = totalListOfBooks;
 
 submitForm.addEventListener('submit', (event) => {
   event.preventDefault();
-  if (locationForListOfBooks.childElementCount > 0) {
-    while (locationForListOfBooks.firstChild) {
-      locationForListOfBooks.removeChild(locationForListOfBooks.lastChild);
-    }
-  }
   const book = new Book(newBook.title, newBook.author, newBook.category, newBook.priority);
   totalAmoutOfBooks.push(book);
   localStorage.setItem('books', JSON.stringify(totalAmoutOfBooks));
-  printListOfBooks(totalAmoutOfBooks, locationForListOfBooks);
+
+  const totalListOfBooks = displayTotalListOfBooks(totalAmoutOfBooks);
+  locationForListOfBooks.innerHTML = totalListOfBooks;
+
   displayTotalBooksAmountCounter(totalAmoutOfBooks, booksCounterPlacer);
   const listOfCategoriesToDisplay = printListOfCategories(categories, totalAmoutOfBooks);
   booksInCategoriesCountersPlacer.innerHTML = listOfCategoriesToDisplay;
+  location.reload();
 });
 
 // Delete book
 locationForListOfBooks.addEventListener('click', (event) => {
   if (event.target.className === 'remove-book') {
-    while (locationForListOfBooks.firstChild) {
-      locationForListOfBooks.removeChild(locationForListOfBooks.lastChild);
-    }
     const newBooksList = totalAmoutOfBooks.filter((book) => {
       return book.id !== event.target.parentElement.id;
     });
     totalAmoutOfBooks = newBooksList;
     localStorage.setItem('books', JSON.stringify(totalAmoutOfBooks));
-    printListOfBooks(totalAmoutOfBooks, locationForListOfBooks);
+
+    const totalListOfBooks = displayTotalListOfBooks(totalAmoutOfBooks);
+    locationForListOfBooks.innerHTML = totalListOfBooks;
+
     displayTotalBooksAmountCounter(totalAmoutOfBooks, booksCounterPlacer);
     const listOfCategoriesToDisplay = printListOfCategories(categories, totalAmoutOfBooks);
     booksInCategoriesCountersPlacer.innerHTML = listOfCategoriesToDisplay;
+    location.reload();
   }
 });
 
-document.querySelectorAll('.category-counters').forEach(item => {
-  item.addEventListener('click', event => {
-    console.log(event.target.innerText)
-  })
-})
+// Edit book
+locationForListOfBooks.addEventListener('click', (event) => {
+  if (event.target.className === 'edit-book') {
+    console.log(event.target.parentElement.id);
+    const selectedBookToEdit = totalAmoutOfBooks.find((book) => {
+      return book.id === event.target.parentElement.id;
+    });
+    const dataToEdition = {
+      title: selectedBookToEdit.title,
+      author: selectedBookToEdit.author,
+      category: selectedBookToEdit.category,
+      priority: selectedBookToEdit.priority,
+    };
+    updateNewBook(dataToEdition)
+    // newBook = editedBook;
+    console.log(dataToEdition);
+  }
+  
+});
+
+document.querySelectorAll('.category-counters').forEach((item) => {
+  item.addEventListener('click', (event) => {
+    event.preventDefault();
+    const listOfBooksFromSelectedCategory = printListOfBooksFromSelectedCategory(
+      totalAmoutOfBooks,
+      event.target.innerText
+    );
+    locationForListOfBooks.innerHTML = listOfBooksFromSelectedCategory;
+  });
+});
+

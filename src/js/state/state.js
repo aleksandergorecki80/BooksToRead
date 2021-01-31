@@ -1,9 +1,9 @@
 export const categories = [
-  { value: '', tekst: ' -- Wybież kategorię -- ' },
-  { value: 'kryminal', tekst: 'Kryminał' },
-  { value: 'sciFi', tekst: 'Science fiction' },
-  { value: 'fantasy', tekst: 'Fantasy' },
-  { value: 'poezja', tekst: 'Poezja' },
-  { value: 'dramat', tekst: 'Dramat' },
-  { value: 'naukiScisle', tekst: 'Nauki ścisłe' },
+  { name: '', tekst: ' -- Wybież kategorię -- ' },
+  { name: 'kryminal', tekst: 'Kryminał' },
+  { name: 'sciFi', tekst: 'Science fiction' },
+  { name: 'fantasy', tekst: 'Fantasy' },
+  { name: 'poezja', tekst: 'Poezja' },
+  { name: 'dramat', tekst: 'Dramat' },
+  { name: 'naukiScisle', tekst: 'Nauki ścisłe' },
 ];
