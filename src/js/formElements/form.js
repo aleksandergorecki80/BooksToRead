@@ -49,7 +49,11 @@ export function displayForm() {
     label.htmlFor = 'priority';
     const description = document.createTextNode(i);
     label.appendChild(description);
-    form.appendChild(priorityButton.crateRadioInput());
+    const createdPriorityButton = priorityButton.crateRadioInput();
+    if (i === 5) {
+      createdPriorityButton.checked = true;
+    }
+    form.appendChild(createdPriorityButton);
     form.appendChild(label);
     form.appendChild(description);
   }

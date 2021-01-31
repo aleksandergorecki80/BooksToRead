@@ -12,7 +12,8 @@ export class Select {
     this.categories.forEach((element) => {
       const option = document.createElement('option');
       const tekst = document.createTextNode(element.tekst);
-      option.value = element.tekst;
+      option.value = element.name;
+
       //   option.setAttribute('value', element.value);
 
       if (element.value === '') {

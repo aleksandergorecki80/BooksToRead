@@ -5,7 +5,7 @@
 // };
 
 // custom console
-
+import { BooksList } from './classes/booksListClass';
 import { resetForm, displayForm } from './formElements/form';
 import { Select } from './formElements/selectClass';
 import { Book } from './state/book';
@@ -30,11 +30,13 @@ const intValue = () => {
 };
 
 let totalBooksCollection = intValue();
+const totalCollectionOfBooks = new BooksList();
+totalCollectionOfBooks.setFilteredOrSortedState(totalBooksCollection);
+
 const app = document.getElementById('app');
 
 // Formulaż
 displayForm();
-
 
 // Eventy formulaza
 formFieldEvents();
@@ -74,6 +76,33 @@ const labelForsortBooks = createLabel('sort-list', 'Sortuj sedług');
 const sortByList = sortBooks.createSelect();
 document.getElementById('sort-and-filter').appendChild(labelForsortBooks);
 document.getElementById('sort-and-filter').appendChild(sortByList);
+document.getElementById('sort-list').addEventListener('change', (event) => {
+  switch (event.target.value) {
+    case 'priority':
+      {
+        const sortedData = totalCollectionOfBooks.sortByPriority();
+        const totalListOfBooks = displayTotalListOfBooks(sortedData);
+        locationForListOfBooks.innerHTML = totalListOfBooks;
+      }
+      break;
+    case 'author':
+      {
+        const sortedData = totalCollectionOfBooks.sortByAuthor();
+        const totalListOfBooks = displayTotalListOfBooks(sortedData);
+        locationForListOfBooks.innerHTML = totalListOfBooks;
+      }
+      break;
+    case 'title':
+      {
+        const sortedData = totalCollectionOfBooks.sortByTitle();
+        const totalListOfBooks = displayTotalListOfBooks(sortedData);
+        locationForListOfBooks.innerHTML = totalListOfBooks;
+      }
+      break;
+
+    default:
+  }
+});
 
 // Liczniki książek
 
@@ -191,3 +220,4 @@ document.querySelectorAll('.category-counters').forEach((item) => {
 });
 
 // const submitButton = new Submit('submit-button', 'submit', 'submit', 'Zapisz książkę');
+console.log(totalBooksCollection);
