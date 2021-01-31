@@ -12,7 +12,7 @@ import { Select } from './formElements/selectClass';
 import { RadioInput } from './formElements/radioInputClass';
 import { Submit } from './formElements/submitClass';
 import { Book } from './state/book';
-import { categories } from './state/state';
+import { categories, sortBy } from './state/state';
 import {
   createLabel,
   displayTotalBooksAmountCounter,
@@ -37,6 +37,9 @@ const app = document.getElementById('app');
 
 // Formulaż
 const form = crateForm();
+const divToPlaceFor = document.createElement('div');
+divToPlaceFor.id = 'form';
+
 const titleInput = new TextInput(
   'input-title',
   'text',
@@ -51,14 +54,10 @@ const authorInput = new TextInput(
   booksDataEnteredInForm.author,
   'Podaj autora'
 );
-const selectCategory = new Select('select-list', 'select-list', categories);
-
-const divToPlaceFor = document.createElement('div');
-divToPlaceFor.id = 'form';
-
 form.appendChild(titleInput.createTextInput());
 form.appendChild(authorInput.createTextInput());
 
+const selectCategory = new Select('select-list', 'select-list', categories);
 const labelForSelect = createLabel('select-list', 'Wybierz kategorię');
 const selectCategoryList = selectCategory.createSelect();
 form.appendChild(labelForSelect);
@@ -89,12 +88,16 @@ formFieldEvents();
 const submitForm = document.getElementById('form');
 
 // Kategorie
+const sortAndFilter = document.createElement('div');
+sortAndFilter.id = 'sort-and-filter';
+app.appendChild(sortAndFilter);
 categories.forEach((category) => {
   if (category.name !== '') {
     const button = document.createElement('button');
     button.innerHTML = category.tekst;
     button.id = category.name;
-    document.getElementById('app').appendChild(button);
+
+    document.getElementById('sort-and-filter').appendChild(button);
     document.getElementById(category.name).addEventListener('click', () => {
       const booksInCategory = printListOfBooksFromSelectedCategory(
         totalBooksCollection,
@@ -109,6 +112,13 @@ categories.forEach((category) => {
     });
   }
 });
+
+// SORTOWANIE
+const sortBooks = new Select('sort-list', 'sort-list', sortBy);
+const labelForsortBooks = createLabel('sort-list', 'Sortuj sedług');
+const sortByList = sortBooks.createSelect();
+document.getElementById('sort-and-filter').appendChild(labelForsortBooks);
+document.getElementById('sort-and-filter').appendChild(sortByList);
 
 // Liczniki książek
 

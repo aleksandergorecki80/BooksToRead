@@ -7,3 +7,6 @@ export const categories = [
   { name: 'dramat', tekst: 'Dramat' },
   { name: 'naukiScisle', tekst: 'Nauki ścisłe' },
 ];
+
+export const sortBy = [
+  {tekst: 'Tytuł'}, {tekst: 'Autor'}, {tekst: 'Priorytet'}];
