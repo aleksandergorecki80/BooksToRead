@@ -32,7 +32,7 @@ const intValue = () => {
 };
 
 let totalBooksCollection = intValue();
-const totalCollectionOfBooks = new BooksList();
+const totalCollectionOfBooks = new BooksList(totalBooksCollection);
 totalCollectionOfBooks.setFilteredOrSortedState(totalBooksCollection);
 
 const app = document.getElementById('app');
@@ -46,7 +46,7 @@ formFieldEvents();
 // Submit form
 const submitForm = document.getElementById('form');
 
-// Kategorie
+// Kategorie i filtrowanie po kategoriach
 const sortAndFilter = document.createElement('div');
 sortAndFilter.id = 'sort-and-filter';
 app.appendChild(sortAndFilter);
@@ -62,6 +62,9 @@ categories.forEach((category) => {
         totalBooksCollection,
         category.tekst
       );
+
+      const filteredArrayOfBooks = totalCollectionOfBooks.filterByCategory(category.name);
+      totalCollectionOfBooks.setFilteredOrSortedState(booksInCategory);
 
       const booksCounter = document.getElementById('books-counter');
       const amount = categoriesCounter(totalBooksCollection, category.tekst);
@@ -79,7 +82,12 @@ const sortByList = sortBooks.createSelect();
 document.getElementById('sort-and-filter').appendChild(labelForsortBooks);
 document.getElementById('sort-and-filter').appendChild(sortByList);
 document.getElementById('sort-list').addEventListener('change', (event) => {
-  switch (event.target.value) {
+  const sortByPhrase = sortBy.find((element) => {
+    if (event.target.value === element.tekst) {
+      return element.name;
+    }
+  });
+  switch (sortByPhrase.name) {
     case 'priority':
       {
         const sortedData = totalCollectionOfBooks.sortByPriority();
@@ -132,7 +140,6 @@ submitForm.addEventListener('submit', (event) => {
       booksDataEnteredInForm.title,
       booksDataEnteredInForm.author,
       booksDataEnteredInForm.category,
-      booksDataEnteredInForm.categoryId,
       booksDataEnteredInForm.priority
     );
     totalBooksCollection.push(book);
@@ -147,6 +154,7 @@ submitForm.addEventListener('submit', (event) => {
     displayTotalBooksAmountCounter(totalBooksCollection, booksCounterPlacer);
   } else {
     // EDYTOWANIE
+    resetForm();
     const updatedBooksCollection = findUpdatedPositionAndUpdate(
       totalBooksCollection,
       booksDataEnteredInForm
@@ -221,4 +229,3 @@ document.querySelectorAll('.category-counters').forEach((item) => {
   });
 });
 
-// const submitButton = new Submit('submit-button', 'submit', 'submit', 'Zapisz książkę');

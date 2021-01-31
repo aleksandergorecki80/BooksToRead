@@ -1,5 +1,6 @@
 export class BooksList {
-  constructor() {
+  constructor(totalBooksCollection) {
+    this.totalBooksCollection = totalBooksCollection;
     this.filteredOrSortedState = '';
   }
 
@@ -23,6 +24,12 @@ export class BooksList {
 
   sortByTitle() {
     return this.filteredOrSortedState.sort(compareTitles);
+  }
+
+  filterByCategory(category) {
+    return this.totalBooksCollection.map((book) => {
+      return category === book.categoryId;
+    });
   }
 }
 
