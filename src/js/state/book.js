@@ -9,15 +9,15 @@ export class Book {
     this.priority = priority;
   }
 
-  buildNewBook() {
-    let li = document.createElement('li');
-    li = `
-      ${this.title} - ${this.author}. 
-      category: ${this.category}
-      jak bardzo chcę przeczytać w skali 1-5: ${this.priority}
-      <button class="remove">Delete</button>
-      `;
-    //  li.appendChild(deleteBook.creteSubmit());
-    return li;
-  }
+  // buildNewBook() {
+  //   let li = document.createElement('li');
+  //   li = `
+  //     ${this.title} - ${this.author}. 
+  //     category: ${this.category}
+  //     jak bardzo chcę przeczytać w skali 1-5: ${this.priority}
+  //     <button class="remove">Delete</button>
+  //     `;
+  //   //  li.appendChild(deleteBook.creteSubmit());
+  //   return li;
+  // }
 }

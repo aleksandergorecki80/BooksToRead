@@ -1,10 +1,3 @@
-export const newBook = {
-  title: '',
-  author: '',
-  category: '',
-  priority: '',
-};
-
 export const categories = [
   { value: '', tekst: ' -- Wybież kategorię -- ' },
   { value: 'kryminal', tekst: 'Kryminał' },

@@ -48,3 +48,18 @@ export const displayHowManyBooksInCategories = (
   <button class=category-counters>Nauki ścisłe</button>: ${howManyNaukiScisle}
           `;
 };
+
+export function displayTotalBooksAmountCounter(totalAmoutOfBooks, booksCounterPlacer) {
+  booksCounterPlacer.innerHTML = `<p>Na liście jest ${totalAmoutOfBooks.length} książek</p>`;
+}
+
+export const printListOfCategories = (categories) => {
+  let result = '<ul>';
+  categories.forEach((category) => {
+    if (category.value !== '') {
+      result += `<li> ${category.tekst} </li>`;
+    }
+  });
+  result += '</ul>';
+  return result;
+};
