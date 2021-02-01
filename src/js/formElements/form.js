@@ -2,8 +2,7 @@ import { TextInput } from './textInputClass';
 import { Select } from './selectClass';
 import { RadioInput } from './radioInputClass';
 import { Submit } from './submitClass';
-import { booksDataEnteredInForm } from '../events/evants';
-import { categories } from '../events/evants';
+import { booksDataEnteredInForm, categories } from '../classes/state';
 import { createLabel } from '../functions/functions';
 
 export const crateForm = () => {

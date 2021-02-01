@@ -8,8 +8,7 @@
 import { BooksList } from './classes/booksListClass';
 import { resetForm, displayForm } from './formElements/form';
 import { Select } from './formElements/selectClass';
-import { Book } from './state/book';
-import {} from './state/state';
+import { Book } from './classes/bookClass';
 import {
   createLabel,
   displayTotalBooksAmountCounter,
@@ -22,7 +21,7 @@ import {
   updateBooksDataEnteredInForm,
   categories,
   sortBy,
-} from './events/evants';
+} from './classes/state';
 
 const intValue = () => {
   const localData = localStorage.getItem('books');
