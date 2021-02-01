@@ -24,6 +24,12 @@ export class BooksList {
     this.filteredOrSortedState = state;
   }
 
+  removeBookFromCollection(id) {
+    return this.totalBooksCollection.filter((book) => {
+      return book.id !== id;
+    });
+  }
+
   updateTotalCollectionOfBooks(data) {
     return this.totalBooksCollection.map((bookOnList) => {
       if (bookOnList.id === data.id) {
@@ -56,6 +62,7 @@ export class BooksList {
   filterByCategory(category) {
     return this.totalBooksCollection.filter((book) => {
       if (category === book.category) return book;
+      return null;
     });
   }
 }

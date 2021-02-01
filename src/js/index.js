@@ -1,19 +1,13 @@
-// import * as mdb from 'mdb-ui-kit';
-
-// export default {
-//   mdb,
-// };
-
-// custom console
 import { BooksList } from './classes/booksListClass';
 import { resetForm, displayForm } from './formElements/form';
 import { Select } from './formElements/selectClass';
 import { Book } from './classes/bookClass';
 import {
   createLabel,
-  displayTotalBooksAmountCounter,
   printListOfBooksFromSelectedCategory,
   displayTotalListOfBooks,
+  returnAmountOfBoks,
+  findObjectInArray,
 } from './functions/functions';
 import {
   formFieldEvents,
@@ -59,8 +53,7 @@ categories.forEach((category) => {
       totalCollectionOfBooks.setFilteredOrSortedState(filteredArrayOfBooks);
       const totalListOfBooks = displayTotalListOfBooks(filteredArrayOfBooks);
       locationForListOfBooks.innerHTML = totalListOfBooks;
-      const booksCounter = document.getElementById('books-counter');
-      booksCounter.innerHTML = `Na liście jest ${filteredArrayOfBooks.length} pozycji.`;
+      booksCounterPlacer.innerHTML = returnAmountOfBoks(filteredArrayOfBooks.length);
     });
   }
 });
@@ -72,11 +65,7 @@ const sortByList = sortBooks.createSelect();
 document.getElementById('sort-and-filter').appendChild(labelForsortBooks);
 document.getElementById('sort-and-filter').appendChild(sortByList);
 document.getElementById('sort-list').addEventListener('change', (event) => {
-  const sortByPhrase = sortBy.find((element) => {
-    if (event.target.value === element.tekst) {
-      return element.name;
-    }
-  });
+  const sortByPhrase = findObjectInArray(event.target.value, sortBy);
   switch (sortByPhrase.name) {
     case 'priority':
       {
@@ -104,17 +93,15 @@ document.getElementById('sort-list').addEventListener('change', (event) => {
   }
 });
 
-// Liczniki książek
+// LICZNIK KSIĄŻEK
 
 const booksCounterPlacer = document.createElement('div');
 booksCounterPlacer.id = 'books-counter';
-
 const collectionOfBooks = totalCollectionOfBooks.getTotalCollectionOfBooks();
-
-booksCounterPlacer.innerHTML = `<p>Na liście jest ${collectionOfBooks.length} pozycji.`;
+booksCounterPlacer.innerHTML = returnAmountOfBoks(collectionOfBooks.length);
 app.appendChild(booksCounterPlacer);
 
-// Wyświetlanie książek
+// WYŚWIETLANIE KSIĄŻEK
 const divToPlaceBookList = document.createElement('div');
 const locationForListOfBooks = document.createElement('ul');
 locationForListOfBooks.id = 'book-list';
@@ -126,7 +113,6 @@ locationForListOfBooks.innerHTML = totalListOfBooks;
 
 submitForm.addEventListener('submit', (event) => {
   event.preventDefault();
-
   if (!booksDataEnteredInForm.id) {
     //  ZAPISYWANIE NOWEJ POZYCJI
     const book = new Book(
@@ -136,34 +122,30 @@ submitForm.addEventListener('submit', (event) => {
       booksDataEnteredInForm.priority
     );
     totalCollectionOfBooks.setTotalBooksCollection(book);
-
     const collectionOfBooks = totalCollectionOfBooks.getTotalCollectionOfBooks();
     localStorage.setItem('books', JSON.stringify(collectionOfBooks));
     const totalListOfBooks = displayTotalListOfBooks(collectionOfBooks);
     locationForListOfBooks.innerHTML = totalListOfBooks;
-    booksCounterPlacer.innerHTML = `<p>Na liście jest ${collectionOfBooks.length} pozycji.`;
+    booksCounterPlacer.innerHTML = returnAmountOfBoks(collectionOfBooks.length);
+    updateBooksDataEnteredInForm({
+      id: '',
+      title: '',
+      author: '',
+      category: '',
+      priority: 5,
+    });
     resetForm();
   } else {
-    // EDYTOWANIE
+    // ZAPISYWANIE EDYTOWANEJ POZYCJI
     const updatedState = totalCollectionOfBooks.updateTotalCollectionOfBooks(
       booksDataEnteredInForm
     );
     totalCollectionOfBooks.replaceTotalBooksCollection(updatedState);
     const updatedBooksCollection = totalCollectionOfBooks.getTotalCollectionOfBooks();
-
-    // const updatedBooksCollection = findUpdatedPositionAndUpdate(
-    //   totalBooksCollection,
-    //   booksDataEnteredInForm
-    // );
     localStorage.setItem('books', JSON.stringify(updatedBooksCollection));
     const totalListOfBooks = displayTotalListOfBooks(updatedBooksCollection);
     locationForListOfBooks.innerHTML = totalListOfBooks;
-    resetForm();
-
-    displayTotalBooksAmountCounter(updatedBooksCollection, booksCounterPlacer);
-    // const listOfCategoriesToDisplay = printListOfCategories(categories, updatedBooksCollection);
-    // booksInCategoriesCountersPlacer.innerHTML = listOfCategoriesToDisplay;
-    // location.reload();
+    booksCounterPlacer.innerHTML = returnAmountOfBoks(collectionOfBooks.length);
     updateBooksDataEnteredInForm({
       id: '',
       title: '',
@@ -175,26 +157,22 @@ submitForm.addEventListener('submit', (event) => {
   }
 });
 
-// Delete book
+// DELETE BOOK
 locationForListOfBooks.addEventListener('click', (event) => {
   if (event.target.className === 'remove-book') {
-    const newBooksList = totalBooksCollection.filter((book) => {
-      return book.id !== event.target.parentElement.id;
-    });
-    totalBooksCollection = newBooksList;
-    localStorage.setItem('books', JSON.stringify(totalBooksCollection));
-
-    const totalListOfBooks = displayTotalListOfBooks(totalBooksCollection);
+    const newBooksList = totalCollectionOfBooks.removeBookFromCollection(
+      event.target.parentElement.id
+    );
+    totalCollectionOfBooks.replaceTotalBooksCollection(newBooksList);
+    const replacedTotalBooksCollection = totalCollectionOfBooks.getTotalCollectionOfBooks();
+    localStorage.setItem('books', JSON.stringify(replacedTotalBooksCollection));
+    const totalListOfBooks = displayTotalListOfBooks(replacedTotalBooksCollection);
     locationForListOfBooks.innerHTML = totalListOfBooks;
-
-    displayTotalBooksAmountCounter(totalBooksCollection, booksCounterPlacer);
-    // const listOfCategoriesToDisplay = printListOfCategories(categories, totalBooksCollection);
-    // booksInCategoriesCountersPlacer.innerHTML = listOfCategoriesToDisplay;
-    // location.reload();
+    booksCounterPlacer.innerHTML = returnAmountOfBoks(replacedTotalBooksCollection.length);
   }
 });
 
-// Edit book
+// EDYTOWANIE POZYCJI
 locationForListOfBooks.addEventListener('click', (event) => {
   if (event.target.className === 'edit-book') {
     const selectedBookToEdit = totalCollectionOfBooks.getTotalCollectionOfBooks().find((book) => {
@@ -220,7 +198,6 @@ locationForListOfBooks.addEventListener('click', (event) => {
     radioButton.checked = true;
 
     updateBooksDataEnteredInForm(dataToEdition);
-    // newBook = editedBook;
   }
 });
 

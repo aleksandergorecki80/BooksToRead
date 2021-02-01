@@ -6,36 +6,8 @@ export const createLabel = (htmlForValue, descriptionText) => {
   return label;
 };
 
-export const categoriesCounter = (booksList, selectedCategory) => {
-  let howManyBooksInTheCategory = 0;
-  booksList.map((book) => {
-    if (book.category === selectedCategory) {
-      howManyBooksInTheCategory++;
-    }
-  });
-  return howManyBooksInTheCategory;
-};
-
-export function displayTotalBooksAmountCounter(totalBooksCollection, booksCounter) {
-  booksCounter.innerHTML = `<p>Na liście jest ${totalBooksCollection.length} książek</p>`;
-}
-
-export function displayBooksAmountInCategory(number, booksCounterPlacer) {
-  booksCounterPlacer.innerHTML = `<p>Na liście jest ${toString(number)} książek</p>`;
-}
-
-export const printListOfCategories = (categories, totalAmoutOfBooks) => {
-  let result = '<ul>';
-  categories.forEach((category) => {
-    if (category.name !== '') {
-      result += `<li> <a class="category-counters">${category.tekst}</a> : ${categoriesCounter(
-        totalAmoutOfBooks,
-        category.tekst
-      )}</li>`;
-    }
-  });
-  result += '</ul>';
-  return result;
+export const returnAmountOfBoks = (amount) => {
+  return `<p>Ilość pozycji na liście: ${amount} </p>`;
 };
 
 export const printListOfBooksFromSelectedCategory = (totalBooksCollection, selectedCategory) => {
@@ -68,4 +40,13 @@ export const displayTotalListOfBooks = (totalAmoutOfBooks) => {
   </li>`;
   });
   return resutl;
+};
+
+export const findObjectInArray = (keyword, array) => {
+  return array.find((element) => {
+    if (keyword === element.tekst) {
+      return element.name;
+    }
+    return null;
+  });
 };
