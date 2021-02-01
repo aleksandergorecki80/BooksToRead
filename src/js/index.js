@@ -4,7 +4,6 @@ import { Select } from './formElements/selectClass';
 import { Book } from './classes/bookClass';
 import {
   createLabel,
-  printListOfBooksFromSelectedCategory,
   displayTotalListOfBooks,
   returnAmountOfBoks,
   findObjectInArray,
@@ -199,14 +198,4 @@ locationForListOfBooks.addEventListener('click', (event) => {
 
     updateBooksDataEnteredInForm(dataToEdition);
   }
-});
-
-document.querySelectorAll('.category-counters').forEach((item) => {
-  item.addEventListener('click', (event) => {
-    const listOfBooksFromSelectedCategory = printListOfBooksFromSelectedCategory(
-      totalBooksCollection,
-      event.target.innerText
-    );
-    locationForListOfBooks.innerHTML = listOfBooksFromSelectedCategory;
-  });
 });
