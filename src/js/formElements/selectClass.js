@@ -13,8 +13,6 @@ export class Select {
       const option = document.createElement('option');
       const tekst = document.createTextNode(element.tekst);
 
-      //   option.setAttribute('value', element.value);
-
       if (element.value === '') {
         option.disabled = true;
         option.selected = true;

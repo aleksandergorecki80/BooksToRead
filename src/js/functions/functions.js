@@ -1,11 +1,3 @@
-export const createLabel = (htmlForValue, descriptionText) => {
-  const label = document.createElement('label');
-  label.htmlFor = htmlForValue;
-  const description = document.createTextNode(descriptionText);
-  label.appendChild(description);
-  return label;
-};
-
 export const returnAmountOfBoks = (amount) => {
   return `<p>Ilość pozycji na liście: ${amount} </p>`;
 };
@@ -13,7 +5,7 @@ export const returnAmountOfBoks = (amount) => {
 export const displayTotalListOfBooks = (totalAmoutOfBooks) => {
   let resutl = '';
   totalAmoutOfBooks.forEach((book) => {
-    resutl += `<li id=${book.id}>  
+    resutl += `<li data-id=${book.id}>  
     Tytuł: ${book.title} - 
     Autor: <a class="author-filter">${book.author} </a>
     Kategoria: ${book.category} 
@@ -33,3 +25,10 @@ export const findObjectInArray = (keyword, array) => {
     return null;
   });
 };
+
+export function resetForm() {
+  document.getElementById('input-title').value = '';
+  document.getElementById('input-author').value = '';
+  document.getElementById('select-list').value = '-- Wybież kategorię --';
+  document.getElementById('5-priority').checked = true;
+}
