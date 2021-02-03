@@ -65,6 +65,10 @@ export class BooksList {
       return null;
     });
   }
+
+  resetFilter() {
+    this.filteredOrSortedState = this.totalBooksCollection;
+  }
 }
 
 function compareTitles(a, b) {

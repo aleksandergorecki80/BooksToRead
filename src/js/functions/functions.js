@@ -5,14 +5,14 @@ export const returnAmountOfBoks = (amount) => {
 export const displayTotalListOfBooks = (totalAmoutOfBooks) => {
   let resutl = '';
   totalAmoutOfBooks.forEach((book) => {
-    resutl += `<li data-id=${book.id}>  
-    Tytuł: ${book.title} - 
-    Autor: <a class="author-filter">${book.author} </a>
-    Kategoria: ${book.category} 
-    Priorytet: ${book.priority}
-    <button class="remove-book">Usuń</button>
-    <button class="edit-book">Edit</button>
-  </li>`;
+    resutl += `<tr data-id=${book.id}>  
+    <td> ${book.title} </td>
+    <td> ${book.author} </td>
+    <td> ${book.category} </td>
+    <td> ${book.priority}</td>
+    <td><button class="remove-book">Usuń</button></td>
+    <td><button class="edit-book">Edit</button></td>
+  </tr>`;
   });
   return resutl;
 };

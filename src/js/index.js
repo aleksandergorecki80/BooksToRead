@@ -47,6 +47,16 @@ radios.forEach((radio) => {
 const sortAndFilter = document.createElement('div');
 sortAndFilter.id = 'sort-and-filter';
 app.appendChild(sortAndFilter);
+const buttonWszystkie = document.createElement('button');
+buttonWszystkie.innerHTML = 'Wszystko';
+buttonWszystkie.id = 'all-books';
+sortAndFilter.appendChild(buttonWszystkie);
+document.getElementById('all-books').addEventListener('click', () => {
+  const totalListOfBooks = displayTotalListOfBooks(collectionOfBooks);
+  totalCollectionOfBooks.resetFilter();
+  locationForListOfBooks.innerHTML = totalListOfBooks;
+  booksCounterPlacer.innerHTML = returnAmountOfBoks(collectionOfBooks.length);
+});
 formState.categories.forEach((category) => {
   if (category.name !== '') {
     const button = document.createElement('button');
@@ -57,8 +67,8 @@ formState.categories.forEach((category) => {
     document.getElementById(category.name).addEventListener('click', () => {
       const filteredArrayOfBooks = totalCollectionOfBooks.filterByCategory(category.tekst);
       totalCollectionOfBooks.setFilteredOrSortedState(filteredArrayOfBooks);
-      const totalListOfBooks = displayTotalListOfBooks(filteredArrayOfBooks);
-      locationForListOfBooks.innerHTML = totalListOfBooks;
+      const filteredListOfBooks = displayTotalListOfBooks(filteredArrayOfBooks);
+      locationForListOfBooks.innerHTML = filteredListOfBooks;
       booksCounterPlacer.innerHTML = returnAmountOfBoks(filteredArrayOfBooks.length);
     });
   }
@@ -76,22 +86,22 @@ document.getElementById('sort-list').addEventListener('change', (event) => {
     case 'priority':
       {
         const sortedData = totalCollectionOfBooks.sortByPriority();
-        const totalListOfBooks = displayTotalListOfBooks(sortedData);
-        locationForListOfBooks.innerHTML = totalListOfBooks;
+        const sortedListOfBooks = displayTotalListOfBooks(sortedData);
+        locationForListOfBooks.innerHTML = sortedListOfBooks;
       }
       break;
     case 'author':
       {
         const sortedData = totalCollectionOfBooks.sortByAuthor();
-        const totalListOfBooks = displayTotalListOfBooks(sortedData);
-        locationForListOfBooks.innerHTML = totalListOfBooks;
+        const sortedListOfBooks = displayTotalListOfBooks(sortedData);
+        locationForListOfBooks.innerHTML = sortedListOfBooks;
       }
       break;
     case 'title':
       {
         const sortedData = totalCollectionOfBooks.sortByTitle();
-        const totalListOfBooks = displayTotalListOfBooks(sortedData);
-        locationForListOfBooks.innerHTML = totalListOfBooks;
+        const sortedListOfBooks = displayTotalListOfBooks(sortedData);
+        locationForListOfBooks.innerHTML = sortedListOfBooks;
       }
       break;
 
@@ -108,9 +118,27 @@ app.appendChild(booksCounterPlacer);
 
 // WYŚWIETLANIE KSIĄŻEK
 const divToPlaceBookList = document.createElement('div');
-const locationForListOfBooks = document.createElement('ul');
-locationForListOfBooks.id = 'book-list';
-divToPlaceBookList.appendChild(locationForListOfBooks);
+divToPlaceBookList.id = 'div-books';
+const tableOfBooks = document.createElement('table');
+tableOfBooks.id = 'book-list';
+
+const thead = document.createElement('thead');
+const trNaglowek = document.createElement('tr');
+const thTitle = document.createElement('th');
+thTitle.innerText = 'Tytuł';
+const thAuthor = document.createElement('th');
+thAuthor.innerText = 'Autor';
+const thCategory = document.createElement('th');
+thCategory.innerText = 'Kategoria';
+const thPriority = document.createElement('th');
+thPriority.innerText = 'Priorytet';
+
+const locationForListOfBooks = document.createElement('tbody');
+
+trNaglowek.append(thTitle, thAuthor, thCategory, thPriority);
+thead.append(trNaglowek);
+tableOfBooks.append(thead, locationForListOfBooks);
+divToPlaceBookList.appendChild(tableOfBooks);
 app.appendChild(divToPlaceBookList);
 
 const totalListOfBooks = displayTotalListOfBooks(collectionOfBooks);
@@ -154,7 +182,7 @@ submitForm.addEventListener('submit', (event) => {
 locationForListOfBooks.addEventListener('click', (event) => {
   if (event.target.className === 'remove-book') {
     const newBooksList = totalCollectionOfBooks.removeBookFromCollection(
-      event.target.parentElement.dataset.id
+      event.target.parentElement.parentElement.dataset.id
     );
     totalCollectionOfBooks.replaceTotalBooksCollection(newBooksList);
     const replacedTotalBooksCollection = totalCollectionOfBooks.getTotalCollectionOfBooks();
@@ -169,11 +197,11 @@ locationForListOfBooks.addEventListener('click', (event) => {
 locationForListOfBooks.addEventListener('click', (event) => {
   if (event.target.className === 'edit-book') {
     const selectedBookToEdit = totalCollectionOfBooks.getTotalCollectionOfBooks().find((book) => {
-      return book.id === event.target.parentElement.dataset.id;
+      return book.id === event.target.parentElement.parentElement.dataset.id;
     });
 
     const dataToEdition = {
-      id: event.target.parentElement.dataset.id,
+      id: event.target.parentElement.parentElement.dataset.id,
       title: selectedBookToEdit.title,
       author: selectedBookToEdit.author,
       category: selectedBookToEdit.category,
