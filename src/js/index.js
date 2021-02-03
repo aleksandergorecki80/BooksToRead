@@ -19,12 +19,22 @@ const totalCollectionOfBooks = new BooksList(totalBooksCollection);
 totalCollectionOfBooks.setFilteredOrSortedState(totalBooksCollection);
 
 const app = document.getElementById('app');
+app.className = 'app';
 
 // FORMULAŻ
 const form = new Form();
 const formForAddingBooks = form.returnForm();
-app.appendChild(formForAddingBooks);
 const submitForm = document.getElementById('form');
+
+// MODAL
+const modalBackground = document.createElement('div');
+modalBackground.className = 'modal-background';
+modalBackground.id = 'modal-background';
+app.append(modalBackground);
+const modalBody = document.createElement('div');
+modalBody.className = 'modal-body';
+modalBody.appendChild(formForAddingBooks);
+modalBackground.appendChild(modalBody);
 
 // EVENTY FORMULAŻA
 document.getElementById('input-title').addEventListener('keyup', (event) => {
@@ -78,8 +88,7 @@ formState.categories.forEach((category) => {
 const sortBooks = new Select('sort-list', 'sort-list', formState.sortBy);
 const labelForsortBooks = createLabel('sort-list', 'Sortuj sedług');
 const sortByList = sortBooks.createSelect();
-document.getElementById('sort-and-filter').appendChild(labelForsortBooks);
-document.getElementById('sort-and-filter').appendChild(sortByList);
+app.append(labelForsortBooks, sortByList);
 document.getElementById('sort-list').addEventListener('change', (event) => {
   const sortByPhrase = findObjectInArray(event.target.value, formState.sortBy);
   switch (sortByPhrase.name) {
@@ -114,6 +123,7 @@ const booksCounterPlacer = document.createElement('div');
 booksCounterPlacer.id = 'books-counter';
 const collectionOfBooks = totalCollectionOfBooks.getTotalCollectionOfBooks();
 booksCounterPlacer.innerHTML = returnAmountOfBoks(collectionOfBooks.length);
+
 app.appendChild(booksCounterPlacer);
 
 // WYŚWIETLANIE KSIĄŻEK
@@ -121,6 +131,7 @@ const divToPlaceBookList = document.createElement('div');
 divToPlaceBookList.id = 'div-books';
 const tableOfBooks = document.createElement('table');
 tableOfBooks.id = 'book-list';
+tableOfBooks.className = 'table-of-books';
 
 const thead = document.createElement('thead');
 const trNaglowek = document.createElement('tr');
@@ -143,6 +154,15 @@ app.appendChild(divToPlaceBookList);
 
 const totalListOfBooks = displayTotalListOfBooks(collectionOfBooks);
 locationForListOfBooks.innerHTML = totalListOfBooks;
+
+// PRZYCISK DODAJ POZYCJĘ
+const addBookBtn = document.createElement('button');
+addBookBtn.id = 'add-book-btn';
+addBookBtn.innerText = 'Dodaj nową pozycję';
+addBookBtn.addEventListener('click', () => {
+  document.getElementById('modal-background').style.display = 'flex';
+});
+app.appendChild(addBookBtn);
 
 submitForm.addEventListener('submit', (event) => {
   event.preventDefault();
@@ -196,6 +216,7 @@ locationForListOfBooks.addEventListener('click', (event) => {
 // EDYTOWANIE POZYCJI
 locationForListOfBooks.addEventListener('click', (event) => {
   if (event.target.className === 'edit-book') {
+    document.getElementById('backdrop').style.display = 'flex';
     const selectedBookToEdit = totalCollectionOfBooks.getTotalCollectionOfBooks().find((book) => {
       return book.id === event.target.parentElement.parentElement.dataset.id;
     });

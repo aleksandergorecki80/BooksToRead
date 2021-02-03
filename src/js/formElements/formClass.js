@@ -68,15 +68,22 @@ export class Form {
     return submitButton.creteSubmit();
   }
 
+  getCancelButton() {
+    const canceltButton = new Submit('cancel-button', 'submit', 'cancel', 'Anuluj');
+    return canceltButton.creteSubmit();
+  }
+
   returnForm() {
     const form = document.createElement('form');
     form.id = 'form';
+    form.className = 'form';
     const title = this.getTitleInput();
     const author = this.getAuthorInput();
     const category = this.getSelectCategory();
     const priority = this.getSelectPriority();
-    const button = this.getSubmitButton();
-    form.append(title, author, category, priority, button);
+    const save = this.getSubmitButton();
+    const cancel = this.getCancelButton();
+    form.append(title, author, category, priority, save, cancel);
     return form;
   }
 }

@@ -1,0 +1,24 @@
+@import './variables';
+/* modal */
+.modal-background{
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.8);
+    overflow: auto;
+  }
+.modal-body {
+  background-color: $background-color;
+  display: flex;
+  justify-content: center;
+  max-width: 70%;
+}
+.show-modal {
+  display: flex;
+}
