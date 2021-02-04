@@ -7,7 +7,7 @@ import { formState } from './formState';
 export class Form {
   getTitleInput() {
     const p = document.createElement('p');
-    const label = createLabel('input-title', 'Tytuł');
+    // const label = createLabel('input-title', 'Tytuł');
     const titleInput = new TextInput(
       'input-title',
       'text',
@@ -16,13 +16,14 @@ export class Form {
       'Podaj tytuł'
     );
     const titleInputField = titleInput.createTextInput();
-    p.append(label, titleInputField);
+    // p.append(label, titleInputField);
+    p.append(titleInputField);
     return p;
   }
 
   getAuthorInput() {
     const p = document.createElement('p');
-    const label = createLabel('input-author', 'Autor');
+    // const label = createLabel('input-author', 'Autor');
     const authorInput = new TextInput(
       'input-author',
       'text',
@@ -31,16 +32,18 @@ export class Form {
       'Podaj autora'
     );
     const authorInputField = authorInput.createTextInput();
-    p.append(label, authorInputField);
+    // p.append(label, authorInputField);
+    p.append(authorInputField);
     return p;
   }
 
   getSelectCategory() {
     const p = document.createElement('p');
-    const label = createLabel('select-list', 'Kategoria');
+    // const label = createLabel('select-list', 'Kategoria');
     const selectCategory = new Select('select-list', 'select-list', formState.categories);
     const selectCategoryField = selectCategory.createSelect();
-    p.append(label, selectCategoryField);
+    // p.append(label, selectCategoryField);
+    p.append(selectCategoryField);
     return p;
   }
 

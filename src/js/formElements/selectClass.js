@@ -13,9 +13,10 @@ export class Select {
       const option = document.createElement('option');
       const tekst = document.createTextNode(element.tekst);
 
-      if (element.value === '') {
+      if (element.name === '') {
         option.disabled = true;
         option.selected = true;
+        option.className = 'disabled-select-option';
       }
       option.appendChild(tekst);
       select.appendChild(option);
