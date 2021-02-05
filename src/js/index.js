@@ -130,7 +130,11 @@ document.getElementById('add-book-btn').addEventListener('click', () => {
 
 // FILTROWANIE PO KATEGORII
 document.getElementById('all-books').addEventListener('click', () => {
+  const collectionOfBooks = collectionOfBooksObject.getTotalCollectionOfBooks();
   const totalListOfBooks = displayTotalListOfBooks(collectionOfBooks);
+
+  console.log(collectionOfBooksObject, 'collectionOfBooksObject');
+
   collectionOfBooksObject.resetFilter();
   locationForListOfBooks.innerHTML = totalListOfBooks;
   booksCounterPlacer.innerHTML = returnAmountOfBoks(collectionOfBooks.length);
@@ -146,6 +150,8 @@ formState.categories.forEach((category) => {
       const filteredArrayOfBooks = collectionOfBooksObject.filterByCategory(category.tekst);
       collectionOfBooksObject.setFilteredOrSortedState(filteredArrayOfBooks);
       const filteredListOfBooks = displayTotalListOfBooks(filteredArrayOfBooks);
+      console.log(collectionOfBooksObject, 'collectionOfBooksObject');
+
       locationForListOfBooks.innerHTML = filteredListOfBooks;
       booksCounterPlacer.innerHTML = returnAmountOfBoks(filteredArrayOfBooks.length);
     });
@@ -196,6 +202,8 @@ submitForm.addEventListener('submit', (event) => {
     );
     collectionOfBooksObject.setTotalBooksCollection(book);
     const collectionOfBooks = collectionOfBooksObject.getTotalCollectionOfBooks();
+    console.log(collectionOfBooksObject, 'collectionOfBooksObject');
+    console.log(collectionOfBooksObject, 'collectionOfBooks');
     localStorage.setItem('books', JSON.stringify(collectionOfBooks));
     const totalListOfBooks = displayTotalListOfBooks(collectionOfBooks);
     locationForListOfBooks.innerHTML = totalListOfBooks;
@@ -236,6 +244,7 @@ locationForListOfBooks.addEventListener('click', (event) => {
     );
     collectionOfBooksObject.replaceTotalBooksCollection(newBooksList);
     const replacedTotalBooksCollection = collectionOfBooksObject.getTotalCollectionOfBooks();
+
     localStorage.setItem('books', JSON.stringify(replacedTotalBooksCollection));
     const totalListOfBooks = displayTotalListOfBooks(replacedTotalBooksCollection);
     locationForListOfBooks.innerHTML = totalListOfBooks;
