@@ -49,32 +49,44 @@ export class Form {
 
   getSelectPriority() {
     const p = document.createElement('p');
+    p.className = 'radio-buttons';
     const label = createLabel('select', 'Jak barszo chcesz przeczytać');
+    label.className = "label-for-all";
     p.appendChild(label);
     for (let i = 1; i <= 5; i++) {
       const priorityButton = new RadioInput(`${i}-priority`, 'radio', 'priority', i);
       const label = document.createElement('label');
       label.htmlFor = 'priority';
+      label.className = 'radio-label';
       const description = document.createTextNode(i);
-      label.appendChild(description);
+
       const createdPriorityButton = priorityButton.crateRadioInput();
+      const span = document.createElement('span');
+      span.className = 'checkmark';
       if (i === 5) {
         createdPriorityButton.checked = true;
       }
-      p.append(createdPriorityButton, label, description);
+      label.append(description, createdPriorityButton, span);
+      p.appendChild(label);
     }
     return p;
   }
 
-  getSubmitButton() {
-    const submitButton = new Submit('submit-button', 'submit', 'submit', 'Zapisz książkę');
-    return submitButton.creteSubmit();
+  getButtons() {
+    const p = document.createElement('p');
+    p.className = 'form-buttons';
+    const submitButton = new Submit('submit-button', 'submit', 'submit', 'Zapisz');
+    const canceltButton = new Submit('cancel-button', 'submit', 'cancel', 'Anuluj');
+    const createdSubmit = submitButton.creteSubmit();
+    const createdCancel = canceltButton.creteSubmit();
+    p.append(createdSubmit, createdCancel);
+    return p;
   }
 
-  getCancelButton() {
-    const canceltButton = new Submit('cancel-button', 'submit', 'cancel', 'Anuluj');
-    return canceltButton.creteSubmit();
-  }
+  // getCancelButton() {
+    
+  //   return canceltButton.creteSubmit();
+  // }
 
   returnForm() {
     const form = document.createElement('form');
@@ -84,9 +96,10 @@ export class Form {
     const author = this.getAuthorInput();
     const category = this.getSelectCategory();
     const priority = this.getSelectPriority();
-    const save = this.getSubmitButton();
-    const cancel = this.getCancelButton();
-    form.append(title, author, category, priority, save, cancel);
+    // const save = this.getSubmitButton();
+    // const cancel = this.getCancelButton();
+    const buttons = this.getButtons();
+    form.append(title, author, category, priority, buttons);
     return form;
   }
 }

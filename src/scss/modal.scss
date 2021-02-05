@@ -17,9 +17,59 @@
   background-color: $modal-background-color;
   display: flex;
   justify-content: center;
-  max-width: 50%;
+  max-width: 80%;
   
-    padding: 5em;
+    // padding: 5em;
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover, 
+    input:-webkit-autofill:focus, 
+    input:-webkit-autofill:active  {
+        box-shadow: 0 0 0 30px $select-background-color inset !important;
+    }
+    input:-webkit-autofill {
+      -webkit-text-fill-color: $placholder-font-color !important;
+  }
+   form {
+      width: 80%;
+      input, select {
+          background-color: $select-background-color;
+          border: none;
+          margin: .5em 0 .5em 0;
+          outline: none;
+          padding: 1em;
+          color: $placholder-font-color;
+          font-weight: 500;
+          &[type='text'] {
+              width: 100%;
+              &::placeholder {
+                  color: $placholder-font-color;
+              }              
+          }
+      }
+      label {
+          color: $label-font-color;
+      }
+      p {
+          margin: 0;
+      }
+      select {
+          width: 100%;
+      }
+      .form-buttons {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 10px;
+      }
+  }
+.radio-buttons {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: center;
+  justify-items: center;
+  .label-for-all {
+    grid-column: 1/6;
+  }
+}
 }
 .show-modal {
   display: flex;

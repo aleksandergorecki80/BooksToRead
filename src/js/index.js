@@ -259,3 +259,11 @@ locationForListOfBooks.addEventListener('click', (event) => {
     formState.updateBooksDataEnteredInForm(dataToEdition);
   }
 });
+
+const labelsCollection = document.getElementsByClassName('radio-label');
+const labelsArr = [...labelsCollection];
+labelsArr.forEach((element) => {
+  element.addEventListener('click', (e) => {
+    e.target.parentElement.children[0].checked = true;
+  });
+});

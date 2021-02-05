@@ -26,41 +26,7 @@ body {
     }
 }
 
-.modal-body form {
-    width: 80%;
-    input, select {
-        background-color: $select-background-color;
-        border: none;
-        
-        margin: .5em 0 .5em 0;
-        outline: none;
-        padding: 1em;
-        color: $placholder-font-color;
-        font-weight: 500;
-        &[type='text'] {
-            // background: transparent;
-            width: 100%;
-            // border-bottom: 1px solid #ddd;
-            &::placeholder {
-                color: $placholder-font-color;
-            }
-            
-        }
-    }
-    label {
-        color: $label-font-color;
-    }
-    label:not([for=priority]) {
-        display: block;
-    }
-    p {
-        margin: 0;
-    }
-    select {
-       
-        width: 100%;
-    }
-}
+
 
 
 
