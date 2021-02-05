@@ -51,7 +51,7 @@ export class Form {
     const p = document.createElement('p');
     p.className = 'radio-buttons';
     const label = createLabel('select', 'Jak barszo chcesz przeczytać');
-    label.className = "label-for-all";
+    label.className = 'label-for-all';
     p.appendChild(label);
     for (let i = 1; i <= 5; i++) {
       const priorityButton = new RadioInput(`${i}-priority`, 'radio', 'priority', i);
@@ -76,7 +76,7 @@ export class Form {
     const p = document.createElement('p');
     p.className = 'form-buttons';
     const submitButton = new Submit('submit-button', 'submit', 'submit', 'Zapisz');
-    const canceltButton = new Submit('cancel-button', 'submit', 'cancel', 'Anuluj');
+    const canceltButton = new Submit('cancel-button', '', 'cancel', 'Anuluj');
     const createdSubmit = submitButton.creteSubmit();
     const createdCancel = canceltButton.creteSubmit();
     p.append(createdSubmit, createdCancel);
@@ -84,7 +84,7 @@ export class Form {
   }
 
   // getCancelButton() {
-    
+
   //   return canceltButton.creteSubmit();
   // }
 

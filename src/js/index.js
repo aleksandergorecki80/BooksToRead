@@ -38,6 +38,7 @@ modalBackground.appendChild(modalBody);
 // KATEGORIE
 const sortAndFilter = document.createElement('div');
 sortAndFilter.id = 'sort-and-filter';
+sortAndFilter.className = 'sort-and-filter';
 
 const buttonWszystkie = document.createElement('button');
 buttonWszystkie.innerHTML = 'Wszystko';
@@ -58,6 +59,7 @@ booksCounterPlacer.innerHTML = returnAmountOfBoks(collectionOfBooks.length);
 // WYŚWIETLANIE KSIĄŻEK
 const divToPlaceBookList = document.createElement('div');
 divToPlaceBookList.id = 'div-books';
+divToPlaceBookList.className = 'div-books';
 const tableOfBooks = document.createElement('table');
 tableOfBooks.id = 'book-list';
 tableOfBooks.className = 'table-of-books';
@@ -72,10 +74,14 @@ const thCategory = document.createElement('th');
 thCategory.innerText = 'Kategoria';
 const thPriority = document.createElement('th');
 thPriority.innerText = 'Priorytet';
+const thPlaceholder = document.createElement('th');
+thPlaceholder.innerText = '';
+const thPlaceholder2 = document.createElement('th');
+thPlaceholder.innerText = '';
 
 const locationForListOfBooks = document.createElement('tbody');
 
-trNaglowek.append(thTitle, thAuthor, thCategory, thPriority);
+trNaglowek.append(thTitle, thAuthor, thCategory, thPriority, thPlaceholder, thPlaceholder2);
 thead.append(trNaglowek);
 tableOfBooks.append(thead, locationForListOfBooks);
 divToPlaceBookList.appendChild(tableOfBooks);
@@ -108,12 +114,16 @@ document.getElementById('input-author').addEventListener('keyup', (event) => {
 document.getElementById('select-list').addEventListener('change', (event) => {
   formState.booksDataEnteredInForm.category = event.target.value;
 });
-const radios = document.querySelectorAll('input[type=radio]');
-radios.forEach((radio) => {
-  radio.addEventListener('change', (event) => {
-    formState.booksDataEnteredInForm.priority = event.target.value;
+
+const labelsCollection = document.getElementsByClassName('radio-label');
+const labelsArr = [...labelsCollection];
+labelsArr.forEach((element) => {
+  element.addEventListener('click', (event) => {
+    event.target.parentElement.children[0].checked = true;
+    formState.booksDataEnteredInForm.priority = event.target.parentElement.children[0].value;
   });
 });
+
 document.getElementById('add-book-btn').addEventListener('click', () => {
   document.getElementById('modal-background').style.display = 'flex';
 });
@@ -192,6 +202,7 @@ submitForm.addEventListener('submit', (event) => {
     booksCounterPlacer.innerHTML = returnAmountOfBoks(collectionOfBooks.length);
     formState.reSetState();
     formState.resetForm();
+    document.getElementById('modal-background').style.display = 'none';
   } else {
     // ZAPISYWANIE EDYTOWANEJ POZYCJI
     const updatedState = collectionOfBooksObject.updateTotalCollectionOfBooks(
@@ -205,6 +216,7 @@ submitForm.addEventListener('submit', (event) => {
     booksCounterPlacer.innerHTML = returnAmountOfBoks(collectionOfBooks.length);
     formState.reSetState();
     formState.resetForm();
+    document.getElementById('modal-background').style.display = 'none';
   }
 });
 document.getElementById('cancel-button').addEventListener('click', () => {
@@ -258,12 +270,4 @@ locationForListOfBooks.addEventListener('click', (event) => {
 
     formState.updateBooksDataEnteredInForm(dataToEdition);
   }
-});
-
-const labelsCollection = document.getElementsByClassName('radio-label');
-const labelsArr = [...labelsCollection];
-labelsArr.forEach((element) => {
-  element.addEventListener('click', (e) => {
-    e.target.parentElement.children[0].checked = true;
-  });
 });
