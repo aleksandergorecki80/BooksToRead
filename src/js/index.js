@@ -21,19 +21,22 @@ collectionOfBooksObject.setFilteredOrSortedState(totalBooksCollection);
 const app = document.getElementById('app');
 app.className = 'app';
 
-// FORMULAŻ
+// FORMULAŻ DODAWANIA NOWEJ KSIĄŻKI
 const form = new Form();
 const formForAddingBooks = form.returnForm();
 
-// MODAL
 const modalBackground = document.createElement('div');
 modalBackground.className = 'modal-background';
 modalBackground.id = 'modal-background';
 
 const modalBody = document.createElement('div');
+modalBody.id = 'modal-body';
 modalBody.className = 'modal-body';
 modalBody.appendChild(formForAddingBooks);
-modalBackground.appendChild(modalBody);
+
+// FORMULAŻ DODAWANIA NOWEJ KATEGORII
+const addCategoryForm = formState.printAddingCategoryForm();
+modalBackground.append(addCategoryForm, modalBody);
 
 // KATEGORIE
 const sortAndFilter = document.createElement('div');
@@ -44,6 +47,10 @@ const buttonWszystkie = document.createElement('button');
 buttonWszystkie.innerHTML = 'Wszystko';
 buttonWszystkie.id = 'all-books';
 sortAndFilter.appendChild(buttonWszystkie);
+
+const buttonAddNewCategory = document.createElement('button');
+buttonAddNewCategory.innerHTML = 'Dodaj Nową Kategorię';
+buttonAddNewCategory.id = 'add-category';
 
 // SORTOWANIE
 const sortBooks = new Select('sort-list', 'sort-list', formState.sortBy);
@@ -103,30 +110,6 @@ app.append(
   addBookBtn
 );
 
-// EVENTY FORMULAŻA
-document.getElementById('input-title').addEventListener('keyup', (event) => {
-  formState.booksDataEnteredInForm.title = event.target.value;
-});
-document.getElementById('input-author').addEventListener('keyup', (event) => {
-  formState.booksDataEnteredInForm.author = event.target.value;
-});
-document.getElementById('select-list').addEventListener('change', (event) => {
-  formState.booksDataEnteredInForm.category = event.target.value;
-});
-
-const labelsCollection = document.getElementsByClassName('radio-label');
-const labelsArr = [...labelsCollection];
-labelsArr.forEach((element) => {
-  element.addEventListener('click', (event) => {
-    event.target.parentElement.children[0].checked = true;
-    formState.booksDataEnteredInForm.priority = event.target.parentElement.children[0].value;
-  });
-});
-
-document.getElementById('add-book-btn').addEventListener('click', () => {
-  document.getElementById('modal-background').style.display = 'flex';
-});
-
 // FILTROWANIE PO KATEGORII
 document.getElementById('all-books').addEventListener('click', () => {
   const collectionOfBooks = collectionOfBooksObject.getTotalCollectionOfBooks();
@@ -152,6 +135,7 @@ formState.categories.forEach((category) => {
     });
   }
 });
+sortAndFilter.appendChild(buttonAddNewCategory);
 
 // SORTOWANIE
 document.getElementById('sort-list').addEventListener('change', (event) => {
@@ -220,14 +204,6 @@ submitForm.addEventListener('submit', (event) => {
     document.getElementById('modal-background').style.display = 'none';
   }
 });
-document.getElementById('cancel-button').addEventListener('click', () => {
-  document.getElementById('modal-background').style.display = 'none';
-});
-window.addEventListener('click', (e) => {
-  if (e.target.id === 'modal-background') {
-    document.getElementById('modal-background').style.display = 'none';
-  }
-});
 
 // DELETE BOOK
 locationForListOfBooks.addEventListener('click', (event) => {
@@ -244,6 +220,7 @@ locationForListOfBooks.addEventListener('click', (event) => {
     booksCounterPlacer.innerHTML = returnAmountOfBoks(replacedTotalBooksCollection.length);
   }
 });
+
 // EDYTOWANIE POZYCJI
 locationForListOfBooks.addEventListener('click', (event) => {
   if (event.target.className === 'edit-book') {
@@ -271,5 +248,49 @@ locationForListOfBooks.addEventListener('click', (event) => {
     radioButton.checked = true;
 
     formState.updateBooksDataEnteredInForm(dataToEdition);
+  }
+});
+
+// DODAWANIE NOWEJ KATEGORII
+formState.addNewCategory({ name: 'komedia', tekst: 'Komedia' });
+
+// EVENTY FORMULAŻA
+document.getElementById('input-title').addEventListener('keyup', (event) => {
+  formState.booksDataEnteredInForm.title = event.target.value;
+});
+document.getElementById('input-author').addEventListener('keyup', (event) => {
+  formState.booksDataEnteredInForm.author = event.target.value;
+});
+document.getElementById('select-list').addEventListener('change', (event) => {
+  formState.booksDataEnteredInForm.category = event.target.value;
+});
+
+const labelsCollection = document.getElementsByClassName('radio-label');
+const labelsArr = [...labelsCollection];
+labelsArr.forEach((element) => {
+  element.addEventListener('click', (event) => {
+    event.target.parentElement.children[0].checked = true;
+    formState.booksDataEnteredInForm.priority = event.target.parentElement.children[0].value;
+  });
+});
+
+// EVENTY PRZYCISKÓW
+document.getElementById('add-category').addEventListener('click', () => {
+  document.getElementById('modal-background').style.display = 'flex';
+  document.getElementById('create-category').style.display = 'flex';
+});
+document.getElementById('add-book-btn').addEventListener('click', () => {
+  document.getElementById('modal-background').style.display = 'flex';
+  document.getElementById('modal-body').style.display = 'flex';
+});
+document.getElementById('cancel-button').addEventListener('click', () => {
+  document.getElementById('modal-background').style.display = 'none';
+  document.getElementById('modal-body').style.display = 'none';
+});
+window.addEventListener('click', (e) => {
+  if (e.target.id === 'modal-background') {
+    document.getElementById('modal-background').style.display = 'none';
+    document.getElementById('modal-body').style.display = 'none';
+    document.getElementById('create-category').style.display = 'none';
   }
 });
