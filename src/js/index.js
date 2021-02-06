@@ -34,11 +34,12 @@ const addBookBtn = pageElements.getAddBookButton();
 
 const btnAllCategories = pageElements.getBtnAllBooks();
 
+sortAndFilter.appendChild(btnAllCategories);
 pageElements.getListOfCategories(sortAndFilter);
 
 const btnAddNewCategory = pageElements.getBtnAddNewCategory();
 
-sortAndFilter.append(btnAllCategories, btnAddNewCategory);
+sortAndFilter.appendChild(btnAddNewCategory);
 app.append(
   modalBackground,
   sortAndFilter,
@@ -182,11 +183,11 @@ document.getElementById('create-category').addEventListener('submit', (event) =>
   document.getElementById('select-list').parentElement.remove();
 
   const sortAndFilter = pageElements.getCategories();
-  const btnAddNewCategory = pageElements.getBtnAddNewCategory();
+  // const btnAddNewCategory = pageElements.getBtnAddNewCategory();
   const btnAllCategories = pageElements.getBtnAllBooks();
   sortAndFilter.appendChild(btnAllCategories);
   pageElements.getListOfCategories(sortAndFilter);
-  sortAndFilter.appendChild(btnAddNewCategory);
+  // sortAndFilter.appendChild(btnAddNewCategory);
 
   const formObject = new Form();
   const category = formObject.getSelectCategory();

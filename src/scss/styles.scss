@@ -27,7 +27,9 @@ body {
   margin: 0 auto;
   .sort-and-filter {
     grid-column: 1/4;
-    margin-bottom: 20px;
+    button:last-child, button:first-child {
+      background-color: #283618;
+    }
   }
   .div-books {
     margin-top: 20px;
