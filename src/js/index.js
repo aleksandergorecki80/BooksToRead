@@ -1,5 +1,5 @@
 import { BooksList } from './classes/booksListClass';
-import { Select } from './formElements/selectClass';
+
 import { Book } from './classes/bookClass';
 import {
   displayTotalListOfBooks,
@@ -7,7 +7,8 @@ import {
   findObjectInArray,
 } from './functions/functions';
 import { formState } from './formElements/formState';
-import { Form, createLabel } from './formElements/formClass';
+import { createLabel } from './formElements/formClass';
+import { pageElements } from './pageElements/pageElements';
 
 const intValue = () => {
   const localData = localStorage.getItem('books');
@@ -21,85 +22,22 @@ collectionOfBooksObject.setFilteredOrSortedState(totalBooksCollection);
 const app = document.getElementById('app');
 app.className = 'app';
 
-// FORMULAŻ DODAWANIA NOWEJ KSIĄŻKI
-const form = new Form();
-const formForAddingBooks = form.returnForm();
-
-const modalBackground = document.createElement('div');
-modalBackground.className = 'modal-background';
-modalBackground.id = 'modal-background';
-
-const modalBody = document.createElement('div');
-modalBody.id = 'modal-body';
-modalBody.className = 'modal-body';
-modalBody.appendChild(formForAddingBooks);
-
-// FORMULAŻ DODAWANIA NOWEJ KATEGORII
-const addCategoryForm = formState.printAddingCategoryForm();
-modalBackground.append(addCategoryForm, modalBody);
-
-// KATEGORIE
-const sortAndFilter = document.createElement('div');
-sortAndFilter.id = 'sort-and-filter';
-sortAndFilter.className = 'sort-and-filter';
-
-const buttonWszystkie = document.createElement('button');
-buttonWszystkie.innerHTML = 'Wszystko';
-buttonWszystkie.id = 'all-books';
-sortAndFilter.appendChild(buttonWszystkie);
-
-const buttonAddNewCategory = document.createElement('button');
-buttonAddNewCategory.innerHTML = 'Dodaj Nową Kategorię';
-buttonAddNewCategory.id = 'add-category';
-
-// SORTOWANIE
-const sortBooks = new Select('sort-list', 'sort-list', formState.sortBy);
+// IMPORT ELEMENTOW STRONY I KREACJA ELEMENTÓW
+const modalBackground = pageElements.getModal();
+const sortAndFilter = pageElements.getCategories();
 const labelForsortBooks = createLabel('sort-list', 'Sortuj wg:');
-const sortByList = sortBooks.createSelect();
+const sortByList = pageElements.getSortByOption();
+const booksCounterPlacer = pageElements.getCounter(collectionOfBooksObject);
+const divToPlaceBookList = pageElements.getTableOfBooksDiv(collectionOfBooksObject);
+const addBookBtn = pageElements.getAddBookButton();
 
-// LICZNIK KSIĄŻEK
-const booksCounterPlacer = document.createElement('div');
-booksCounterPlacer.id = 'books-counter';
-booksCounterPlacer.className = 'books-counter';
-const collectionOfBooks = collectionOfBooksObject.getTotalCollectionOfBooks();
-booksCounterPlacer.innerHTML = returnAmountOfBoks(collectionOfBooks.length);
+const btnAllCategories = pageElements.getBtnAllBooks();
 
-// WYŚWIETLANIE KSIĄŻEK
-const divToPlaceBookList = document.createElement('div');
-divToPlaceBookList.id = 'div-books';
-divToPlaceBookList.className = 'div-books';
-const tableOfBooks = document.createElement('table');
-tableOfBooks.id = 'book-list';
-tableOfBooks.className = 'table-of-books';
+pageElements.getListOfCategories(sortAndFilter);
 
-const thead = document.createElement('thead');
-const trNaglowek = document.createElement('tr');
-const thTitle = document.createElement('th');
-thTitle.innerText = 'Tytuł / Autor';
-// const thAuthor = document.createElement('th');
-// thAuthor.innerText = 'Autor';
-const thCategory = document.createElement('th');
-thCategory.innerText = 'Kategoria';
-const thPriority = document.createElement('th');
-thPriority.innerText = 'Priorytet';
-const thPlaceholder = document.createElement('th');
-thPlaceholder.innerText = '';
+const btnAddNewCategory = pageElements.getBtnAddNewCategory();
 
-const locationForListOfBooks = document.createElement('tbody');
-
-trNaglowek.append(thTitle, thCategory, thPriority, thPlaceholder);
-thead.append(trNaglowek);
-tableOfBooks.append(thead, locationForListOfBooks);
-divToPlaceBookList.appendChild(tableOfBooks);
-
-const totalListOfBooks = displayTotalListOfBooks(collectionOfBooks);
-locationForListOfBooks.innerHTML = totalListOfBooks;
-
-// PRZYCISK DODAJ POZYCJĘ
-const addBookBtn = document.createElement('button');
-addBookBtn.id = 'add-book-btn';
-addBookBtn.innerText = 'Dodaj nową pozycję';
-
+sortAndFilter.append(btnAllCategories, btnAddNewCategory);
 app.append(
   modalBackground,
   sortAndFilter,
@@ -110,33 +48,6 @@ app.append(
   addBookBtn
 );
 
-// FILTROWANIE PO KATEGORII
-document.getElementById('all-books').addEventListener('click', () => {
-  const collectionOfBooks = collectionOfBooksObject.getTotalCollectionOfBooks();
-  const totalListOfBooks = displayTotalListOfBooks(collectionOfBooks);
-
-  collectionOfBooksObject.resetFilter();
-  locationForListOfBooks.innerHTML = totalListOfBooks;
-  booksCounterPlacer.innerHTML = returnAmountOfBoks(collectionOfBooks.length);
-});
-formState.categories.forEach((category) => {
-  if (category.name !== '') {
-    const button = document.createElement('button');
-    button.innerHTML = category.tekst;
-    button.id = category.name;
-
-    document.getElementById('sort-and-filter').appendChild(button);
-    document.getElementById(category.name).addEventListener('click', () => {
-      const filteredArrayOfBooks = collectionOfBooksObject.filterByCategory(category.tekst);
-      collectionOfBooksObject.setFilteredOrSortedState(filteredArrayOfBooks);
-      const filteredListOfBooks = displayTotalListOfBooks(filteredArrayOfBooks);
-      locationForListOfBooks.innerHTML = filteredListOfBooks;
-      booksCounterPlacer.innerHTML = returnAmountOfBoks(filteredArrayOfBooks.length);
-    });
-  }
-});
-sortAndFilter.appendChild(buttonAddNewCategory);
-
 // SORTOWANIE
 document.getElementById('sort-list').addEventListener('change', (event) => {
   const sortByPhrase = findObjectInArray(event.target.value, formState.sortBy);
@@ -145,6 +56,7 @@ document.getElementById('sort-list').addEventListener('change', (event) => {
       {
         const sortedData = collectionOfBooksObject.sortByPriority();
         const sortedListOfBooks = displayTotalListOfBooks(sortedData);
+        const locationForListOfBooks = document.getElementById('list-of-books');
         locationForListOfBooks.innerHTML = sortedListOfBooks;
       }
       break;
@@ -152,6 +64,7 @@ document.getElementById('sort-list').addEventListener('change', (event) => {
       {
         const sortedData = collectionOfBooksObject.sortByAuthor();
         const sortedListOfBooks = displayTotalListOfBooks(sortedData);
+        const locationForListOfBooks = document.getElementById('list-of-books');
         locationForListOfBooks.innerHTML = sortedListOfBooks;
       }
       break;
@@ -159,6 +72,7 @@ document.getElementById('sort-list').addEventListener('change', (event) => {
       {
         const sortedData = collectionOfBooksObject.sortByTitle();
         const sortedListOfBooks = displayTotalListOfBooks(sortedData);
+        const locationForListOfBooks = document.getElementById('list-of-books');
         locationForListOfBooks.innerHTML = sortedListOfBooks;
       }
       break;
@@ -183,11 +97,12 @@ submitForm.addEventListener('submit', (event) => {
     const collectionOfBooks = collectionOfBooksObject.getTotalCollectionOfBooks();
     localStorage.setItem('books', JSON.stringify(collectionOfBooks));
     const totalListOfBooks = displayTotalListOfBooks(collectionOfBooks);
+    const locationForListOfBooks = document.getElementById('list-of-books');
     locationForListOfBooks.innerHTML = totalListOfBooks;
     booksCounterPlacer.innerHTML = returnAmountOfBoks(collectionOfBooks.length);
-    formState.reSetState();
-    formState.resetForm();
-    document.getElementById('modal-background').style.display = 'none';
+    // formState.reSetState();
+    // formState.resetForm();
+    // document.getElementById('modal-background').style.display = 'none';
   } else {
     // ZAPISYWANIE EDYTOWANEJ POZYCJI
     const updatedState = collectionOfBooksObject.updateTotalCollectionOfBooks(
@@ -197,16 +112,20 @@ submitForm.addEventListener('submit', (event) => {
     const updatedBooksCollection = collectionOfBooksObject.getTotalCollectionOfBooks();
     localStorage.setItem('books', JSON.stringify(updatedBooksCollection));
     const totalListOfBooks = displayTotalListOfBooks(updatedBooksCollection);
+    const locationForListOfBooks = document.getElementById('list-of-books');
     locationForListOfBooks.innerHTML = totalListOfBooks;
-    booksCounterPlacer.innerHTML = returnAmountOfBoks(collectionOfBooks.length);
-    formState.reSetState();
-    formState.resetForm();
-    document.getElementById('modal-background').style.display = 'none';
+    // booksCounterPlacer.innerHTML = returnAmountOfBoks(collectionOfBooks.length);
+    // formState.reSetState();
+    // formState.resetForm();
+    // document.getElementById('modal-background').style.display = 'none';
   }
+  formState.reSetState();
+  formState.resetForm();
+  document.getElementById('modal-background').style.display = 'none';
 });
 
 // DELETE BOOK
-locationForListOfBooks.addEventListener('click', (event) => {
+document.getElementById('list-of-books').addEventListener('click', (event) => {
   if (event.target.className === 'remove-book') {
     const newBooksList = collectionOfBooksObject.removeBookFromCollection(
       event.target.parentElement.parentElement.parentElement.dataset.id
@@ -216,15 +135,17 @@ locationForListOfBooks.addEventListener('click', (event) => {
 
     localStorage.setItem('books', JSON.stringify(replacedTotalBooksCollection));
     const totalListOfBooks = displayTotalListOfBooks(replacedTotalBooksCollection);
+    const locationForListOfBooks = document.getElementById('list-of-books');
     locationForListOfBooks.innerHTML = totalListOfBooks;
     booksCounterPlacer.innerHTML = returnAmountOfBoks(replacedTotalBooksCollection.length);
   }
 });
 
-// EDYTOWANIE POZYCJI
-locationForListOfBooks.addEventListener('click', (event) => {
+// // EDYTOWANIE POZYCJI
+document.getElementById('list-of-books').addEventListener('click', (event) => {
   if (event.target.className === 'edit-book') {
     document.getElementById('modal-background').style.display = 'flex';
+    document.getElementById('modal-body').style.display = 'flex';
     const selectedBookToEdit = collectionOfBooksObject.getTotalCollectionOfBooks().find((book) => {
       return book.id === event.target.parentElement.parentElement.parentElement.dataset.id;
     });
@@ -251,7 +172,7 @@ locationForListOfBooks.addEventListener('click', (event) => {
   }
 });
 
-// EVENTY FORMULAŻA
+// // EVENTY FORMULAŻA
 document.getElementById('input-title').addEventListener('keyup', (event) => {
   formState.booksDataEnteredInForm.title = event.target.value;
 });
@@ -271,11 +192,15 @@ labelsArr.forEach((element) => {
   });
 });
 
-// EVENTY PRZYCISKÓW
-document.getElementById('add-category').addEventListener('click', () => {
-  document.getElementById('modal-background').style.display = 'flex';
-  document.getElementById('create-category').style.display = 'flex';
-});
+// // EVENTY PRZYCISKÓW
+addCategoryEvent();
+function addCategoryEvent() {
+  document.getElementById('add-category').addEventListener('click', () => {
+    document.getElementById('modal-background').style.display = 'flex';
+    document.getElementById('create-category').style.display = 'flex';
+    document.getElementById('modal-body').style.display = 'none';
+  });
+}
 document.getElementById('add-book-btn').addEventListener('click', () => {
   document.getElementById('modal-background').style.display = 'flex';
   document.getElementById('modal-body').style.display = 'flex';
@@ -299,54 +224,36 @@ document.getElementById('input-category').addEventListener('keyup', (event) => {
 document.getElementById('create-category').addEventListener('submit', (event) => {
   event.preventDefault();
   const setCategory = formState.getSetCategory();
-
   const name = removePolishLetters(setCategory).toLowerCase();
   const newCategoryObject = {
     name,
-    text: setCategory,
+    tekst: setCategory,
   };
 
   formState.addNewCategory(newCategoryObject);
-  console.log(formState);
-  formState.reSetNewCategory();
 
   // USUWANIE ELEMENTU DOM Z KATEGORIAMI
   document.getElementById('sort-and-filter').remove();
 
-  // z tego trzeba zrobic funkcje ////////////////////////////////////////////////
-  // KATEGORIE
-  const sortAndFilter = document.createElement('div');
-  sortAndFilter.id = 'sort-and-filter';
-  sortAndFilter.className = 'sort-and-filter';
+  const sortAndFilter = pageElements.getCategories();
+  const btnAddNewCategory = pageElements.getBtnAddNewCategory();
+  const btnAllCategories = pageElements.getBtnAllBooks();
 
-  formState.categories.forEach((category) => {
-    if (category.name !== '') {
-      const button = document.createElement('button');
-      button.innerHTML = category.tekst;
-      button.id = category.name;
+  sortAndFilter.appendChild(btnAllCategories);
 
-      sortAndFilter.appendChild(button);
-      document.getElementById(category.name).addEventListener('click', () => {
-        const filteredArrayOfBooks = collectionOfBooksObject.filterByCategory(category.tekst);
-        collectionOfBooksObject.setFilteredOrSortedState(filteredArrayOfBooks);
-        const filteredListOfBooks = displayTotalListOfBooks(filteredArrayOfBooks);
-        locationForListOfBooks.innerHTML = filteredListOfBooks;
-        booksCounterPlacer.innerHTML = returnAmountOfBoks(filteredArrayOfBooks.length);
-      });
-    }
-  });
-  /// ///////////////////////////////////////////////////////////
+  pageElements.getListOfCategories(sortAndFilter);
+  sortAndFilter.appendChild(btnAddNewCategory);
 
-  sortAndFilter.appendChild(buttonAddNewCategory);
-
-  app.appendChild(sortAndFilter);
+  app.insertBefore(sortAndFilter, app.childNodes[0]);
 
   document.getElementById('modal-background').style.display = 'none';
   document.getElementById('create-category').style.display = 'none';
+  categoriesFilters();
+  addCategoryEvent();
+  formState.reSetNewCategory();
 });
 
 function removePolishLetters(phrase) {
-  console.log(phrase);
   const polskie = [
     'ą',
     'ć',
@@ -399,4 +306,30 @@ function removePolishLetters(phrase) {
   });
   const nowyWyraz = newArr.join('');
   return nowyWyraz;
+}
+categoriesFilters();
+function categoriesFilters() {
+  // // FILTROWANIE PO KATEGORII
+  formState.categories.forEach((category) => {
+    if (category.name !== '') {
+      document.getElementById(category.name).addEventListener('click', () => {
+        const filteredArrayOfBooks = collectionOfBooksObject.filterByCategory(category.tekst);
+        collectionOfBooksObject.setFilteredOrSortedState(filteredArrayOfBooks);
+        const filteredListOfBooks = displayTotalListOfBooks(filteredArrayOfBooks);
+        const locationForListOfBooks = document.getElementById('list-of-books');
+        locationForListOfBooks.innerHTML = filteredListOfBooks;
+        booksCounterPlacer.innerHTML = returnAmountOfBoks(filteredArrayOfBooks.length);
+      });
+    }
+  });
+
+  document.getElementById('all-books').addEventListener('click', () => {
+    const collectionOfBooks = collectionOfBooksObject.getTotalCollectionOfBooks();
+    const totalListOfBooks = displayTotalListOfBooks(collectionOfBooks);
+
+    collectionOfBooksObject.resetFilter();
+    const locationForListOfBooks = document.getElementById('list-of-books');
+    locationForListOfBooks.innerHTML = totalListOfBooks;
+    booksCounterPlacer.innerHTML = returnAmountOfBoks(collectionOfBooks.length);
+  });
 }

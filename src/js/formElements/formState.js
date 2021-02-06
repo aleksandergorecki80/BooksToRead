@@ -38,10 +38,11 @@ export const formState = {
     this.addedCategory = '';
   },
   reSetState() {
-    this.id = '';
-    this.title = '';
-    this.author = '';
-    this.priority = '';
+    this.booksDataEnteredInForm.id = '';
+    this.booksDataEnteredInForm.title = '';
+    this.booksDataEnteredInForm.author = '';
+    this.booksDataEnteredInForm.category = '';
+    this.booksDataEnteredInForm.priority = 5;
   },
   updateBooksDataEnteredInForm(dataToEdition) {
     this.booksDataEnteredInForm.id = dataToEdition.id;
