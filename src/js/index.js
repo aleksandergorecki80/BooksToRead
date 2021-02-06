@@ -1,5 +1,4 @@
 import { BooksList } from './classes/booksListClass';
-
 import { Book } from './classes/bookClass';
 import {
   displayTotalListOfBooks,
@@ -7,7 +6,7 @@ import {
   findObjectInArray,
 } from './functions/functions';
 import { formState } from './formElements/formState';
-import { createLabel } from './formElements/formClass';
+import { createLabel, Form } from './formElements/formClass';
 import { pageElements } from './pageElements/pageElements';
 
 const intValue = () => {
@@ -100,9 +99,6 @@ submitForm.addEventListener('submit', (event) => {
     const locationForListOfBooks = document.getElementById('list-of-books');
     locationForListOfBooks.innerHTML = totalListOfBooks;
     booksCounterPlacer.innerHTML = returnAmountOfBoks(collectionOfBooks.length);
-    // formState.reSetState();
-    // formState.resetForm();
-    // document.getElementById('modal-background').style.display = 'none';
   } else {
     // ZAPISYWANIE EDYTOWANEJ POZYCJI
     const updatedState = collectionOfBooksObject.updateTotalCollectionOfBooks(
@@ -114,10 +110,6 @@ submitForm.addEventListener('submit', (event) => {
     const totalListOfBooks = displayTotalListOfBooks(updatedBooksCollection);
     const locationForListOfBooks = document.getElementById('list-of-books');
     locationForListOfBooks.innerHTML = totalListOfBooks;
-    // booksCounterPlacer.innerHTML = returnAmountOfBoks(collectionOfBooks.length);
-    // formState.reSetState();
-    // formState.resetForm();
-    // document.getElementById('modal-background').style.display = 'none';
   }
   formState.reSetState();
   formState.resetForm();
@@ -172,25 +164,28 @@ document.getElementById('list-of-books').addEventListener('click', (event) => {
   }
 });
 
-// // EVENTY FORMULAŻA
-document.getElementById('input-title').addEventListener('keyup', (event) => {
-  formState.booksDataEnteredInForm.title = event.target.value;
-});
-document.getElementById('input-author').addEventListener('keyup', (event) => {
-  formState.booksDataEnteredInForm.author = event.target.value;
-});
-document.getElementById('select-list').addEventListener('change', (event) => {
-  formState.booksDataEnteredInForm.category = event.target.value;
-});
-
-const labelsCollection = document.getElementsByClassName('radio-label');
-const labelsArr = [...labelsCollection];
-labelsArr.forEach((element) => {
-  element.addEventListener('click', (event) => {
-    event.target.parentElement.children[0].checked = true;
-    formState.booksDataEnteredInForm.priority = event.target.parentElement.children[0].value;
+formEvents();
+function formEvents() {
+  // // EVENTY FORMULAŻA
+  document.getElementById('input-title').addEventListener('keyup', (event) => {
+    formState.booksDataEnteredInForm.title = event.target.value;
   });
-});
+  document.getElementById('input-author').addEventListener('keyup', (event) => {
+    formState.booksDataEnteredInForm.author = event.target.value;
+  });
+  document.getElementById('select-list').addEventListener('change', (event) => {
+    formState.booksDataEnteredInForm.category = event.target.value;
+  });
+
+  const labelsCollection = document.getElementsByClassName('radio-label');
+  const labelsArr = [...labelsCollection];
+  labelsArr.forEach((element) => {
+    element.addEventListener('click', (event) => {
+      event.target.parentElement.children[0].checked = true;
+      formState.booksDataEnteredInForm.priority = event.target.parentElement.children[0].value;
+    });
+  });
+}
 
 // // EVENTY PRZYCISKÓW
 addCategoryEvent();
@@ -234,22 +229,28 @@ document.getElementById('create-category').addEventListener('submit', (event) =>
 
   // USUWANIE ELEMENTU DOM Z KATEGORIAMI
   document.getElementById('sort-and-filter').remove();
+  document.getElementById('select-list').parentElement.remove();
 
   const sortAndFilter = pageElements.getCategories();
   const btnAddNewCategory = pageElements.getBtnAddNewCategory();
   const btnAllCategories = pageElements.getBtnAllBooks();
-
   sortAndFilter.appendChild(btnAllCategories);
-
   pageElements.getListOfCategories(sortAndFilter);
   sortAndFilter.appendChild(btnAddNewCategory);
 
+  const formObject = new Form();
+  const category = formObject.getSelectCategory();
+
   app.insertBefore(sortAndFilter, app.childNodes[0]);
+
+  const formOnDom = document.getElementById('form');
+  formOnDom.insertBefore(category, formOnDom.childNodes[2]);
 
   document.getElementById('modal-background').style.display = 'none';
   document.getElementById('create-category').style.display = 'none';
   categoriesFilters();
   addCategoryEvent();
+  formEvents();
   formState.reSetNewCategory();
 });
 
