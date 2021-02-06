@@ -76,17 +76,12 @@ export class Form {
     const p = document.createElement('p');
     p.className = 'form-buttons';
     const submitButton = new Submit('submit-button', 'submit', 'submit', 'Zapisz');
-    const canceltButton = new Submit('cancel-button', '', 'cancel', 'Anuluj');
+    const canceltButton = new Submit('cancel-button', 'button', 'cancel', 'Anuluj');
     const createdSubmit = submitButton.creteSubmit();
     const createdCancel = canceltButton.creteSubmit();
     p.append(createdSubmit, createdCancel);
     return p;
   }
-
-  // getCancelButton() {
-
-  //   return canceltButton.creteSubmit();
-  // }
 
   returnForm() {
     const form = document.createElement('form');
@@ -96,8 +91,6 @@ export class Form {
     const author = this.getAuthorInput();
     const category = this.getSelectCategory();
     const priority = this.getSelectPriority();
-    // const save = this.getSubmitButton();
-    // const cancel = this.getCancelButton();
     const buttons = this.getButtons();
     form.append(title, author, category, priority, buttons);
     return form;

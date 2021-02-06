@@ -5,23 +5,19 @@ export const returnAmountOfBoks = (amount) => {
 export const displayTotalListOfBooks = (totalAmoutOfBooks) => {
   let resutl = '';
   if (totalAmoutOfBooks.length === 0) {
-    resutl += `<tr>  
-    <td>  </td>
-    <td>  </td>
-    <td> Nie znaleziono pozycji </td>
-    <td> </td>
-    <td></td>
-    <td></td>
+    resutl += `<tr>
+    <td colspan=5 class="colspan"> Nie znaleziono pozycji </td>
   </tr>`;
   } else {
     totalAmoutOfBooks.forEach((book) => {
       resutl += `<tr data-id=${book.id}>  
-      <td> ${book.title} </td>
-      <td> ${book.author} </td>
-      <td> ${book.category} </td>
-      <td> ${book.priority}</td>
-      <td><button class="remove-book">Usuń</button></td>
-      <td><button class="edit-book">Edytuj</button></td>
+      <td class="title-author"><p class="title"> ${book.title}</p> <p class="author"> ${book.author}</p> </td>
+      <td class="chategory"> ${book.category} </td>
+      <td class="priority"> ${book.priority}</td>
+      <td>
+        <p><button class="remove-book">Usuń</button></p>
+        <p><button class="edit-book">Edytuj</button></p>
+      </td>
     </tr>`;
     });
   }

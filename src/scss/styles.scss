@@ -1,95 +1,132 @@
 @import 'variables.scss';
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 body {
-    background:  $background-color;
-    color: $font-color;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    padding: 1em;
+  background: $background-color;
+  color: $font-color;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 1em;
 }
+// tbody, tr, td {
+    // border: 1px solid red;
+// }
 
 .app {
-    p {
-        margin: 0;
-    }
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    align-items: center;
-    justify-items: center;
+  tbody, tr, td, p {
+    padding: 0;
+    margin: 0;
+  }
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  align-items: center;
+  justify-items: center;
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  .sort-and-filter {
+    grid-column: 1/4;
+    margin-bottom: 20px;
+  }
+  .div-books {
+    margin-top: 20px;
+    grid-column: 1/4;
     max-width: 700px;
-    margin: 0 auto;
-    .sort-and-filter {
-        grid-column: 1/4;
-        margin-bottom: 20px;
-    }
-    .div-books {
-        margin-top: 20px;
-        grid-column: 1/4;
-        max-width: 700px;
-        width: 100%;
-        .table-of-books {
-            max-width: 700px;
-            width: 100%;
-        }
-        thead{
-            background-color: #6B705C;
-            color: #D4C7B0;
-        }
-        tr:nth-child(even){
-            background-color: #FFE8D6;
-        }
-    }
-    label[for=sort-list]{
-        grid-column: 1/2;
-        justify-self: end;
-    }
-    select{
-        grid-column: 2/3;
-        justify-self: start;
-        margin-left: 10px;
-        background-color: #6B705C;
-          border: none;
-          outline: none;
-          padding: .2em;
-          color: $placholder-font-color;
-          font-weight: 500;
-          color: #D4C7B0;
-    }
+    width: 100%;
+    .table-of-books {
+      max-width: 700px;
+      width: 100%;
 
-    button{
-        margin: 20px;
-        background-color: #6B705C;
-        border: none;
-        margin: 0.5em 0 0.5em 0;
-        outline: none;
-        color: #D4C7B0;
-        font-weight: 500;
-        margin: 5px;
-        padding: 5 15px;
+      tr:nth-child(even) {
+        background-color: $even-tr-background;
+      }
+      thead {
+        background-color: $headers-bg;
+        color: $label-font-color;
+      }
+      tr {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        margin: 0;
+        padding: 0;
+        justify-items: center;
+        align-items: center;
+        th:nth-child(1) {
+          grid-column: 1/3;
+        }
+
+        .title-author {
+          .title {
+            font-weight: bold;
+          }
+          grid-column: 1/3;
+          justify-self: left;
+          padding-left: 5px;
+        }
+        .remove-book,
+        .edit-book {
+          justify-self: right;
+          width: 100%;
+          font-size: small;
+        }
+        .colspan {
+            grid-column: 1/6;
+            text-align: center;
+        }
+      }
     }
-    #add-book-btn {
-        grid-column: 1/4;
-        width: 100%;
-        margin-top: 30px;
-        padding: 20px;
-    }
+  }
+  label[for='sort-list'] {
+    grid-column: 1/2;
+    justify-self: start;
+    margin-bottom: 10px;
+  }
+  select {
+    grid-column: 2/4;
+    justify-self: start;
+    margin-left: 10px;
+    background-color: #6b705c;
+    border: none;
+    outline: none;
+    padding: 0.2em;
+    color: $placholder-font-color;
+    font-weight: 500;
+    color: #d4c7b0;
+    margin-bottom: 10px;
+  }
+  .books-counter {
+    justify-self: left;
+    grid-column: 1/4;
+  }
+
+  button {
+    background-color: $buttons-bg;
+    border: none;
+    margin: 0.5em 0 0.5em 0;
+    outline: none;
+    color: #d4c7b0;
+    font-weight: 500;
+    margin: 5px;
+    padding: 5 15px;
+  }
+  #add-book-btn {
+    grid-column: 1/3;
+    width: 100%;
+    margin-top: 30px;
+    padding: 20px;
+  }
 }
-
-
-
-
-
 
 .table-of-books {
-    -webkit-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.5); 
-    box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.5);
-    * {
-        padding: 0.5em;
-    }
+  -webkit-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.5);
+  * {
+    padding: 0.5em;
+  }
 }
 
-.category-counters, .author-filter {
-    cursor: pointer;
+.category-counters,
+.author-filter {
+  cursor: pointer;
 }

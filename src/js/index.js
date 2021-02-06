@@ -47,12 +47,13 @@ sortAndFilter.appendChild(buttonWszystkie);
 
 // SORTOWANIE
 const sortBooks = new Select('sort-list', 'sort-list', formState.sortBy);
-const labelForsortBooks = createLabel('sort-list', 'Sortuj sedług');
+const labelForsortBooks = createLabel('sort-list', 'Sortuj wg:');
 const sortByList = sortBooks.createSelect();
 
 // LICZNIK KSIĄŻEK
 const booksCounterPlacer = document.createElement('div');
 booksCounterPlacer.id = 'books-counter';
+booksCounterPlacer.className = 'books-counter';
 const collectionOfBooks = collectionOfBooksObject.getTotalCollectionOfBooks();
 booksCounterPlacer.innerHTML = returnAmountOfBoks(collectionOfBooks.length);
 
@@ -67,21 +68,19 @@ tableOfBooks.className = 'table-of-books';
 const thead = document.createElement('thead');
 const trNaglowek = document.createElement('tr');
 const thTitle = document.createElement('th');
-thTitle.innerText = 'Tytuł';
-const thAuthor = document.createElement('th');
-thAuthor.innerText = 'Autor';
+thTitle.innerText = 'Tytuł / Autor';
+// const thAuthor = document.createElement('th');
+// thAuthor.innerText = 'Autor';
 const thCategory = document.createElement('th');
 thCategory.innerText = 'Kategoria';
 const thPriority = document.createElement('th');
 thPriority.innerText = 'Priorytet';
 const thPlaceholder = document.createElement('th');
 thPlaceholder.innerText = '';
-const thPlaceholder2 = document.createElement('th');
-thPlaceholder.innerText = '';
 
 const locationForListOfBooks = document.createElement('tbody');
 
-trNaglowek.append(thTitle, thAuthor, thCategory, thPriority, thPlaceholder, thPlaceholder2);
+trNaglowek.append(thTitle, thCategory, thPriority, thPlaceholder);
 thead.append(trNaglowek);
 tableOfBooks.append(thead, locationForListOfBooks);
 divToPlaceBookList.appendChild(tableOfBooks);
@@ -133,8 +132,6 @@ document.getElementById('all-books').addEventListener('click', () => {
   const collectionOfBooks = collectionOfBooksObject.getTotalCollectionOfBooks();
   const totalListOfBooks = displayTotalListOfBooks(collectionOfBooks);
 
-  console.log(collectionOfBooksObject, 'collectionOfBooksObject');
-
   collectionOfBooksObject.resetFilter();
   locationForListOfBooks.innerHTML = totalListOfBooks;
   booksCounterPlacer.innerHTML = returnAmountOfBoks(collectionOfBooks.length);
@@ -150,8 +147,6 @@ formState.categories.forEach((category) => {
       const filteredArrayOfBooks = collectionOfBooksObject.filterByCategory(category.tekst);
       collectionOfBooksObject.setFilteredOrSortedState(filteredArrayOfBooks);
       const filteredListOfBooks = displayTotalListOfBooks(filteredArrayOfBooks);
-      console.log(collectionOfBooksObject, 'collectionOfBooksObject');
-
       locationForListOfBooks.innerHTML = filteredListOfBooks;
       booksCounterPlacer.innerHTML = returnAmountOfBoks(filteredArrayOfBooks.length);
     });
@@ -202,8 +197,6 @@ submitForm.addEventListener('submit', (event) => {
     );
     collectionOfBooksObject.setTotalBooksCollection(book);
     const collectionOfBooks = collectionOfBooksObject.getTotalCollectionOfBooks();
-    console.log(collectionOfBooksObject, 'collectionOfBooksObject');
-    console.log(collectionOfBooksObject, 'collectionOfBooks');
     localStorage.setItem('books', JSON.stringify(collectionOfBooks));
     const totalListOfBooks = displayTotalListOfBooks(collectionOfBooks);
     locationForListOfBooks.innerHTML = totalListOfBooks;
@@ -240,7 +233,7 @@ window.addEventListener('click', (e) => {
 locationForListOfBooks.addEventListener('click', (event) => {
   if (event.target.className === 'remove-book') {
     const newBooksList = collectionOfBooksObject.removeBookFromCollection(
-      event.target.parentElement.parentElement.dataset.id
+      event.target.parentElement.parentElement.parentElement.dataset.id
     );
     collectionOfBooksObject.replaceTotalBooksCollection(newBooksList);
     const replacedTotalBooksCollection = collectionOfBooksObject.getTotalCollectionOfBooks();
@@ -256,11 +249,11 @@ locationForListOfBooks.addEventListener('click', (event) => {
   if (event.target.className === 'edit-book') {
     document.getElementById('modal-background').style.display = 'flex';
     const selectedBookToEdit = collectionOfBooksObject.getTotalCollectionOfBooks().find((book) => {
-      return book.id === event.target.parentElement.parentElement.dataset.id;
+      return book.id === event.target.parentElement.parentElement.parentElement.dataset.id;
     });
 
     const dataToEdition = {
-      id: event.target.parentElement.parentElement.dataset.id,
+      id: event.target.parentElement.parentElement.parentElement.dataset.id,
       title: selectedBookToEdit.title,
       author: selectedBookToEdit.author,
       category: selectedBookToEdit.category,
