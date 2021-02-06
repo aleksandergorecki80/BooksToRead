@@ -40,7 +40,6 @@ export function resetForm() {
   document.getElementById('5-priority').checked = true;
 }
 
-
 export function removePolishLetters(phrase) {
   const polskie = [
     'ą',

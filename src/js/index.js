@@ -4,7 +4,7 @@ import {
   displayTotalListOfBooks,
   returnAmountOfBoks,
   findObjectInArray,
-  removePolishLetters
+  removePolishLetters,
 } from './functions/functions';
 import { formState } from './formElements/formState';
 import { createLabel, Form } from './formElements/formClass';
@@ -116,7 +116,6 @@ submitForm.addEventListener('submit', (event) => {
   formState.reSetState();
   formState.resetForm();
   document.getElementById('modal-background').style.display = 'none';
-  console.log(formState.categories)
 });
 
 // EDITING BOOK
@@ -211,8 +210,6 @@ categoriesFilters();
 formEvents();
 // BUTTONS EVENTS
 addCategoryEvent();
-
-
 
 function categoriesFilters() {
   // // FILTROWANIE PO KATEGORII
