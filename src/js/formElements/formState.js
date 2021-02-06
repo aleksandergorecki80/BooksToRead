@@ -2,7 +2,7 @@ import { Submit } from './submitClass';
 import { TextInput } from './textInputClass';
 
 export const formState = {
-  addingCategory: true,
+  addedCategory: '',
   sortBy: [
     { name: '', tekst: ' -- Wybierz --' },
     { name: 'title', tekst: 'Tytuł' },
@@ -25,6 +25,18 @@ export const formState = {
     category: '',
     priority: 5,
   },
+  setCategory(data) {
+    this.addedCategory = data;
+  },
+  getSetCategory() {
+    return this.addedCategory;
+  },
+  addNewCategory(newCategory) {
+    this.categories = [...this.categories, newCategory];
+  },
+  reSetNewCategory() {
+    this.addedCategory = '';
+  },
   reSetState() {
     this.id = '';
     this.title = '';
@@ -43,14 +55,13 @@ export const formState = {
     document.getElementById('select-list').value = '-- Wybież kategorię --';
     document.getElementById('5-priority').checked = true;
   },
-  addNewCategory(newCategory) {
-    this.categories = [...this.categories, newCategory];
-  },
+
   printAddingCategoryForm() {
     const div = document.createElement('div');
     div.id = 'create-category';
     div.className = 'create-category';
     const form = document.createElement('form');
+    form.id = 'add-category-form';
     const h1 = document.createElement('h3');
     h1.innerText = 'Dodaj nową kategorię';
     // const p = document.createElement('p');

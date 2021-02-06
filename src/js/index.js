@@ -251,9 +251,6 @@ locationForListOfBooks.addEventListener('click', (event) => {
   }
 });
 
-// DODAWANIE NOWEJ KATEGORII
-formState.addNewCategory({ name: 'komedia', tekst: 'Komedia' });
-
 // EVENTY FORMULAŻA
 document.getElementById('input-title').addEventListener('keyup', (event) => {
   formState.booksDataEnteredInForm.title = event.target.value;
@@ -294,3 +291,112 @@ window.addEventListener('click', (e) => {
     document.getElementById('create-category').style.display = 'none';
   }
 });
+
+// DODAWANIE NOWEJ KATEGORII
+document.getElementById('input-category').addEventListener('keyup', (event) => {
+  formState.setCategory(event.target.value);
+});
+document.getElementById('create-category').addEventListener('submit', (event) => {
+  event.preventDefault();
+  const setCategory = formState.getSetCategory();
+
+  const name = removePolishLetters(setCategory).toLowerCase();
+  const newCategoryObject = {
+    name,
+    text: setCategory,
+  };
+
+  formState.addNewCategory(newCategoryObject);
+  console.log(formState);
+  formState.reSetNewCategory();
+
+  // USUWANIE ELEMENTU DOM Z KATEGORIAMI
+  document.getElementById('sort-and-filter').remove();
+
+  // z tego trzeba zrobic funkcje ////////////////////////////////////////////////
+  // KATEGORIE
+  const sortAndFilter = document.createElement('div');
+  sortAndFilter.id = 'sort-and-filter';
+  sortAndFilter.className = 'sort-and-filter';
+
+  formState.categories.forEach((category) => {
+    if (category.name !== '') {
+      const button = document.createElement('button');
+      button.innerHTML = category.tekst;
+      button.id = category.name;
+
+      sortAndFilter.appendChild(button);
+      document.getElementById(category.name).addEventListener('click', () => {
+        const filteredArrayOfBooks = collectionOfBooksObject.filterByCategory(category.tekst);
+        collectionOfBooksObject.setFilteredOrSortedState(filteredArrayOfBooks);
+        const filteredListOfBooks = displayTotalListOfBooks(filteredArrayOfBooks);
+        locationForListOfBooks.innerHTML = filteredListOfBooks;
+        booksCounterPlacer.innerHTML = returnAmountOfBoks(filteredArrayOfBooks.length);
+      });
+    }
+  });
+  /// ///////////////////////////////////////////////////////////
+
+  sortAndFilter.appendChild(buttonAddNewCategory);
+
+  app.appendChild(sortAndFilter);
+
+  document.getElementById('modal-background').style.display = 'none';
+  document.getElementById('create-category').style.display = 'none';
+});
+
+function removePolishLetters(phrase) {
+  console.log(phrase);
+  const polskie = [
+    'ą',
+    'ć',
+    'ę',
+    'ł',
+    'ń',
+    'ó',
+    'ś',
+    'ź',
+    'ż',
+    'Ą',
+    'Ć',
+    'Ę',
+    'Ł',
+    'Ń',
+    'Ó',
+    'Ś',
+    'Ź',
+    'Ż',
+    ' ',
+  ];
+  const niepolskie = [
+    'a',
+    'c',
+    'e',
+    'l',
+    'n',
+    'o',
+    's',
+    'z',
+    'z',
+    'A',
+    'C',
+    'L',
+    'N',
+    'O',
+    'S',
+    'Z',
+    'Z',
+    '',
+  ];
+  const arr = [...phrase];
+  const newArr = arr.map((element) => {
+    polskie.find((znak) => {
+      if (znak === element) {
+        element = niepolskie[polskie.indexOf(znak)];
+      }
+    });
+    return element;
+  });
+  const nowyWyraz = newArr.join('');
+  return nowyWyraz;
+}
