@@ -1,45 +1,27 @@
-export function formEvents() {
-    // // EVENTY FORMULAŻA
-    document.getElementById('input-title').addEventListener('keyup', (event) => {
-      formState.booksDataEnteredInForm.title = event.target.value;
-    });
-    document.getElementById('input-author').addEventListener('keyup', (event) => {
-      formState.booksDataEnteredInForm.author = event.target.value;
-    });
-    document.getElementById('select-list').addEventListener('change', (event) => {
-      formState.booksDataEnteredInForm.category = event.target.value;
-    });
-  
-    const labelsCollection = document.getElementsByClassName('radio-label');
-    const labelsArr = [...labelsCollection];
-    labelsArr.forEach((element) => {
-      element.addEventListener('click', (event) => {
-        event.target.parentElement.children[0].checked = true;
-        formState.booksDataEnteredInForm.priority = event.target.parentElement.children[0].value;
-      });
-    });
-  }
+// import { formState } from '../formElements/formState';
 
-  export function addCategoryEvent() {
-      // // EVENTY PRZYCISKÓW
-    document.getElementById('add-category').addEventListener('click', () => {
-      document.getElementById('modal-background').style.display = 'flex';
-      document.getElementById('create-category').style.display = 'flex';
-      document.getElementById('modal-body').style.display = 'none';
-    });
-  }
-  document.getElementById('add-book-btn').addEventListener('click', () => {
-    document.getElementById('modal-background').style.display = 'flex';
-    document.getElementById('modal-body').style.display = 'flex';
-  });
-  document.getElementById('cancel-button').addEventListener('click', () => {
-    document.getElementById('modal-background').style.display = 'none';
-    document.getElementById('modal-body').style.display = 'none';
-  });
-  window.addEventListener('click', (e) => {
-    if (e.target.id === 'modal-background') {
-      document.getElementById('modal-background').style.display = 'none';
-      document.getElementById('modal-body').style.display = 'none';
-      document.getElementById('create-category').style.display = 'none';
-    }
-  });
+// export function categoriesFilters() {
+//   // // FILTROWANIE PO KATEGORII
+//   formState.categories.forEach((category) => {
+//     if (category.name !== '') {
+//       document.getElementById(category.name).addEventListener('click', () => {
+//         const filteredArrayOfBooks = collectionOfBooksObject.filterByCategory(category.tekst);
+//         collectionOfBooksObject.setFilteredOrSortedState(filteredArrayOfBooks);
+//         const filteredListOfBooks = displayTotalListOfBooks(filteredArrayOfBooks);
+//         const locationForListOfBooks = document.getElementById('list-of-books');
+//         locationForListOfBooks.innerHTML = filteredListOfBooks;
+//         booksCounterPlacer.innerHTML = returnAmountOfBoks(filteredArrayOfBooks.length);
+//       });
+//     }
+//   });
+
+//   document.getElementById('all-books').addEventListener('click', () => {
+//     const collectionOfBooks = collectionOfBooksObject.getTotalCollectionOfBooks();
+//     const totalListOfBooks = displayTotalListOfBooks(collectionOfBooks);
+
+//     collectionOfBooksObject.resetFilter();
+//     const locationForListOfBooks = document.getElementById('list-of-books');
+//     locationForListOfBooks.innerHTML = totalListOfBooks;
+//     booksCounterPlacer.innerHTML = returnAmountOfBoks(collectionOfBooks.length);
+//   });
+// }

@@ -39,3 +39,59 @@ export function resetForm() {
   document.getElementById('select-list').value = '-- Wybież kategorię --';
   document.getElementById('5-priority').checked = true;
 }
+
+
+export function removePolishLetters(phrase) {
+  const polskie = [
+    'ą',
+    'ć',
+    'ę',
+    'ł',
+    'ń',
+    'ó',
+    'ś',
+    'ź',
+    'ż',
+    'Ą',
+    'Ć',
+    'Ę',
+    'Ł',
+    'Ń',
+    'Ó',
+    'Ś',
+    'Ź',
+    'Ż',
+    ' ',
+  ];
+  const niepolskie = [
+    'a',
+    'c',
+    'e',
+    'l',
+    'n',
+    'o',
+    's',
+    'z',
+    'z',
+    'A',
+    'C',
+    'L',
+    'N',
+    'O',
+    'S',
+    'Z',
+    'Z',
+    '',
+  ];
+  const arr = [...phrase];
+  const newArr = arr.map((element) => {
+    polskie.find((znak) => {
+      if (znak === element) {
+        element = niepolskie[polskie.indexOf(znak)];
+      }
+    });
+    return element;
+  });
+  const nowyWyraz = newArr.join('');
+  return nowyWyraz;
+}

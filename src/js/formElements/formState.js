@@ -48,6 +48,7 @@ export const formState = {
     this.booksDataEnteredInForm.id = dataToEdition.id;
     this.booksDataEnteredInForm.title = dataToEdition.title;
     this.booksDataEnteredInForm.author = dataToEdition.author;
+    this.booksDataEnteredInForm.category = dataToEdition.category;
     this.booksDataEnteredInForm.priority = dataToEdition.priority;
   },
   resetForm() {
