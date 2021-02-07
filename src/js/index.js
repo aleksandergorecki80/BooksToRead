@@ -101,6 +101,7 @@ submitForm.addEventListener('submit', (event) => {
     collectionOfBooksObject.setTotalBooksCollection(book);
     const collectionOfBooks = collectionOfBooksObject.getTotalCollectionOfBooks();
     localStorage.setItem('books', JSON.stringify(collectionOfBooks));
+    collectionOfBooksObject.setFilteredOrSortedState(collectionOfBooks);
     const totalListOfBooks = displayTotalListOfBooks(collectionOfBooks);
     const locationForListOfBooks = document.getElementById('list-of-books');
     locationForListOfBooks.innerHTML = totalListOfBooks;
@@ -113,6 +114,7 @@ submitForm.addEventListener('submit', (event) => {
     collectionOfBooksObject.replaceTotalBooksCollection(updatedState);
     const updatedBooksCollection = collectionOfBooksObject.getTotalCollectionOfBooks();
     localStorage.setItem('books', JSON.stringify(updatedBooksCollection));
+    collectionOfBooksObject.setFilteredOrSortedState(updatedBooksCollection);
     const totalListOfBooks = displayTotalListOfBooks(updatedBooksCollection);
     const locationForListOfBooks = document.getElementById('list-of-books');
     locationForListOfBooks.innerHTML = totalListOfBooks;
@@ -166,6 +168,7 @@ document.getElementById('list-of-books').addEventListener('click', (event) => {
     const replacedTotalBooksCollection = collectionOfBooksObject.getTotalCollectionOfBooks();
 
     localStorage.setItem('books', JSON.stringify(replacedTotalBooksCollection));
+    collectionOfBooksObject.setFilteredOrSortedState(replacedTotalBooksCollection);
     const totalListOfBooks = displayTotalListOfBooks(replacedTotalBooksCollection);
     const locationForListOfBooks = document.getElementById('list-of-books');
     locationForListOfBooks.innerHTML = totalListOfBooks;
