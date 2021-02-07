@@ -7,6 +7,6 @@ Na górze strony są także przyciski z kategoriami również tymi, które nie p
 
 Jest także możliwość dodania kategorii. Wyświetla się ona następnie na liście wyboru w formularzu dodawania / edytowania książki.
 
-Aplikacja jest zbudowana na zasadzie single-page application. Kod jest napisany w Vanilla JS. Style są napisane w SCSS.
+Aplikacja zapisuje listę książek w localStorage.
 
-https://aleksandergorecki80.github.io/DoPrzeczytania/
+Aplikacja jest zbudowana na zasadzie single-page application. Kod jest napisany w Vanilla JS. Style są napisane w SCSS.
