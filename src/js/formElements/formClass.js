@@ -76,7 +76,13 @@ export class Form {
     const p = document.createElement('p');
     p.className = 'form-buttons';
     const submitButton = new Submit('submit-button', 'submit', 'submit', 'Zapisz');
-    const canceltButton = new Submit('cancel-button', 'button', 'cancel', 'Anuluj');
+    const canceltButton = new Submit(
+      'cancel-button',
+      'button',
+      'cancel',
+      'Anuluj',
+      'cancel-button'
+    );
     const createdSubmit = submitButton.creteSubmit();
     const createdCancel = canceltButton.creteSubmit();
     p.append(createdSubmit, createdCancel);

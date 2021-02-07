@@ -342,10 +342,17 @@ document.getElementById('add-book-btn').addEventListener('click', () => {
   document.getElementById('modal-background').style.display = 'flex';
   document.getElementById('modal-body').style.display = 'flex';
 });
-document.getElementById('cancel-button').addEventListener('click', () => {
-  document.getElementById('modal-background').style.display = 'none';
-  document.getElementById('modal-body').style.display = 'none';
+
+const cancelCollection = document.getElementsByClassName('cancel-button');
+const cancelArr = [...cancelCollection];
+cancelArr.forEach((element) => {
+  element.addEventListener('click', () => {
+    document.getElementById('modal-background').style.display = 'none';
+    document.getElementById('modal-body').style.display = 'none';
+    document.getElementById('create-category').style.display = 'none';
+  });
 });
+
 window.addEventListener('click', (e) => {
   if (e.target.id === 'modal-background') {
     document.getElementById('modal-background').style.display = 'none';
