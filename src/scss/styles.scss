@@ -77,7 +77,12 @@ body {
             text-align: center;
         }
         a {
+          color: $font-color;
           cursor: pointer;
+          padding: 0;
+          &:hover {
+            text-decoration: underline;
+          }
         }
       }
     }

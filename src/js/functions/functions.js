@@ -11,9 +11,9 @@ export const displayTotalListOfBooks = (totalAmoutOfBooks) => {
   } else {
     totalAmoutOfBooks.forEach((book) => {
       resutl += `<tr data-id=${book.id} draggable="true">  
-      <td class="title-author" ><p class="title"> ${book.title}</p> <p class="author"> ${book.author}</p> </td>
+      <td class="title-author" ><p class="title"> ${book.title}</p> <p class="author"><a class="a-author"> ${book.author}</a></p> </td>
       <td class="category"><a class="a-category"> ${book.category} </a></td>
-      <td class="priority"> ${book.priority}</td>
+      <td class="priority"> <a class="a-priority">${book.priority}</a></td>
       <td>
         <p><button class="remove-book">Usuń</button></p>
         <p><button class="edit-book">Edytuj</button></p>

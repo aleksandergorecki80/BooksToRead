@@ -81,7 +81,7 @@ document.getElementById('sort-list').addEventListener('change', (event) => {
 
     default:
   }
-  filtersEvent();
+  categoryFilter();
 });
 
 //  -- SAVE, REMOVE, EDIT --
@@ -115,7 +115,7 @@ submitForm.addEventListener('submit', (event) => {
     const locationForListOfBooks = document.getElementById('list-of-books');
     locationForListOfBooks.innerHTML = totalListOfBooks;
   }
-  filtersEvent();
+  categoryFilter();
   formState.reSetState();
   formState.resetForm();
   document.getElementById('modal-background').style.display = 'none';
@@ -165,7 +165,7 @@ document.getElementById('list-of-books').addEventListener('click', (event) => {
     locationForListOfBooks.innerHTML = totalListOfBooks;
     booksCounterPlacer.innerHTML = returnAmountOfBoks(replacedTotalBooksCollection.length);
   }
-  filtersEvent();
+  categoryFilter();
 });
 
 // ADD NEW CATEGORY
@@ -186,11 +186,11 @@ document.getElementById('create-category').addEventListener('submit', (event) =>
   document.getElementById('select-list').parentElement.remove();
 
   const sortAndFilter = pageElements.getCategories();
-  // const btnAddNewCategory = pageElements.getBtnAddNewCategory();
+  const btnAddNewCategory = pageElements.getBtnAddNewCategory();
   const btnAllCategories = pageElements.getBtnAllBooks();
   sortAndFilter.appendChild(btnAllCategories);
   pageElements.getListOfCategories(sortAndFilter);
-  // sortAndFilter.appendChild(btnAddNewCategory);
+  sortAndFilter.appendChild(btnAddNewCategory);
 
   const formObject = new Form();
   const category = formObject.getSelectCategory();
@@ -215,19 +215,59 @@ formEvents();
 // BUTTONS EVENTS
 addCategoryEvent();
 // ALL FILTERS
-filtersEvent();
+categoryFilter();
+authorFilter();
+priorityFilter();
 
-function filtersEvent() {
-  const categoryLinksCollection = document.getElementsByClassName('a-category');
-  const categoryLinksArr = [...categoryLinksCollection];
-  categoryLinksArr.forEach((category) => {
-    category.addEventListener('click', () => {
-      printFiltered(category.innerText);
+function priorityFilter() {
+  const priorityLinksCollection = document.getElementsByClassName('a-priority');
+  const priorityLinksArr = [...priorityLinksCollection];
+  priorityLinksArr.forEach((priority) => {
+    priority.addEventListener('click', () => {
+      printFilteredPriorities(priority.innerText);
     });
   });
 }
 
-function printFiltered(categoryInnerText) {
+function printFilteredPriorities(priorityInnerText) {
+  const filteredArrayOfBooks = collectionOfBooksObject.filterByPriority(priorityInnerText);
+  collectionOfBooksObject.setFilteredOrSortedState(filteredArrayOfBooks);
+  const filteredListOfBooks = displayTotalListOfBooks(filteredArrayOfBooks);
+  const locationForListOfBooks = document.getElementById('list-of-books');
+  locationForListOfBooks.innerHTML = filteredListOfBooks;
+  booksCounterPlacer.innerHTML = returnAmountOfBoks(filteredArrayOfBooks.length);
+}
+
+function authorFilter() {
+  const authorLinksCollection = document.getElementsByClassName('a-author');
+  const authorLinksArr = [...authorLinksCollection];
+  authorLinksArr.forEach((author) => {
+    author.addEventListener('click', () => {
+      printFilteredAuthors(author.innerText);
+    });
+  });
+}
+
+function printFilteredAuthors(authorInnerText) {
+  const filteredArrayOfBooks = collectionOfBooksObject.filterByAutor(authorInnerText);
+  collectionOfBooksObject.setFilteredOrSortedState(filteredArrayOfBooks);
+  const filteredListOfBooks = displayTotalListOfBooks(filteredArrayOfBooks);
+  const locationForListOfBooks = document.getElementById('list-of-books');
+  locationForListOfBooks.innerHTML = filteredListOfBooks;
+  booksCounterPlacer.innerHTML = returnAmountOfBoks(filteredArrayOfBooks.length);
+}
+
+function categoryFilter() {
+  const categoryLinksCollection = document.getElementsByClassName('a-category');
+  const categoryLinksArr = [...categoryLinksCollection];
+  categoryLinksArr.forEach((category) => {
+    category.addEventListener('click', () => {
+      printFilteredCategories(category.innerText);
+    });
+  });
+}
+
+function printFilteredCategories(categoryInnerText) {
   const filteredArrayOfBooks = collectionOfBooksObject.filterByCategory(categoryInnerText);
   collectionOfBooksObject.setFilteredOrSortedState(filteredArrayOfBooks);
   const filteredListOfBooks = displayTotalListOfBooks(filteredArrayOfBooks);
@@ -259,7 +299,7 @@ function categoriesFilters() {
     const locationForListOfBooks = document.getElementById('list-of-books');
     locationForListOfBooks.innerHTML = totalListOfBooks;
     booksCounterPlacer.innerHTML = returnAmountOfBoks(collectionOfBooks.length);
-    filtersEvent();
+    categoryFilter();
   });
 }
 
