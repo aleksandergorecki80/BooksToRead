@@ -122,6 +122,7 @@ submitForm.addEventListener('submit', (event) => {
   priorityFilter();
   formState.reSetState();
   formState.resetForm();
+  document.getElementById('submit-button').disabled = true;
   document.getElementById('modal-background').style.display = 'none';
 });
 
@@ -312,13 +313,43 @@ function categoriesFilters() {
 function formEvents() {
   // // EVENTY FORMULAŻA
   document.getElementById('input-title').addEventListener('keyup', (event) => {
-    formState.booksDataEnteredInForm.title = event.target.value;
+    const title = event.target.value;
+    const titleTrimmed = title.trim();
+    const validatedTitle = validated(titleTrimmed);
+
+  console.log(titleTrimmed, 'titleTrimmed')
+  console.log(validatedTitle, 'validatedTitle')
+    if(validatedTitle){
+      document.getElementById('add-book-error').innerText = '';
+      formState.booksDataEnteredInForm.title = titleTrimmed;
+    } else {
+      document.getElementById('add-book-error').innerText = 'Wypełnij formulaż';
+    }
+    unlockSubmit();
+    console.log(formState.booksDataEnteredInForm);
   });
   document.getElementById('input-author').addEventListener('keyup', (event) => {
-    formState.booksDataEnteredInForm.author = event.target.value;
+    const autor = event.target.value;
+    const autorTrimmed = autor.trim();
+    const validatedAutor = validated(autorTrimmed);
+
+    console.log(validatedAutor, 'validatedAutor')
+    if(validatedAutor){
+      document.getElementById('add-book-error').innerText = '';
+      formState.booksDataEnteredInForm.author = autorTrimmed;
+    } else {
+      document.getElementById('add-book-error').innerText = 'Wypełnij formulaż';
+    }
+
+
+    // formState.booksDataEnteredInForm.author = event.target.value;
+    unlockSubmit();
+    console.log(formState.booksDataEnteredInForm);
   });
   document.getElementById('select-list').addEventListener('change', (event) => {
     formState.booksDataEnteredInForm.category = event.target.value;
+    unlockSubmit();
+    console.log(formState.booksDataEnteredInForm);
   });
 
   const labelsCollection = document.getElementsByClassName('radio-label');
@@ -328,7 +359,18 @@ function formEvents() {
       event.target.parentElement.children[0].checked = true;
       formState.booksDataEnteredInForm.priority = event.target.parentElement.children[0].value;
     });
+    console.log(formState.booksDataEnteredInForm);
   });
+}
+
+const validated = (phrase) => {
+  return phrase !== '';
+};
+
+function unlockSubmit(){
+  if(formState.booksDataEnteredInForm.title !== '' && formState.booksDataEnteredInForm.title !== '' && formState.booksDataEnteredInForm.category){
+    document.getElementById('submit-button').disabled = false;
+  }
 }
 
 function addCategoryEvent() {
@@ -360,4 +402,3 @@ window.addEventListener('click', (e) => {
     document.getElementById('create-category').style.display = 'none';
   }
 });
-

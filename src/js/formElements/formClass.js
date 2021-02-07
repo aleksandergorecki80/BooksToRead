@@ -84,6 +84,7 @@ export class Form {
       'cancel-button'
     );
     const createdSubmit = submitButton.creteSubmit();
+    createdSubmit.disabled = true;
     const createdCancel = canceltButton.creteSubmit();
     p.append(createdSubmit, createdCancel);
     return p;
@@ -98,7 +99,10 @@ export class Form {
     const category = this.getSelectCategory();
     const priority = this.getSelectPriority();
     const buttons = this.getButtons();
-    form.append(title, author, category, priority, buttons);
+    const error = document.createElement('p');
+    error.id = 'add-book-error';
+    error.className = 'error';
+    form.append(title, author, category, priority, error, buttons);
     return form;
   }
 }
