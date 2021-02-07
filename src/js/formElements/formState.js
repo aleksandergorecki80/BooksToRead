@@ -4,7 +4,7 @@ import { TextInput } from './textInputClass';
 export const formState = {
   addedCategory: '',
   sortBy: [
-    { name: '', tekst: ' -- Wybierz --' },
+    { name: '', tekst: '-- Wybierz --' },
     { name: 'title', tekst: 'Tytuł' },
     { name: 'author', tekst: 'Autor' },
     { name: 'priority', tekst: 'Priorytet' },
