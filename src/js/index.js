@@ -360,3 +360,4 @@ window.addEventListener('click', (e) => {
     document.getElementById('create-category').style.display = 'none';
   }
 });
+
