@@ -288,7 +288,7 @@ function printFilteredCategories(categoryInnerText) {
 }
 
 function categoriesFilters() {
-  // // FILTROWANIE PO KATEGORII u góry strony
+  // // TOP PAGES FILTERING
   formState.categories.forEach((category) => {
     if (category.name !== '') {
       document.getElementById(category.name).addEventListener('click', () => {
