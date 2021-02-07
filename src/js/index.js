@@ -9,7 +9,6 @@ import {
 import { formState } from './formElements/formState';
 import { createLabel, Form } from './formElements/formClass';
 import { pageElements } from './pageElements/pageElements';
-// import { categoriesFilters } from './functions/eventsFunctions';
 
 const intValue = () => {
   const localData = localStorage.getItem('books');
@@ -82,6 +81,9 @@ document.getElementById('sort-list').addEventListener('change', (event) => {
     default:
   }
   categoryFilter();
+  authorFilter();
+  priorityFilter();
+  document.getElementById('sort-list').value = '-- Wybierz --';
 });
 
 //  -- SAVE, REMOVE, EDIT --
@@ -116,6 +118,8 @@ submitForm.addEventListener('submit', (event) => {
     locationForListOfBooks.innerHTML = totalListOfBooks;
   }
   categoryFilter();
+  authorFilter();
+  priorityFilter();
   formState.reSetState();
   formState.resetForm();
   document.getElementById('modal-background').style.display = 'none';
@@ -166,6 +170,8 @@ document.getElementById('list-of-books').addEventListener('click', (event) => {
     booksCounterPlacer.innerHTML = returnAmountOfBoks(replacedTotalBooksCollection.length);
   }
   categoryFilter();
+  authorFilter();
+  priorityFilter();
 });
 
 // ADD NEW CATEGORY
@@ -277,7 +283,7 @@ function printFilteredCategories(categoryInnerText) {
 }
 
 function categoriesFilters() {
-  // // FILTROWANIE PO KATEGORII
+  // // FILTROWANIE PO KATEGORII u góry strony
   formState.categories.forEach((category) => {
     if (category.name !== '') {
       document.getElementById(category.name).addEventListener('click', () => {
