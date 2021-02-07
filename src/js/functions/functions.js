@@ -1,5 +1,5 @@
 export const returnAmountOfBoks = (amount) => {
-  return `<p>Ilość pozycji na liście: ${amount} </p>`;
+  return `<p>Ilość książek na liście: ${amount} </p>`;
 };
 
 export const displayTotalListOfBooks = (totalAmoutOfBooks) => {

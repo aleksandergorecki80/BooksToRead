@@ -10,3 +10,5 @@ Jest także możliwość dodania kategorii. Wyświetla się ona następnie na li
 Aplikacja zapisuje listę książek w localStorage.
 
 Aplikacja jest zbudowana na zasadzie single-page application. Kod jest napisany w Vanilla JS. Style są napisane w SCSS.
+
+https://aleksandergorecki80.github.io/DoPrzeczytania/
