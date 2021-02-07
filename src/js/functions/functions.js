@@ -10,15 +10,15 @@ export const displayTotalListOfBooks = (totalAmoutOfBooks) => {
   </tr>`;
   } else {
     totalAmoutOfBooks.forEach((book) => {
-      resutl += `<tr data-id=${book.id}>  
-      <td class="title-author"><p class="title"> ${book.title}</p> <p class="author"> ${book.author}</p> </td>
-      <td class="chategory"> ${book.category} </td>
+      resutl += `<tr data-id=${book.id} draggable="true">  
+      <td class="title-author" ><p class="title"> ${book.title}</p> <p class="author"> ${book.author}</p> </td>
+      <td class="category"><a class="a-category"> ${book.category} </a></td>
       <td class="priority"> ${book.priority}</td>
       <td>
         <p><button class="remove-book">Usuń</button></p>
         <p><button class="edit-book">Edytuj</button></p>
       </td>
-    </tr>`;
+      </tr>`;
     });
   }
   return resutl;

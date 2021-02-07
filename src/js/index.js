@@ -81,6 +81,7 @@ document.getElementById('sort-list').addEventListener('change', (event) => {
 
     default:
   }
+  filtersEvent();
 });
 
 //  -- SAVE, REMOVE, EDIT --
@@ -114,6 +115,7 @@ submitForm.addEventListener('submit', (event) => {
     const locationForListOfBooks = document.getElementById('list-of-books');
     locationForListOfBooks.innerHTML = totalListOfBooks;
   }
+  filtersEvent();
   formState.reSetState();
   formState.resetForm();
   document.getElementById('modal-background').style.display = 'none';
@@ -163,6 +165,7 @@ document.getElementById('list-of-books').addEventListener('click', (event) => {
     locationForListOfBooks.innerHTML = totalListOfBooks;
     booksCounterPlacer.innerHTML = returnAmountOfBoks(replacedTotalBooksCollection.length);
   }
+  filtersEvent();
 });
 
 // ADD NEW CATEGORY
@@ -211,6 +214,27 @@ categoriesFilters();
 formEvents();
 // BUTTONS EVENTS
 addCategoryEvent();
+// ALL FILTERS
+filtersEvent();
+
+function filtersEvent() {
+  const categoryLinksCollection = document.getElementsByClassName('a-category');
+  const categoryLinksArr = [...categoryLinksCollection];
+  categoryLinksArr.forEach((category) => {
+    category.addEventListener('click', () => {
+      printFiltered(category.innerText);
+    });
+  });
+}
+
+function printFiltered(categoryInnerText) {
+  const filteredArrayOfBooks = collectionOfBooksObject.filterByCategory(categoryInnerText);
+  collectionOfBooksObject.setFilteredOrSortedState(filteredArrayOfBooks);
+  const filteredListOfBooks = displayTotalListOfBooks(filteredArrayOfBooks);
+  const locationForListOfBooks = document.getElementById('list-of-books');
+  locationForListOfBooks.innerHTML = filteredListOfBooks;
+  booksCounterPlacer.innerHTML = returnAmountOfBoks(filteredArrayOfBooks.length);
+}
 
 function categoriesFilters() {
   // // FILTROWANIE PO KATEGORII
@@ -235,6 +259,7 @@ function categoriesFilters() {
     const locationForListOfBooks = document.getElementById('list-of-books');
     locationForListOfBooks.innerHTML = totalListOfBooks;
     booksCounterPlacer.innerHTML = returnAmountOfBoks(collectionOfBooks.length);
+    filtersEvent();
   });
 }
 
