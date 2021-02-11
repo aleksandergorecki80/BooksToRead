@@ -1,6 +1,17 @@
-export const returnAmountOfBoks = (amount) => {
-  return `<p>Ilość książek na liście: ${amount} </p>`;
+export const functions = {
+  returnAmountOfBoks: (amount) => {
+    return `<p>Ilość książek na liście: ${amount} </p>`;
+  },
+  findObjectInArray: (keyword, array) => {
+    return array.find((element) => {
+      return keyword === element.tekst;
+    });
+  }
 };
+
+// export const returnAmountOfBoks = (amount) => {
+//   return `<p>Ilość książek na liście: ${amount} </p>`;
+// };
 
 export const displayTotalListOfBooks = (totalAmoutOfBooks) => {
   let resutl = '';
@@ -24,14 +35,14 @@ export const displayTotalListOfBooks = (totalAmoutOfBooks) => {
   return resutl;
 };
 
-export const findObjectInArray = (keyword, array) => {
-  return array.find((element) => {
-    if (keyword === element.tekst) {
-      return element.name;
-    }
-    return null;
-  });
-};
+// export const findObjectInArray = (keyword, array) => {
+//   return array.find((element) => {
+//     if (keyword === element.tekst) {
+//       return element.name;
+//     }
+//     return null;
+//   });
+// };
 
 export function resetForm() {
   document.getElementById('input-title').value = '';
