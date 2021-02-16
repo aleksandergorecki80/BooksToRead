@@ -1,7 +1,7 @@
-import { Form } from '../formElements/formClass';
-import { formState } from '../formElements/formState';
-import { displayTotalListOfBooks, returnAmountOfBoks } from '../functions/functions';
-import { Select } from '../formElements/selectClass';
+import { form } from '../form/formTemplate';
+import { formState } from '../form/formState';
+import { displayTotalListOfBooks, functions } from '../functions/functions';
+import { Select } from '../form/formElements/selectClass';
 
 export const pageElements = {
   getModal() {
@@ -11,7 +11,6 @@ export const pageElements = {
     modalBackground.id = 'modal-background';
 
     // FORMULAŻ DODAWANIA NOWEJ KSIĄŻKI
-    const form = new Form();
     const formForAddingBooks = form.returnForm();
 
     const modalBody = document.createElement('div');
@@ -62,7 +61,7 @@ export const pageElements = {
     booksCounterPlacer.id = 'books-counter';
     booksCounterPlacer.className = 'books-counter';
     const collectionOfBooks = collectionOfBooksObject.getTotalCollectionOfBooks();
-    booksCounterPlacer.innerHTML = returnAmountOfBoks(collectionOfBooks.length);
+    booksCounterPlacer.innerHTML = functions.returnAmountOfBoks(collectionOfBooks.length);
     return booksCounterPlacer;
   },
   getTableOfBooksDiv(collectionOfBooksObject) {

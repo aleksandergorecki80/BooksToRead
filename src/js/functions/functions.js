@@ -6,7 +6,7 @@ export const functions = {
     return array.find((element) => {
       return keyword === element.tekst;
     });
-  }
+  },
 };
 
 // export const returnAmountOfBoks = (amount) => {

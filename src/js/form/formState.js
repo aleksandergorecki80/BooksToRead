@@ -1,5 +1,5 @@
-import { Submit } from './submitClass';
-import { TextInput } from './textInputClass';
+import { Submit } from './formElements/submitClass';
+import { TextInput } from './formElements/textInputClass';
 
 export const formState = {
   addedCategory: '',

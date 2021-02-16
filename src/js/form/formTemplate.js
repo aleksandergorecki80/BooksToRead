@@ -1,10 +1,10 @@
-import { TextInput } from './textInputClass';
-import { Select } from './selectClass';
-import { RadioInput } from './radioInputClass';
-import { Submit } from './submitClass';
+import { TextInput } from './formElements/textInputClass';
+import { Select } from './formElements/selectClass';
+import { RadioInput } from './formElements/radioInputClass';
+import { Submit } from './formElements/submitClass';
 import { formState } from './formState';
 
-export class Form {
+export const form = {
   getTitleInput() {
     const p = document.createElement('p');
     // const label = createLabel('input-title', 'Tytuł');
@@ -19,7 +19,7 @@ export class Form {
     // p.append(label, titleInputField);
     p.append(titleInputField);
     return p;
-  }
+  },
 
   getAuthorInput() {
     const p = document.createElement('p');
@@ -35,7 +35,7 @@ export class Form {
     // p.append(label, authorInputField);
     p.append(authorInputField);
     return p;
-  }
+  },
 
   getSelectCategory() {
     const p = document.createElement('p');
@@ -45,7 +45,7 @@ export class Form {
     // p.append(label, selectCategoryField);
     p.append(selectCategoryField);
     return p;
-  }
+  },
 
   getSelectPriority() {
     const p = document.createElement('p');
@@ -70,7 +70,7 @@ export class Form {
       p.appendChild(label);
     }
     return p;
-  }
+  },
 
   getButtons() {
     const p = document.createElement('p');
@@ -88,7 +88,7 @@ export class Form {
     const createdCancel = canceltButton.creteSubmit();
     p.append(createdSubmit, createdCancel);
     return p;
-  }
+  },
 
   returnForm() {
     const form = document.createElement('form');
@@ -104,8 +104,8 @@ export class Form {
     error.className = 'error';
     form.append(title, author, category, priority, error, buttons);
     return form;
-  }
-}
+  },
+};
 
 export const createLabel = (htmlForValue, descriptionText) => {
   const label = document.createElement('label');
