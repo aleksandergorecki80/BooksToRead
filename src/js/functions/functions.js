@@ -7,6 +7,24 @@ export const functions = {
       return keyword === element.tekst;
     });
   },
+  validated: (phrase) => {
+    return phrase !== '';
+  },
+  unlockSubmit: (title, author) => {
+  if (title && author) {
+    document.getElementById('submit-button').disabled = false;
+  } else {
+    document.getElementById('submit-button').disabled = true;
+  }
+}
+};
+
+export const createLabel = (htmlForValue, descriptionText) => {
+  const label = document.createElement('label');
+  label.htmlFor = htmlForValue;
+  const description = document.createTextNode(descriptionText);
+  label.appendChild(description);
+  return label;
 };
 
 // export const returnAmountOfBoks = (amount) => {

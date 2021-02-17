@@ -3,6 +3,7 @@ import { Select } from './formElements/selectClass';
 import { RadioInput } from './formElements/radioInputClass';
 import { Submit } from './formElements/submitClass';
 import { formState } from './formState';
+import { createLabel } from '../functions/functions';
 
 export const form = {
   getTitleInput() {
@@ -105,12 +106,4 @@ export const form = {
     form.append(title, author, category, priority, error, buttons);
     return form;
   },
-};
-
-export const createLabel = (htmlForValue, descriptionText) => {
-  const label = document.createElement('label');
-  label.htmlFor = htmlForValue;
-  const description = document.createTextNode(descriptionText);
-  label.appendChild(description);
-  return label;
 };

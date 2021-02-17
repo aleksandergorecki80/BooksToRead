@@ -1,5 +1,5 @@
-// import { BooksList } from './classes/booksListClass';
-// import { Book } from './classes/bookClass';
+import { BooksList } from './books/booksListClass';
+import { Book } from './books/bookClass';
 // import {
 //   displayTotalListOfBooks,
 //   returnAmountOfBoks,
@@ -9,47 +9,119 @@
 // import { formState } from './formElements/formState';
 // import { createLabel, Form } from './formElements/formClass';
 import { pageElements } from './pageElements/pageElements';
-
-// const intValue = () => {
-//   const localData = localStorage.getItem('books');
-//   return localData ? JSON.parse(localData) : [];
-// };
-
-// const totalBooksCollection = intValue();
-// const collectionOfBooksObject = new BooksList(totalBooksCollection);
-// collectionOfBooksObject.setFilteredOrSortedState(totalBooksCollection);
+import { createLabel, functions } from './functions/functions';
+import { formState } from './form/formState';
 
 const app = document.getElementById('app');
 app.className = 'app';
 
+// INITIAL VALUE OF A BOOKS LIST
+const intValue = () => {
+  const localData = localStorage.getItem('books');
+  return localData ? JSON.parse(localData) : [];
+};
+const totalBooksCollection = intValue();
+const collectionOfBooksObject = new BooksList(totalBooksCollection);
+// collectionOfBooksObject.setFilteredOrSortedState(totalBooksCollection);
+
 // IMPORTING AND CREATING DOM ELEMENTS
 const modalBackground = pageElements.getModal();
 const addBookBtn = pageElements.getAddBookButton();
-
+const sortAndFilter = pageElements.getCategories();
+const labelForsortBooks = createLabel('sort-list', 'Sortuj wg:');
+const sortByList = pageElements.getSortByOption();
+const booksCounterPlacer = pageElements.getCounter(collectionOfBooksObject);
+const divToPlaceBookList = pageElements.getTableOfBooksDiv(collectionOfBooksObject);
+const btnAllCategories = pageElements.getBtnAllBooks();
+sortAndFilter.appendChild(btnAllCategories);
+pageElements.getListOfCategories(sortAndFilter);
+const btnAddNewCategory = pageElements.getBtnAddNewCategory();
+sortAndFilter.appendChild(btnAddNewCategory);
 app.append(
   modalBackground,
-  // sortAndFilter,
-  // labelForsortBooks,
-  // sortByList,
-  // booksCounterPlacer,
-  // divToPlaceBookList,
+  sortAndFilter,
+  labelForsortBooks,
+  sortByList,
+  booksCounterPlacer,
+  divToPlaceBookList,
   addBookBtn
 );
 
-// const sortAndFilter = pageElements.getCategories();
-// const labelForsortBooks = createLabel('sort-list', 'Sortuj wg:');
-// const sortByList = pageElements.getSortByOption();
-// const booksCounterPlacer = pageElements.getCounter(collectionOfBooksObject);
-// const divToPlaceBookList = pageElements.getTableOfBooksDiv(collectionOfBooksObject);
+//  ADD A NEW BOOK -- LISTENER
+document.getElementById('add-book-btn').addEventListener('click', () => {
+  document.getElementById('modal-background').style.display = 'flex';
+  document.getElementById('modal-body').style.display = 'flex';
+});
 
-// const btnAllCategories = pageElements.getBtnAllBooks();
+// CANCEL BUTTONS LISTENERS
+const cancelCollection = document.getElementsByClassName('cancel-button');
+const cancelArr = [...cancelCollection];
+cancelArr.forEach((element) => {
+  element.addEventListener('click', () => {
+    document.getElementById('modal-background').style.display = 'none';
+    document.getElementById('modal-body').style.display = 'none';
+    document.getElementById('create-category').style.display = 'none';
+    formState.reSetState();
+    formState.resetForm();
+  });
+});
 
-// sortAndFilter.appendChild(btnAllCategories);
-// pageElements.getListOfCategories(sortAndFilter);
+/// /  ***   ADD NEW BOOK FORM EVENT LISTENERS  ***   ///
 
-// const btnAddNewCategory = pageElements.getBtnAddNewCategory();
+// INPUT TITLE EVENT
+document.getElementById('input-title').addEventListener('keyup', (event) => {
+  const title = event.target.value;
+  const titleTrimmed = title.trim();
+  const validatedTitle = functions.validated(titleTrimmed);
+  if (validatedTitle) {
+    document.getElementById('add-book-error').innerText = '';
+    formState.setTitle(titleTrimmed);
+  } else {
+    document.getElementById('add-book-error').innerText = 'Wypełnij formulaż';
+    document.getElementById('submit-button').disabled = true;
+  }
+  functions.unlockSubmit(
+    formState.booksDataEnteredInForm.title,
+    formState.booksDataEnteredInForm.author
+  );
+});
+// INPUT AUTHOR EVENT
+document.getElementById('input-author').addEventListener('keyup', (event) => {
+  const autor = event.target.value;
+  const autorTrimmed = autor.trim();
+  const validatedAutor = functions.validated(autorTrimmed);
 
-// sortAndFilter.appendChild(btnAddNewCategory);
+  if (validatedAutor) {
+    document.getElementById('add-book-error').innerText = '';
+    formState.setAuthor(autorTrimmed);
+  } else {
+    document.getElementById('add-book-error').innerText = 'Wypełnij formulaż';
+    document.getElementById('submit-button').disabled = true;
+  }
+  functions.unlockSubmit(
+    formState.booksDataEnteredInForm.title,
+    formState.booksDataEnteredInForm.author
+  );
+  console.log(formState.booksDataEnteredInForm.author);
+});
+// SELECT LIST EVENT
+document.getElementById('select-list').addEventListener('change', (event) => {
+  formState.setCategory(event.target.value);
+  // unlockSubmit();
+});
+
+// RADIO BUTTONS EVENT
+const labelsCollection = document.getElementsByClassName('radio-label');
+const labelsArr = [...labelsCollection];
+labelsArr.forEach((element) => {
+  element.addEventListener('click', (event) => {
+    event.target.parentElement.children[0].checked = true;
+    formState.setPriority(event.target.parentElement.children[0].value);
+    console.log(formState);
+  });
+});
+
+/// ////////////////////////////////////////     DOTĄD OK
 
 // // SORTING
 // document.getElementById('sort-list').addEventListener('change', (event) => {
@@ -183,7 +255,7 @@ app.append(
 
 // // ADD NEW CATEGORY
 // document.getElementById('input-category').addEventListener('keyup', (event) => {
-//   formState.setCategory(event.target.value);
+//   formState.setNewCategory(event.target.value);
 // });
 // document.getElementById('create-category').addEventListener('submit', (event) => {
 //   event.preventDefault();
@@ -329,7 +401,7 @@ app.append(
 //       document.getElementById('add-book-error').innerText = 'Wypełnij formulaż';
 //       document.getElementById('submit-button').disabled = true;
 //     }
-//     unlockSubmit();
+//     functions.unlockSubmit(formState.booksDataEnteredInForm.title, formState.booksDataEnteredInForm.author);
 //   });
 //   document.getElementById('input-author').addEventListener('keyup', (event) => {
 //     const autor = event.target.value;
@@ -362,18 +434,6 @@ app.append(
 //   });
 // }
 
-// const validated = (phrase) => {
-//   return phrase !== '';
-// };
-
-// function unlockSubmit() {
-//   if (formState.booksDataEnteredInForm.title && formState.booksDataEnteredInForm.author) {
-//     document.getElementById('submit-button').disabled = false;
-//   } else {
-//     document.getElementById('submit-button').disabled = true;
-//   }
-// }
-
 // function addCategoryEvent() {
 //   document.getElementById('add-category').addEventListener('click', () => {
 //     document.getElementById('modal-background').style.display = 'flex';
@@ -381,25 +441,6 @@ app.append(
 //     document.getElementById('modal-body').style.display = 'none';
 //   });
 // }
-
-//  ADD A NEW BOOK -- LISTENER
-document.getElementById('add-book-btn').addEventListener('click', () => {
-  document.getElementById('modal-background').style.display = 'flex';
-  document.getElementById('modal-body').style.display = 'flex';
-});
-
-// CANCEL BUTTONS LISTENERS
-const cancelCollection = document.getElementsByClassName('cancel-button');
-const cancelArr = [...cancelCollection];
-cancelArr.forEach((element) => {
-  element.addEventListener('click', () => {
-    document.getElementById('modal-background').style.display = 'none';
-    document.getElementById('modal-body').style.display = 'none';
-    document.getElementById('create-category').style.display = 'none';
-    formState.reSetState();
-    formState.resetForm();
-  });
-});
 
 // window.addEventListener('click', (e) => {
 //   if (e.target.id === 'modal-background') {
@@ -423,3 +464,4 @@ cancelArr.forEach((element) => {
 //     document.getElementById('create-category').style.display = 'none';
 //   }
 // };
+console.log(collectionOfBooksObject);

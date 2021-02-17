@@ -1,6 +1,3 @@
-import { Submit } from './formElements/submitClass';
-import { TextInput } from './formElements/textInputClass';
-
 export const formState = {
   addedCategory: '',
   sortBy: [
@@ -25,7 +22,22 @@ export const formState = {
     category: '',
     priority: 5,
   },
-  setCategory(data) {
+
+  // NEW BOOK SECTION
+  setPriority(value) {
+    this.booksDataEnteredInForm.priority = value;
+  },
+  setTitle(value) {
+    this.booksDataEnteredInForm.title = value;
+  },
+  setAuthor(value) {
+    this.booksDataEnteredInForm.author = value;
+  },
+  setCategory(value) {
+    this.booksDataEnteredInForm.category = value;
+  },
+  /// NEW CATEGORY SECTION
+  setNewCategory(data) {
     this.addedCategory = data;
   },
   getSetCategory() {
@@ -56,34 +68,5 @@ export const formState = {
     document.getElementById('input-author').value = '';
     document.getElementById('select-list').value = '-- Wybież kategorię --';
     document.getElementById('5-priority').checked = true;
-  },
-
-  printAddingCategoryForm() {
-    const div = document.createElement('div');
-    div.id = 'create-category';
-    div.className = 'create-category';
-    const form = document.createElement('form');
-    form.id = 'add-category-form';
-    const h1 = document.createElement('h3');
-    h1.innerText = 'Dodaj nową kategorię';
-
-    const titleInput = new TextInput('input-category', 'text', 'category', '', 'Wpisz nazwę');
-    const categoryInput = titleInput.createTextInput();
-    const p = document.createElement('p');
-    p.className = 'form-buttons';
-    const submitButton = new Submit('new-category-submit-button', 'submit', 'submit', 'Zapisz');
-    const createdSubmit = submitButton.creteSubmit();
-    const canceltButton = new Submit(
-      'new-category-cancel-button',
-      'button',
-      'cancel',
-      'Anuluj',
-      'cancel-button'
-    );
-    const createdCancel = canceltButton.creteSubmit();
-    p.append(createdSubmit, createdCancel);
-    form.append(categoryInput, p);
-    div.append(h1, form);
-    return div;
   },
 };

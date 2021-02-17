@@ -1,7 +1,8 @@
-import { form } from '../form/formTemplate';
+import { form } from '../form/addBookForm';
 import { formState } from '../form/formState';
 import { displayTotalListOfBooks, functions } from '../functions/functions';
 import { Select } from '../form/formElements/selectClass';
+import { printAddCategoryForm } from '../form/addCategoryForm';
 
 export const pageElements = {
   getModal() {
@@ -19,7 +20,8 @@ export const pageElements = {
     modalBody.appendChild(formForAddingBooks);
 
     // FORMULAŻ DODAWANIA NOWEJ KATEGORII
-    const addCategoryForm = formState.printAddingCategoryForm();
+    const addCategoryForm = printAddCategoryForm();
+
     modalBackground.append(addCategoryForm, modalBody);
     return modalBackground;
   },
