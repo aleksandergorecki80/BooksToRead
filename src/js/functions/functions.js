@@ -11,12 +11,12 @@ export const functions = {
     return phrase !== '';
   },
   unlockSubmit: (title, author) => {
-  if (title && author) {
-    document.getElementById('submit-button').disabled = false;
-  } else {
-    document.getElementById('submit-button').disabled = true;
-  }
-}
+    if (title && author) {
+      document.getElementById('submit-button').disabled = false;
+    } else {
+      document.getElementById('submit-button').disabled = true;
+    }
+  },
 };
 
 export const createLabel = (htmlForValue, descriptionText) => {
