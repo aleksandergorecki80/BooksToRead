@@ -1,6 +1,6 @@
 import { form } from '../form/addBookForm';
 import { formState } from '../form/formState';
-import { displayTotalListOfBooks, functions } from '../functions/functions';
+import { functions } from '../functions/functions';
 import { Select } from '../form/formElements/selectClass';
 
 
@@ -87,7 +87,7 @@ export const pageElements = {
     const locationForListOfBooks = document.createElement('tbody');
     locationForListOfBooks.id = 'list-of-books';
     const collectionOfBooks = collectionOfBooksObject.getTotalCollectionOfBooks();
-    const totalListOfBooks = displayTotalListOfBooks(collectionOfBooks);
+    const totalListOfBooks = functions.displayTotalListOfBooks(collectionOfBooks);
     locationForListOfBooks.innerHTML = totalListOfBooks;
 
     trNaglowek.append(thTitle, thCategory, thPriority, thPlaceholder);

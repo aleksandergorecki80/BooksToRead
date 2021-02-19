@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import { BooksList } from './books/booksListClass';
 import { Book } from './books/bookClass';
 // import {
@@ -111,7 +112,6 @@ document.getElementById('input-author').addEventListener('keyup', (event) => {
     formState.booksDataEnteredInForm.title,
     formState.booksDataEnteredInForm.author
   );
-  console.log(formState.booksDataEnteredInForm.author);
 });
 // SELECT LIST EVENT
 document.getElementById('select-list').addEventListener('change', (event) => {
@@ -126,7 +126,6 @@ labelsArr.forEach((element) => {
   element.addEventListener('click', (event) => {
     event.target.parentElement.children[0].checked = true;
     formState.setPriority(event.target.parentElement.children[0].value);
-    console.log(formState);
   });
 });
 
@@ -142,7 +141,6 @@ document.getElementById('input-category').addEventListener('keyup', (event) => {
   const newCategory = event.target.value;
   const trimmedNewCategory = newCategory.trim();
   const validatedNewCategory = functions.validated(trimmedNewCategory);
-  console.log(validatedNewCategory, 'validatedNewCategory');
   if (validatedNewCategory) {
     document.getElementById('add-category-error').innerText = '';
     document.getElementById('new-category-submit-button').disabled = false;
@@ -191,24 +189,26 @@ submitForm.addEventListener('submit', (event) => {
   event.preventDefault();
   if (!formState.booksDataEnteredInForm.id) {
     console.log('SAVE NEW BOOK');
-    console.log(formState, 'formState');
     //  SAVE NEW BOOK
     const newBookData = formState.getBooksDataEnteredInForm();
-    const book = new Book(
-      newBookData.title,
-      newBookData.author,
-      newBookData.category,
-      newBookData.priority
-    );
-    console.log(book, 'book')
-    // collectionOfBooksObject.setTotalBooksCollection(book);
-    // const collectionOfBooks = collectionOfBooksObject.getTotalCollectionOfBooks();
-    // localStorage.setItem('books', JSON.stringify(collectionOfBooks));
+    const book = {
+      id: uuidv4(),
+      title: newBookData.title,
+      author: newBookData.author,
+      category: newBookData.category,
+      priority: newBookData.priority
+    }
+    
+    collectionOfBooksObject.setTotalBooksCollection(book);
+    const collectionOfBooks = collectionOfBooksObject.getTotalCollectionOfBooks();
+    localStorage.setItem('books', JSON.stringify(collectionOfBooks));
     // collectionOfBooksObject.setFilteredOrSortedState(collectionOfBooks);
-    // const totalListOfBooks = displayTotalListOfBooks(collectionOfBooks);
-    // const locationForListOfBooks = document.getElementById('list-of-books');
-    // locationForListOfBooks.innerHTML = totalListOfBooks;
-    // booksCounterPlacer.innerHTML = returnAmountOfBoks(collectionOfBooks.length);
+    const totalListOfBooks = functions.displayTotalListOfBooks(collectionOfBooks);
+    const locationForListOfBooks = document.getElementById('list-of-books');
+    locationForListOfBooks.innerHTML = totalListOfBooks;
+    booksCounterPlacer.innerHTML = functions.returnAmountOfBoks(collectionOfBooks.length);
+    document.getElementById('modal-background').style.display = 'none';
+    console.log(collectionOfBooksObject, 'formState');
   } else {
     console.log('SAVE EDITING BOOK');
     // SAVE EDITING BOOK

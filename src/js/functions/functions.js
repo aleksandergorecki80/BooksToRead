@@ -17,6 +17,27 @@ export const functions = {
       document.getElementById('submit-button').disabled = true;
     }
   },
+  displayTotalListOfBooks: (totalAmoutOfBooks) => {
+    let resutl = '';
+    if (totalAmoutOfBooks.length === 0) {
+      resutl += `<tr>
+      <td colspan=5 class="colspan"> Nie znaleziono pozycji </td>
+    </tr>`;
+    } else {
+      totalAmoutOfBooks.forEach((book) => {
+        resutl += `<tr data-id=${book.id} draggable="true">  
+        <td class="title-author" ><p class="title"> ${book.title}</p> <p class="author"><a class="a-author"> ${book.author}</a></p> </td>
+        <td class="category"><a class="a-category"> ${book.category} </a></td>
+        <td class="priority"> <a class="a-priority">${book.priority}</a></td>
+        <td>
+          <p><button class="remove-book">Usuń</button></p>
+          <p><button class="edit-book">Edytuj</button></p>
+        </td>
+        </tr>`;
+      });
+    }
+    return resutl;
+  },
   removePolishLetters: (phrase) => {
     const polskie = [
       'ą',
@@ -86,27 +107,6 @@ export const createLabel = (htmlForValue, descriptionText) => {
 //   return `<p>Ilość książek na liście: ${amount} </p>`;
 // };
 
-export const displayTotalListOfBooks = (totalAmoutOfBooks) => {
-  let resutl = '';
-  if (totalAmoutOfBooks.length === 0) {
-    resutl += `<tr>
-    <td colspan=5 class="colspan"> Nie znaleziono pozycji </td>
-  </tr>`;
-  } else {
-    totalAmoutOfBooks.forEach((book) => {
-      resutl += `<tr data-id=${book.id} draggable="true">  
-      <td class="title-author" ><p class="title"> ${book.title}</p> <p class="author"><a class="a-author"> ${book.author}</a></p> </td>
-      <td class="category"><a class="a-category"> ${book.category} </a></td>
-      <td class="priority"> <a class="a-priority">${book.priority}</a></td>
-      <td>
-        <p><button class="remove-book">Usuń</button></p>
-        <p><button class="edit-book">Edytuj</button></p>
-      </td>
-      </tr>`;
-    });
-  }
-  return resutl;
-};
 
 // export const findObjectInArray = (keyword, array) => {
 //   return array.find((element) => {
