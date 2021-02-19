@@ -185,6 +185,54 @@ document.getElementById('create-category').addEventListener('submit', (event) =>
   formState.reSetNewCategory();
 });
 
+// //  -- SAVE, REMOVE, EDIT --
+const submitForm = document.getElementById('form');
+submitForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  if (!formState.booksDataEnteredInForm.id) {
+    console.log('SAVE NEW BOOK');
+    console.log(formState, 'formState');
+    //  SAVE NEW BOOK
+    const newBookData = formState.getBooksDataEnteredInForm();
+    const book = new Book(
+      newBookData.title,
+      newBookData.author,
+      newBookData.category,
+      newBookData.priority
+    );
+    console.log(book, 'book')
+    // collectionOfBooksObject.setTotalBooksCollection(book);
+    // const collectionOfBooks = collectionOfBooksObject.getTotalCollectionOfBooks();
+    // localStorage.setItem('books', JSON.stringify(collectionOfBooks));
+    // collectionOfBooksObject.setFilteredOrSortedState(collectionOfBooks);
+    // const totalListOfBooks = displayTotalListOfBooks(collectionOfBooks);
+    // const locationForListOfBooks = document.getElementById('list-of-books');
+    // locationForListOfBooks.innerHTML = totalListOfBooks;
+    // booksCounterPlacer.innerHTML = returnAmountOfBoks(collectionOfBooks.length);
+  } else {
+    console.log('SAVE EDITING BOOK');
+    // SAVE EDITING BOOK
+    // const updatedState = collectionOfBooksObject.updateTotalCollectionOfBooks(
+    //   formState.booksDataEnteredInForm
+    // );
+    // collectionOfBooksObject.replaceTotalBooksCollection(updatedState);
+    // const updatedBooksCollection = collectionOfBooksObject.getTotalCollectionOfBooks();
+    // localStorage.setItem('books', JSON.stringify(updatedBooksCollection));
+    // collectionOfBooksObject.setFilteredOrSortedState(updatedBooksCollection);
+    // const totalListOfBooks = displayTotalListOfBooks(updatedBooksCollection);
+    // const locationForListOfBooks = document.getElementById('list-of-books');
+    // locationForListOfBooks.innerHTML = totalListOfBooks;
+  }
+  // categoryFilter();
+  // authorFilter();
+  // priorityFilter();
+  // formState.reSetState();
+  // formState.resetForm();
+  // document.getElementById('submit-button').disabled = true;
+  // document.getElementById('modal-background').style.display = 'none';
+});
+
+
 /// ////////////////////////////////////////     DOTĄD OK
 
 

@@ -36,6 +36,9 @@ export const formState = {
   setCategory(value) {
     this.booksDataEnteredInForm.category = value;
   },
+  getBooksDataEnteredInForm(){
+    return this.booksDataEnteredInForm;
+  },
   /// NEW CATEGORY SECTION
   setNewCategory(data) {
     this.newCategory = data;
