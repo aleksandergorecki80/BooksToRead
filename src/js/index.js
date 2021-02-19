@@ -151,7 +151,6 @@ document.getElementById('input-category').addEventListener('keyup', (event) => {
     document.getElementById('add-category-error').innerText = 'Wypełnij formulaż';
     document.getElementById('new-category-submit-button').disabled = true;
   }
-  
 });
 document.getElementById('create-category').addEventListener('submit', (event) => {
   event.preventDefault();
@@ -187,6 +186,27 @@ document.getElementById('create-category').addEventListener('submit', (event) =>
 });
 
 /// ////////////////////////////////////////     DOTĄD OK
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // // SORTING
 // document.getElementById('sort-list').addEventListener('change', (event) => {
