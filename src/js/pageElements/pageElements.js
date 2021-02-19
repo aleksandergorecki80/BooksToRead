@@ -2,7 +2,7 @@ import { form } from '../form/addBookForm';
 import { formState } from '../form/formState';
 import { displayTotalListOfBooks, functions } from '../functions/functions';
 import { Select } from '../form/formElements/selectClass';
-import { printAddCategoryForm } from '../form/addCategoryForm';
+
 
 export const pageElements = {
   getModal() {
@@ -11,19 +11,15 @@ export const pageElements = {
     modalBackground.className = 'modal-background';
     modalBackground.id = 'modal-background';
 
-    // FORMULAŻ DODAWANIA NOWEJ KSIĄŻKI
-    const formForAddingBooks = form.returnForm();
-
-    const modalBody = document.createElement('div');
-    modalBody.id = 'modal-body';
-    modalBody.className = 'modal-body';
-    modalBody.appendChild(formForAddingBooks);
-
-    // FORMULAŻ DODAWANIA NOWEJ KATEGORII
-    const addCategoryForm = printAddCategoryForm();
-
-    modalBackground.append(addCategoryForm, modalBody);
     return modalBackground;
+  },
+  getAddNewBookForm() {
+    const div = document.createElement('div');
+    div.id = 'modal-body';
+    div.className = 'modal-body';
+    const formForAddingBooks = form.returnForm();
+    div.appendChild(formForAddingBooks);
+    return div;
   },
 
   getBtnAllBooks() {

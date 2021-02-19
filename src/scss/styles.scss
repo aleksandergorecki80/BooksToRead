@@ -27,7 +27,7 @@ body {
   margin: 0 auto;
   .sort-and-filter {
     grid-column: 1/4;
-    button:last-child, button:first-child {
+    button:first-child {
       background-color: #283618;
     }
   }

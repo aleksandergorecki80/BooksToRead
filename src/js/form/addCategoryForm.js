@@ -12,6 +12,8 @@ export const printAddCategoryForm = () => {
 
   const titleInput = new TextInput('input-category', 'text', 'category', '', 'Wpisz nazwę');
   const categoryInput = titleInput.createTextInput();
+  const error = document.createElement('p');
+  error.id = 'add-category-error';
   const p = document.createElement('p');
   p.className = 'form-buttons';
   const submitButton = new Submit('new-category-submit-button', 'submit', 'submit', 'Zapisz');
@@ -25,7 +27,7 @@ export const printAddCategoryForm = () => {
   );
   const createdCancel = canceltButton.creteSubmit();
   p.append(createdSubmit, createdCancel);
-  form.append(categoryInput, p);
+  form.append(categoryInput, error, p);
   div.append(h1, form);
   return div;
 }

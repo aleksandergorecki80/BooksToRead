@@ -1,5 +1,5 @@
 export const formState = {
-  addedCategory: '',
+  newCategory: '',
   sortBy: [
     { name: '', tekst: '-- Wybierz --' },
     { name: 'title', tekst: 'Tytuł' },
@@ -38,16 +38,16 @@ export const formState = {
   },
   /// NEW CATEGORY SECTION
   setNewCategory(data) {
-    this.addedCategory = data;
+    this.newCategory = data;
   },
-  getSetCategory() {
-    return this.addedCategory;
+  getNewCategory() {
+    return this.newCategory;
   },
   addNewCategory(newCategory) {
     this.categories = [...this.categories, newCategory];
   },
   reSetNewCategory() {
-    this.addedCategory = '';
+    this.newCategory = '';
   },
   reSetState() {
     this.booksDataEnteredInForm.id = '';

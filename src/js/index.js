@@ -11,6 +11,8 @@ import { Book } from './books/bookClass';
 import { pageElements } from './pageElements/pageElements';
 import { createLabel, functions } from './functions/functions';
 import { formState } from './form/formState';
+import { printAddCategoryForm } from './form/addCategoryForm';
+import { form } from './form/addBookForm';
 
 const app = document.getElementById('app');
 app.className = 'app';
@@ -26,6 +28,12 @@ const collectionOfBooksObject = new BooksList(totalBooksCollection);
 
 // IMPORTING AND CREATING DOM ELEMENTS
 const modalBackground = pageElements.getModal();
+// FORMULAŻ DODAWANIA NOWEJ KSIĄŻKI
+const addNewBookForm = pageElements.getAddNewBookForm();
+// FORMULAŻ DODAWANIA NOWEJ KATEGORII
+const addCategoryForm = printAddCategoryForm();
+modalBackground.append(addCategoryForm, addNewBookForm);
+
 const addBookBtn = pageElements.getAddBookButton();
 const sortAndFilter = pageElements.getCategories();
 const labelForsortBooks = createLabel('sort-list', 'Sortuj wg:');
@@ -36,10 +44,11 @@ const btnAllCategories = pageElements.getBtnAllBooks();
 sortAndFilter.appendChild(btnAllCategories);
 pageElements.getListOfCategories(sortAndFilter);
 const btnAddNewCategory = pageElements.getBtnAddNewCategory();
-sortAndFilter.appendChild(btnAddNewCategory);
+// sortAndFilter.appendChild(btnAddNewCategory);
 app.append(
   modalBackground,
   sortAndFilter,
+  btnAddNewCategory,
   labelForsortBooks,
   sortByList,
   booksCounterPlacer,
@@ -119,6 +128,62 @@ labelsArr.forEach((element) => {
     formState.setPriority(event.target.parentElement.children[0].value);
     console.log(formState);
   });
+});
+
+/// /  ***   ADD NEW CATEGORY - FORM EVENT LISTENERS  ***   ///
+document.getElementById('add-category').addEventListener('click', () => {
+  document.getElementById('modal-background').style.display = 'flex';
+  document.getElementById('create-category').style.display = 'flex';
+  document.getElementById('modal-body').style.display = 'none';
+});
+
+// // ADD NEW CATEGORY
+document.getElementById('input-category').addEventListener('keyup', (event) => {
+  const newCategory = event.target.value;
+  const trimmedNewCategory = newCategory.trim();
+  const validatedNewCategory = functions.validated(trimmedNewCategory);
+  console.log(validatedNewCategory, 'validatedNewCategory');
+  if (validatedNewCategory) {
+    document.getElementById('add-category-error').innerText = '';
+    document.getElementById('new-category-submit-button').disabled = false;
+    formState.setNewCategory(trimmedNewCategory);
+  } else {
+    document.getElementById('add-category-error').innerText = 'Wypełnij formulaż';
+    document.getElementById('new-category-submit-button').disabled = true;
+  }
+  
+});
+document.getElementById('create-category').addEventListener('submit', (event) => {
+  event.preventDefault();
+  const setCategory = formState.getNewCategory();
+  const name = functions.removePolishLetters(setCategory).toLowerCase();
+  const newCategoryObject = {
+    name,
+    tekst: setCategory,
+  };
+  formState.addNewCategory(newCategoryObject);
+
+  // REMOVING DOM ELEMENTS
+  document.getElementById('sort-and-filter').remove();
+  document.getElementById('select-list').parentElement.remove();
+
+  // Rebuild categories list
+  const sortAndFilter = pageElements.getCategories();
+  const btnAllCategories = pageElements.getBtnAllBooks();
+  sortAndFilter.appendChild(btnAllCategories);
+  pageElements.getListOfCategories(sortAndFilter);
+  // Rebuild select list in form
+  const category = form.getSelectCategory();
+  app.insertBefore(sortAndFilter, app.childNodes[0]);
+  const formOnDom = document.getElementById('form');
+  formOnDom.insertBefore(category, formOnDom.childNodes[2]);
+
+  document.getElementById('modal-background').style.display = 'none';
+  document.getElementById('create-category').style.display = 'none';
+  // categoriesFilters();
+  // addCategoryEvent();
+  // formEvents();
+  formState.reSetNewCategory();
 });
 
 /// ////////////////////////////////////////     DOTĄD OK
