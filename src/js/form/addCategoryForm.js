@@ -18,6 +18,7 @@ export const printAddCategoryForm = () => {
   p.className = 'form-buttons';
   const submitButton = new Submit('new-category-submit-button', 'submit', 'submit', 'Zapisz');
   const createdSubmit = submitButton.creteSubmit();
+  createdSubmit.disabled = true;
   const canceltButton = new Submit(
     'new-category-cancel-button',
     'button',

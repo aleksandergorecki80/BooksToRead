@@ -3,7 +3,6 @@ import { formState } from '../form/formState';
 import { functions } from '../functions/functions';
 import { Select } from '../form/formElements/selectClass';
 
-
 export const pageElements = {
   getModal() {
     // MODAL

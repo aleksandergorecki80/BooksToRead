@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { BooksList } from './books/booksListClass';
-import { Book } from './books/bookClass';
+
 // import {
 //   displayTotalListOfBooks,
 //   returnAmountOfBoks,
@@ -14,6 +14,7 @@ import { createLabel, functions } from './functions/functions';
 import { formState } from './form/formState';
 import { printAddCategoryForm } from './form/addCategoryForm';
 import { form } from './form/addBookForm';
+import { events } from './functions/events';
 
 const app = document.getElementById('app');
 app.className = 'app';
@@ -57,10 +58,11 @@ app.append(
   addBookBtn
 );
 
-//  ADD A NEW BOOK -- LISTENER
+//  ADD A NEW BOOK BUTTON -- LISTENER
 document.getElementById('add-book-btn').addEventListener('click', () => {
   document.getElementById('modal-background').style.display = 'flex';
   document.getElementById('modal-body').style.display = 'flex';
+  console.log(formState);
 });
 
 // CANCEL BUTTONS LISTENERS
@@ -114,10 +116,7 @@ document.getElementById('input-author').addEventListener('keyup', (event) => {
   );
 });
 // SELECT LIST EVENT
-document.getElementById('select-list').addEventListener('change', (event) => {
-  formState.setCategory(event.target.value);
-  // unlockSubmit();
-});
+events.selectListEvent();
 
 // RADIO BUTTONS EVENT
 const labelsCollection = document.getElementsByClassName('radio-label');
@@ -180,7 +179,10 @@ document.getElementById('create-category').addEventListener('submit', (event) =>
   // categoriesFilters();
   // addCategoryEvent();
   // formEvents();
+  events.selectListEvent();
   formState.reSetNewCategory();
+  document.getElementById('input-category').value = '';
+  console.log(formState);
 });
 
 // //  -- SAVE, REMOVE, EDIT --
@@ -191,14 +193,15 @@ submitForm.addEventListener('submit', (event) => {
     console.log('SAVE NEW BOOK');
     //  SAVE NEW BOOK
     const newBookData = formState.getBooksDataEnteredInForm();
+    console.log(newBookData, 'newBookData');
     const book = {
       id: uuidv4(),
       title: newBookData.title,
       author: newBookData.author,
       category: newBookData.category,
-      priority: newBookData.priority
-    }
-    
+      priority: newBookData.priority,
+    };
+    console.log(book);
     collectionOfBooksObject.setTotalBooksCollection(book);
     const collectionOfBooks = collectionOfBooksObject.getTotalCollectionOfBooks();
     localStorage.setItem('books', JSON.stringify(collectionOfBooks));
@@ -208,53 +211,85 @@ submitForm.addEventListener('submit', (event) => {
     locationForListOfBooks.innerHTML = totalListOfBooks;
     booksCounterPlacer.innerHTML = functions.returnAmountOfBoks(collectionOfBooks.length);
     document.getElementById('modal-background').style.display = 'none';
-    console.log(collectionOfBooksObject, 'formState');
+    console.log(collectionOfBooksObject, 'collectionOfBooksObject');
   } else {
-    console.log('SAVE EDITING BOOK');
-    // SAVE EDITING BOOK
-    // const updatedState = collectionOfBooksObject.updateTotalCollectionOfBooks(
-    //   formState.booksDataEnteredInForm
-    // );
-    // collectionOfBooksObject.replaceTotalBooksCollection(updatedState);
-    // const updatedBooksCollection = collectionOfBooksObject.getTotalCollectionOfBooks();
-    // localStorage.setItem('books', JSON.stringify(updatedBooksCollection));
+    console.log('SAVE EDITIED BOOK');
+    // SAVE EDITIED BOOK
+    const updatedState = collectionOfBooksObject.updateTotalCollectionOfBooks(
+      formState.booksDataEnteredInForm
+    );
+    collectionOfBooksObject.replaceTotalBooksCollection(updatedState);
+    const updatedBooksCollection = collectionOfBooksObject.getTotalCollectionOfBooks();
+    localStorage.setItem('books', JSON.stringify(updatedBooksCollection));
     // collectionOfBooksObject.setFilteredOrSortedState(updatedBooksCollection);
-    // const totalListOfBooks = displayTotalListOfBooks(updatedBooksCollection);
-    // const locationForListOfBooks = document.getElementById('list-of-books');
-    // locationForListOfBooks.innerHTML = totalListOfBooks;
+    const totalListOfBooks = functions.displayTotalListOfBooks(updatedBooksCollection);
+    const locationForListOfBooks = document.getElementById('list-of-books');
+    locationForListOfBooks.innerHTML = totalListOfBooks;
+    console.log(collectionOfBooksObject, 'collectionOfBooksObject');
+  }
+  //  categoryFilter();
+  //  authorFilter();
+  //  priorityFilter();
+  formState.reSetState();
+  formState.resetForm();
+  document.getElementById('submit-button').disabled = true;
+  document.getElementById('modal-background').style.display = 'none';
+});
+// EDITING BOOK
+document.getElementById('list-of-books').addEventListener('click', (event) => {
+  if (event.target.className === 'edit-book') {
+    document.getElementById('submit-button').disabled = false;
+    document.getElementById('modal-background').style.display = 'flex';
+    document.getElementById('modal-body').style.display = 'flex';
+    const selectedBookToEdit = collectionOfBooksObject.getTotalCollectionOfBooks().find((book) => {
+      return book.id === event.target.parentElement.parentElement.parentElement.dataset.id;
+    });
+    const dataToEdition = {
+      id: event.target.parentElement.parentElement.parentElement.dataset.id,
+      title: selectedBookToEdit.title,
+      author: selectedBookToEdit.author,
+      category: selectedBookToEdit.category,
+      priority: selectedBookToEdit.priority,
+    };
+
+    const inputTitle = document.getElementById('input-title');
+    const inputAuthor = document.getElementById('input-author');
+    const selectList = document.getElementById('select-list');
+    const radioButton = document.getElementById(`${selectedBookToEdit.priority}-priority`);
+
+    inputTitle.value += selectedBookToEdit.title;
+    inputAuthor.value += selectedBookToEdit.author;
+    selectList.value = selectedBookToEdit.category;
+    radioButton.checked = true;
+
+    formState.updateBooksDataEnteredInForm(dataToEdition);
+  }
+});
+// DELETE BOOK
+document.getElementById('list-of-books').addEventListener('click', (event) => {
+  if (event.target.className === 'remove-book') {
+    const newBooksList = collectionOfBooksObject.removeBookFromCollection(
+      event.target.parentElement.parentElement.parentElement.dataset.id
+    );
+    collectionOfBooksObject.replaceTotalBooksCollection(newBooksList);
+    const replacedTotalBooksCollection = collectionOfBooksObject.getTotalCollectionOfBooks();
+
+    localStorage.setItem('books', JSON.stringify(replacedTotalBooksCollection));
+    // collectionOfBooksObject.setFilteredOrSortedState(replacedTotalBooksCollection);
+    const totalListOfBooks = functions.displayTotalListOfBooks(replacedTotalBooksCollection);
+    const locationForListOfBooks = document.getElementById('list-of-books');
+    locationForListOfBooks.innerHTML = totalListOfBooks;
+    booksCounterPlacer.innerHTML = functions.returnAmountOfBoks(
+      replacedTotalBooksCollection.length
+    );
+    console.log(collectionOfBooksObject, 'collectionOfBooksObject');
   }
   // categoryFilter();
   // authorFilter();
   // priorityFilter();
-  // formState.reSetState();
-  // formState.resetForm();
-  // document.getElementById('submit-button').disabled = true;
-  // document.getElementById('modal-background').style.display = 'none';
 });
 
-
 /// ////////////////////////////////////////     DOTĄD OK
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // // SORTING
 // document.getElementById('sort-list').addEventListener('change', (event) => {
@@ -291,139 +326,6 @@ submitForm.addEventListener('submit', (event) => {
 //   authorFilter();
 //   priorityFilter();
 //   document.getElementById('sort-list').value = '-- Wybierz --';
-// });
-
-// //  -- SAVE, REMOVE, EDIT --
-// const submitForm = document.getElementById('form');
-// submitForm.addEventListener('submit', (event) => {
-//   event.preventDefault();
-//   if (!formState.booksDataEnteredInForm.id) {
-//     //  SAVE NEW BOOK
-//     const book = new Book(
-//       formState.booksDataEnteredInForm.title,
-//       formState.booksDataEnteredInForm.author,
-//       formState.booksDataEnteredInForm.category,
-//       formState.booksDataEnteredInForm.priority
-//     );
-//     collectionOfBooksObject.setTotalBooksCollection(book);
-//     const collectionOfBooks = collectionOfBooksObject.getTotalCollectionOfBooks();
-//     localStorage.setItem('books', JSON.stringify(collectionOfBooks));
-//     collectionOfBooksObject.setFilteredOrSortedState(collectionOfBooks);
-//     const totalListOfBooks = displayTotalListOfBooks(collectionOfBooks);
-//     const locationForListOfBooks = document.getElementById('list-of-books');
-//     locationForListOfBooks.innerHTML = totalListOfBooks;
-//     booksCounterPlacer.innerHTML = returnAmountOfBoks(collectionOfBooks.length);
-//   } else {
-//     // SAVE EDITING BOOK
-//     const updatedState = collectionOfBooksObject.updateTotalCollectionOfBooks(
-//       formState.booksDataEnteredInForm
-//     );
-//     collectionOfBooksObject.replaceTotalBooksCollection(updatedState);
-//     const updatedBooksCollection = collectionOfBooksObject.getTotalCollectionOfBooks();
-//     localStorage.setItem('books', JSON.stringify(updatedBooksCollection));
-//     collectionOfBooksObject.setFilteredOrSortedState(updatedBooksCollection);
-//     const totalListOfBooks = displayTotalListOfBooks(updatedBooksCollection);
-//     const locationForListOfBooks = document.getElementById('list-of-books');
-//     locationForListOfBooks.innerHTML = totalListOfBooks;
-//   }
-//   categoryFilter();
-//   authorFilter();
-//   priorityFilter();
-//   formState.reSetState();
-//   formState.resetForm();
-//   document.getElementById('submit-button').disabled = true;
-//   document.getElementById('modal-background').style.display = 'none';
-// });
-
-// // EDITING BOOK
-// document.getElementById('list-of-books').addEventListener('click', (event) => {
-//   if (event.target.className === 'edit-book') {
-//     document.getElementById('submit-button').disabled = false;
-//     document.getElementById('modal-background').style.display = 'flex';
-//     document.getElementById('modal-body').style.display = 'flex';
-//     const selectedBookToEdit = collectionOfBooksObject.getTotalCollectionOfBooks().find((book) => {
-//       return book.id === event.target.parentElement.parentElement.parentElement.dataset.id;
-//     });
-//     const dataToEdition = {
-//       id: event.target.parentElement.parentElement.parentElement.dataset.id,
-//       title: selectedBookToEdit.title,
-//       author: selectedBookToEdit.author,
-//       category: selectedBookToEdit.category,
-//       priority: selectedBookToEdit.priority,
-//     };
-
-//     const inputTitle = document.getElementById('input-title');
-//     const inputAuthor = document.getElementById('input-author');
-//     const selectList = document.getElementById('select-list');
-//     const radioButton = document.getElementById(`${selectedBookToEdit.priority}-priority`);
-
-//     inputTitle.value += selectedBookToEdit.title;
-//     inputAuthor.value += selectedBookToEdit.author;
-//     selectList.value = selectedBookToEdit.category;
-//     radioButton.checked = true;
-
-//     formState.updateBooksDataEnteredInForm(dataToEdition);
-//   }
-// });
-// // DELETE BOOK
-// document.getElementById('list-of-books').addEventListener('click', (event) => {
-//   if (event.target.className === 'remove-book') {
-//     const newBooksList = collectionOfBooksObject.removeBookFromCollection(
-//       event.target.parentElement.parentElement.parentElement.dataset.id
-//     );
-//     collectionOfBooksObject.replaceTotalBooksCollection(newBooksList);
-//     const replacedTotalBooksCollection = collectionOfBooksObject.getTotalCollectionOfBooks();
-
-//     localStorage.setItem('books', JSON.stringify(replacedTotalBooksCollection));
-//     collectionOfBooksObject.setFilteredOrSortedState(replacedTotalBooksCollection);
-//     const totalListOfBooks = displayTotalListOfBooks(replacedTotalBooksCollection);
-//     const locationForListOfBooks = document.getElementById('list-of-books');
-//     locationForListOfBooks.innerHTML = totalListOfBooks;
-//     booksCounterPlacer.innerHTML = returnAmountOfBoks(replacedTotalBooksCollection.length);
-//   }
-//   categoryFilter();
-//   authorFilter();
-//   priorityFilter();
-// });
-
-// // ADD NEW CATEGORY
-// document.getElementById('input-category').addEventListener('keyup', (event) => {
-//   formState.setNewCategory(event.target.value);
-// });
-// document.getElementById('create-category').addEventListener('submit', (event) => {
-//   event.preventDefault();
-//   const setCategory = formState.getSetCategory();
-//   const name = removePolishLetters(setCategory).toLowerCase();
-//   const newCategoryObject = {
-//     name,
-//     tekst: setCategory,
-//   };
-//   formState.addNewCategory(newCategoryObject);
-//   // REMOVING DOM ELEMENT
-//   document.getElementById('sort-and-filter').remove();
-//   document.getElementById('select-list').parentElement.remove();
-
-//   const sortAndFilter = pageElements.getCategories();
-//   const btnAddNewCategory = pageElements.getBtnAddNewCategory();
-//   const btnAllCategories = pageElements.getBtnAllBooks();
-//   sortAndFilter.appendChild(btnAllCategories);
-//   pageElements.getListOfCategories(sortAndFilter);
-//   sortAndFilter.appendChild(btnAddNewCategory);
-
-//   const formObject = new Form();
-//   const category = formObject.getSelectCategory();
-
-//   app.insertBefore(sortAndFilter, app.childNodes[0]);
-
-//   const formOnDom = document.getElementById('form');
-//   formOnDom.insertBefore(category, formOnDom.childNodes[2]);
-
-//   document.getElementById('modal-background').style.display = 'none';
-//   document.getElementById('create-category').style.display = 'none';
-//   categoriesFilters();
-//   addCategoryEvent();
-//   formEvents();
-//   formState.reSetNewCategory();
 // });
 
 // // FILTERS
@@ -520,61 +422,6 @@ submitForm.addEventListener('submit', (event) => {
 //     categoryFilter();
 //   });
 // }
-
-// function formEvents() {
-//   // // EVENTY FORMULAŻA
-//   document.getElementById('input-title').addEventListener('keyup', (event) => {
-//     const title = event.target.value;
-//     const titleTrimmed = title.trim();
-//     const validatedTitle = validated(titleTrimmed);
-//     if (validatedTitle) {
-//       document.getElementById('add-book-error').innerText = '';
-//       formState.booksDataEnteredInForm.title = titleTrimmed;
-//     } else {
-//       document.getElementById('add-book-error').innerText = 'Wypełnij formulaż';
-//       document.getElementById('submit-button').disabled = true;
-//     }
-//     functions.unlockSubmit(formState.booksDataEnteredInForm.title, formState.booksDataEnteredInForm.author);
-//   });
-//   document.getElementById('input-author').addEventListener('keyup', (event) => {
-//     const autor = event.target.value;
-//     const autorTrimmed = autor.trim();
-//     const validatedAutor = validated(autorTrimmed);
-
-//     if (validatedAutor) {
-//       document.getElementById('add-book-error').innerText = '';
-//       formState.booksDataEnteredInForm.author = autorTrimmed;
-//     } else {
-//       document.getElementById('add-book-error').innerText = 'Wypełnij formulaż';
-//       document.getElementById('submit-button').disabled = true;
-//     }
-
-//     // formState.booksDataEnteredInForm.author = event.target.value;
-//     unlockSubmit();
-//   });
-//   document.getElementById('select-list').addEventListener('change', (event) => {
-//     formState.booksDataEnteredInForm.category = event.target.value;
-//     unlockSubmit();
-//   });
-
-//   const labelsCollection = document.getElementsByClassName('radio-label');
-//   const labelsArr = [...labelsCollection];
-//   labelsArr.forEach((element) => {
-//     element.addEventListener('click', (event) => {
-//       event.target.parentElement.children[0].checked = true;
-//       formState.booksDataEnteredInForm.priority = event.target.parentElement.children[0].value;
-//     });
-//   });
-// }
-
-// function addCategoryEvent() {
-//   document.getElementById('add-category').addEventListener('click', () => {
-//     document.getElementById('modal-background').style.display = 'flex';
-//     document.getElementById('create-category').style.display = 'flex';
-//     document.getElementById('modal-body').style.display = 'none';
-//   });
-// }
-
 // window.addEventListener('click', (e) => {
 //   if (e.target.id === 'modal-background') {
 //     document.getElementById('modal-background').style.display = 'none';

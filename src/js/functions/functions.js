@@ -91,8 +91,7 @@ export const functions = {
     });
     const nowyWyraz = newArr.join('');
     return nowyWyraz;
-  }
-
+  },
 };
 
 export const createLabel = (htmlForValue, descriptionText) => {
@@ -106,7 +105,6 @@ export const createLabel = (htmlForValue, descriptionText) => {
 // export const returnAmountOfBoks = (amount) => {
 //   return `<p>Ilość książek na liście: ${amount} </p>`;
 // };
-
 
 // export const findObjectInArray = (keyword, array) => {
 //   return array.find((element) => {
@@ -123,4 +121,3 @@ export function resetForm() {
   document.getElementById('select-list').value = '-- Wybież kategorię --';
   document.getElementById('5-priority').checked = true;
 }
-
