@@ -81,7 +81,7 @@ export class BooksList {
   }
 
   resetFilter() {
-    this.filteredOrSortedState = this.totalBooksCollection;
+    this.filteredOrSortedState = '';
   }
 }
 

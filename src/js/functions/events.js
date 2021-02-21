@@ -4,36 +4,35 @@ import { functions } from './functions';
 export const events = {
   selectListEvent: () => {
     document.getElementById('select-list').addEventListener('change', (event) => {
-      console.log(event.target.value, 'selectList');
       formState.setCategory(event.target.value);
-      // unlockSubmit();
     });
   },
-  priorityFilter: (collectionOfBooksObject) => {
-    const priorityLinksCollection = document.getElementsByClassName('a-priority');
-    const priorityLinksArr = [...priorityLinksCollection];
-    priorityLinksArr.forEach((priority) => {
-      priority.addEventListener('click', () => {
-        // console.log(collectionOfBooksObject, 'collectionOfBooksObject');
-        console.log(priority, 'priority');
-
-        printFilteredPriorities(priority.innerText, collectionOfBooksObject);
+  linkedFilter: (collectionOfBooksObject, linkClassName) => {
+    const linksCollection = document.getElementsByClassName(linkClassName);
+    const linksArr = [...linksCollection];
+    linksArr.forEach((link) => {
+      link.addEventListener('click', () => {
+        printFilteredResult(link.innerText, collectionOfBooksObject, linkClassName);
       });
     });
   },
 };
 
-
-function printFilteredPriorities(priorityInnerText, collectionOfBooksObject) {
-  const filteredArrayOfBooks = collectionOfBooksObject.filterByPriority(priorityInnerText);
+function printFilteredResult(innerText, collectionOfBooksObject, linkClassName) {
+  let filteredArrayOfBooks = '';
+  switch (linkClassName) {
+    case 'a-priority':
+      filteredArrayOfBooks = collectionOfBooksObject.filterByPriority(innerText);
+      break;
+    case 'a-author':
+      filteredArrayOfBooks = collectionOfBooksObject.filterByAutor(innerText);
+      break;
+    case 'a-category':
+      filteredArrayOfBooks = collectionOfBooksObject.filterByCategory(innerText);
+      break;
+    default:
+  }
   collectionOfBooksObject.setFilteredOrSortedState(filteredArrayOfBooks);
   const htmlListOfBooks = functions.displayTotalListOfBooks(filteredArrayOfBooks);
-  render(htmlListOfBooks, filteredArrayOfBooks);
-}
-
-function render(htmlListOfBooks, filteredArrayOfBooks) {
-  const locationForListOfBooks = document.getElementById('list-of-books');
-  locationForListOfBooks.innerHTML = htmlListOfBooks;
-  const booksCounterPlacer = document.getElementById('books-counter');
-  booksCounterPlacer.innerHTML = functions.returnAmountOfBoks(filteredArrayOfBooks.length);
+  functions.render(htmlListOfBooks, filteredArrayOfBooks);
 }

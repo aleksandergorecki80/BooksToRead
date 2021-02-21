@@ -38,6 +38,12 @@ export const functions = {
     }
     return resutl;
   },
+  render(htmlListOfBooks, collectionOfBooks) {
+    const locationForListOfBooks = document.getElementById('list-of-books');
+    locationForListOfBooks.innerHTML = htmlListOfBooks;
+    const booksCounterPlacer = document.getElementById('books-counter');
+    booksCounterPlacer.innerHTML = functions.returnAmountOfBoks(collectionOfBooks.length);
+  },
   removePolishLetters: (phrase) => {
     const polskie = [
       'ą',
