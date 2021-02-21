@@ -183,7 +183,7 @@ submitForm.addEventListener('submit', (event) => {
       title: newBookData.title,
       author: newBookData.author,
       category: newBookData.category,
-      priority: newBookData.priority,
+      priority: newBookData.priority.toString(),
     };
     collectionOfBooksObject.setTotalBooksCollection(book);
     const collectionOfBooks = collectionOfBooksObject.getTotalCollectionOfBooks();
@@ -193,7 +193,6 @@ submitForm.addEventListener('submit', (event) => {
     functions.render(htmlListOfBooks, collectionOfBooks);
 
     document.getElementById('modal-background').style.display = 'none';
-    tableOfBooksLinksFilters();
   } else {
     // SAVE EDITIED BOOK
     const updatedState = collectionOfBooksObject.updateTotalCollectionOfBooks(
@@ -261,11 +260,11 @@ document.getElementById('list-of-books').addEventListener('click', (event) => {
 // SORTING
 document.getElementById('sort-list').addEventListener('change', (event) => {
   const sortByPhrase = functions.findObjectInArray(event.target.value, formState.sortBy);
-  if (collectionOfBooksObject.gettFilteredOrSortedState() === '') {
-    const state = collectionOfBooksObject.getTotalCollectionOfBooks();
-    collectionOfBooksObject.setFilteredOrSortedState(state);
-  }
-  console.log(collectionOfBooksObject);
+  // if (collectionOfBooksObject.gettFilteredOrSortedState() === '') {
+  //   const state = collectionOfBooksObject.getTotalCollectionOfBooks();
+  //   collectionOfBooksObject.setFilteredOrSortedState(state);
+  // }
+
   switch (sortByPhrase.name) {
     case 'priority':
       {
@@ -349,3 +348,4 @@ document.onkeydown = function (evt) {
     document.getElementById('create-category').style.display = 'none';
   }
 };
+// console.log(collectionOfBooksObject)

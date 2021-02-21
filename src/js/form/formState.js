@@ -20,7 +20,7 @@ export const formState = {
     title: '',
     author: '',
     category: '',
-    priority: 5,
+    priority: '5',
   },
 
   // NEW BOOK SECTION
