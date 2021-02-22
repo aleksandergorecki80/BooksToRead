@@ -17,6 +17,8 @@ const intValue = () => {
 };
 const totalBooksCollection = intValue();
 const collectionOfBooksObject = new BooksList(totalBooksCollection);
+collectionOfBooksObject.resetFilter();
+console.log(collectionOfBooksObject);
 
 // IMPORTING AND CREATING DOM ELEMENTS
 const modalBackground = pageElements.getModal();
@@ -260,10 +262,11 @@ document.getElementById('list-of-books').addEventListener('click', (event) => {
 // SORTING
 document.getElementById('sort-list').addEventListener('change', (event) => {
   const sortByPhrase = functions.findObjectInArray(event.target.value, formState.sortBy);
-  // if (collectionOfBooksObject.gettFilteredOrSortedState() === '') {
-  //   const state = collectionOfBooksObject.getTotalCollectionOfBooks();
-  //   collectionOfBooksObject.setFilteredOrSortedState(state);
-  // }
+  console.log(collectionOfBooksObject);
+  if (collectionOfBooksObject.gettFilteredOrSortedState() === '') {
+    const state = collectionOfBooksObject.getTotalCollectionOfBooks();
+    collectionOfBooksObject.setFilteredOrSortedState(state);
+  }
 
   switch (sortByPhrase.name) {
     case 'priority':
@@ -324,6 +327,7 @@ document.getElementById('all-books').addEventListener('click', () => {
   functions.render(htmlListOfBooks, collectionOfBooks);
   collectionOfBooksObject.resetFilter();
   tableOfBooksLinksFilters();
+  console.log(collectionOfBooksObject)
 });
 
 window.addEventListener('click', (e) => {

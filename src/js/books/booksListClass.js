@@ -1,7 +1,7 @@
 export class BooksList {
   constructor(totalBooksCollection) {
     this.totalBooksCollection = totalBooksCollection;
-    // this.filteredOrSortedState = '';
+    this.filteredOrSortedState = '';
   }
 
   getTotalCollectionOfBooks() {
@@ -46,17 +46,17 @@ export class BooksList {
   }
 
   sortByPriority() {
-    return this.totalBooksCollection.sort((a, b) => {
+    return this.filteredOrSortedState.sort((a, b) => {
       return b.priority - a.priority;
     });
   }
 
   sortByAuthor() {
-    return this.totalBooksCollection.sort(compareAuthors);
+    return this.filteredOrSortedState.sort(compareAuthors);
   }
 
   sortByTitle() {
-    return this.totalBooksCollection.sort(compareTitles);
+    return this.filteredOrSortedState.sort(compareTitles);
   }
 
   filterByPriority(priority) {

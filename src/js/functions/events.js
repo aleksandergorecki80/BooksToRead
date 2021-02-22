@@ -32,7 +32,7 @@ function printFilteredResult(innerText, collectionOfBooksObject, linkClassName) 
       break;
     default:
   }
-  // collectionOfBooksObject.setFilteredOrSortedState(filteredArrayOfBooks);
+  collectionOfBooksObject.setFilteredOrSortedState(filteredArrayOfBooks);
   const htmlListOfBooks = functions.displayTotalListOfBooks(filteredArrayOfBooks);
   functions.render(htmlListOfBooks, filteredArrayOfBooks);
 }
