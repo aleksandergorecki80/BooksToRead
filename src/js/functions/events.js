@@ -16,6 +16,12 @@ export const events = {
       });
     });
   },
+  tableOfBooksLinksFilters: (collectionOfBooksObject) => {
+    const linksClassNames = ['a-priority', 'a-author', 'a-category'];
+    linksClassNames.forEach((linkClassName) => {
+      events.linkedFilter(collectionOfBooksObject, linkClassName);
+    });
+  }
 };
 
 function printFilteredResult(innerText, collectionOfBooksObject, linkClassName) {
@@ -35,4 +41,5 @@ function printFilteredResult(innerText, collectionOfBooksObject, linkClassName) 
   collectionOfBooksObject.setFilteredOrSortedState(filteredArrayOfBooks);
   const htmlListOfBooks = functions.displayTotalListOfBooks(filteredArrayOfBooks);
   functions.render(htmlListOfBooks, filteredArrayOfBooks);
+  events.tableOfBooksLinksFilters(collectionOfBooksObject);
 }

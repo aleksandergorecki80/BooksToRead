@@ -300,13 +300,13 @@ document.getElementById('sort-list').addEventListener('change', (event) => {
 });
 
 // FILTERING
-function tableOfBooksLinksFilters() {
-  const linksClassNames = ['a-priority', 'a-author', 'a-category'];
-  linksClassNames.forEach((linkClassName) => {
-    events.linkedFilter(collectionOfBooksObject, linkClassName);
-  });
-}
-tableOfBooksLinksFilters();
+// function tableOfBooksLinksFilters() {
+//   const linksClassNames = ['a-priority', 'a-author', 'a-category'];
+//   linksClassNames.forEach((linkClassName) => {
+//     events.linkedFilter(collectionOfBooksObject, linkClassName);
+//   });
+// }
+events.tableOfBooksLinksFilters(collectionOfBooksObject);
 
 // // TOP PAGES FILTERING
 formState.categories.forEach((category) => {
@@ -316,7 +316,7 @@ formState.categories.forEach((category) => {
       collectionOfBooksObject.setFilteredOrSortedState(filteredArrayOfBooks);
       const htmlListOfBooks = functions.displayTotalListOfBooks(filteredArrayOfBooks);
       functions.render(htmlListOfBooks, filteredArrayOfBooks);
-      tableOfBooksLinksFilters();
+      
     });
   }
 });
@@ -326,7 +326,7 @@ document.getElementById('all-books').addEventListener('click', () => {
   const htmlListOfBooks = functions.displayTotalListOfBooks(collectionOfBooks);
   functions.render(htmlListOfBooks, collectionOfBooks);
   collectionOfBooksObject.resetFilter();
-  tableOfBooksLinksFilters();
+  events.tableOfBooksLinksFilters(collectionOfBooksObject);
   console.log(collectionOfBooksObject)
 });
 
