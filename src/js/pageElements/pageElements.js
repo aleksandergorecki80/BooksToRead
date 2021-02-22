@@ -61,7 +61,7 @@ export const pageElements = {
     booksCounterPlacer.innerHTML = functions.returnAmountOfBoks(collectionOfBooks.length);
     return booksCounterPlacer;
   },
-  getTableOfBooksDiv(collectionOfBooksObject) {
+  getTableOfBooksDiv() {
     // WYŚWIETLANIE KSIĄŻEK
     const divToPlaceBookList = document.createElement('div');
     divToPlaceBookList.id = 'div-books';
@@ -85,9 +85,9 @@ export const pageElements = {
 
     const locationForListOfBooks = document.createElement('tbody');
     locationForListOfBooks.id = 'list-of-books';
-    const collectionOfBooks = collectionOfBooksObject.getTotalCollectionOfBooks();
-    const totalListOfBooks = functions.displayTotalListOfBooks(collectionOfBooks);
-    locationForListOfBooks.innerHTML = totalListOfBooks;
+    // const collectionOfBooks = collectionOfBooksObject.getTotalCollectionOfBooks();
+    // const totalListOfBooks = functions.displayTotalListOfBooks(collectionOfBooks);
+    // locationForListOfBooks.innerHTML = totalListOfBooks;
 
     trNaglowek.append(thTitle, thCategory, thPriority, thPlaceholder);
     thead.append(trNaglowek);

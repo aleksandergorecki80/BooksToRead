@@ -12,7 +12,7 @@ export const events = {
     const linksArr = [...linksCollection];
     linksArr.forEach((link) => {
       link.addEventListener('click', () => {
-        printFilteredResult(link.innerText, collectionOfBooksObject, linkClassName);
+        events.printFilteredResult(link.innerText, collectionOfBooksObject, linkClassName);
       });
     });
   },
@@ -21,25 +21,25 @@ export const events = {
     linksClassNames.forEach((linkClassName) => {
       events.linkedFilter(collectionOfBooksObject, linkClassName);
     });
-  }
+  },
+  printFilteredResult: (innerText, collectionOfBooksObject, linkClassName) => {
+    let filteredArrayOfBooks = '';
+    switch (linkClassName) {
+      case 'a-priority':
+        filteredArrayOfBooks = collectionOfBooksObject.filterByPriority(innerText);
+        break;
+      case 'a-author':
+        filteredArrayOfBooks = collectionOfBooksObject.filterByAutor(innerText);
+        break;
+      case 'a-category':
+        filteredArrayOfBooks = collectionOfBooksObject.filterByCategory(innerText);
+        break;
+      default:
+    }
+    collectionOfBooksObject.setFilteredOrSortedState(filteredArrayOfBooks);
+    const htmlListOfBooks = functions.displayTotalListOfBooks(filteredArrayOfBooks);
+    functions.render(htmlListOfBooks, filteredArrayOfBooks);
+    localStorage.setItem('filtered', JSON.stringify(filteredArrayOfBooks));
+    events.tableOfBooksLinksFilters(collectionOfBooksObject);
+  },
 };
-
-function printFilteredResult(innerText, collectionOfBooksObject, linkClassName) {
-  let filteredArrayOfBooks = '';
-  switch (linkClassName) {
-    case 'a-priority':
-      filteredArrayOfBooks = collectionOfBooksObject.filterByPriority(innerText);
-      break;
-    case 'a-author':
-      filteredArrayOfBooks = collectionOfBooksObject.filterByAutor(innerText);
-      break;
-    case 'a-category':
-      filteredArrayOfBooks = collectionOfBooksObject.filterByCategory(innerText);
-      break;
-    default:
-  }
-  collectionOfBooksObject.setFilteredOrSortedState(filteredArrayOfBooks);
-  const htmlListOfBooks = functions.displayTotalListOfBooks(filteredArrayOfBooks);
-  functions.render(htmlListOfBooks, filteredArrayOfBooks);
-  events.tableOfBooksLinksFilters(collectionOfBooksObject);
-}

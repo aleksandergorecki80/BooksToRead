@@ -12,13 +12,13 @@ app.className = 'app';
 
 // INITIAL VALUE OF A BOOKS LIST
 const intValue = () => {
-  const localData = localStorage.getItem('books');
-  return localData ? JSON.parse(localData) : [];
+  const localBooksData = localStorage.getItem('books');
+  return localBooksData ? JSON.parse(localBooksData) : [];
 };
+
 const totalBooksCollection = intValue();
 const collectionOfBooksObject = new BooksList(totalBooksCollection);
 collectionOfBooksObject.resetFilter();
-console.log(collectionOfBooksObject);
 
 // IMPORTING AND CREATING DOM ELEMENTS
 const modalBackground = pageElements.getModal();
@@ -32,6 +32,7 @@ const addBookBtn = pageElements.getAddBookButton();
 const sortAndFilter = pageElements.getCategories();
 const labelForsortBooks = createLabel('sort-list', 'Sortuj wg:');
 const sortByList = pageElements.getSortByOption();
+
 const booksCounterPlacer = pageElements.getCounter(collectionOfBooksObject);
 const divToPlaceBookList = pageElements.getTableOfBooksDiv(collectionOfBooksObject);
 const btnAllCategories = pageElements.getBtnAllBooks();
@@ -49,6 +50,23 @@ app.append(
   divToPlaceBookList,
   addBookBtn
 );
+
+// INITIAL FILTERED
+const intFiltered = () => {
+  const localFiltered = localStorage.getItem('filtered');
+  return localFiltered ? JSON.parse(localFiltered) : '';
+};
+const initialFiltered = intFiltered();
+if (initialFiltered.length > 0) {
+  collectionOfBooksObject.setFilteredOrSortedState(initialFiltered);
+  const collectionOfBooks = collectionOfBooksObject.gettFilteredOrSortedState();
+  const htmlListOfBooks = functions.displayTotalListOfBooks(collectionOfBooks);
+  functions.render(htmlListOfBooks, collectionOfBooks);
+} else {
+  const collectionOfBooks = collectionOfBooksObject.getTotalCollectionOfBooks();
+  const htmlListOfBooks = functions.displayTotalListOfBooks(collectionOfBooks);
+  functions.render(htmlListOfBooks, collectionOfBooks);
+}
 
 //  ADD A NEW BOOK BUTTON -- LISTENER
 document.getElementById('add-book-btn').addEventListener('click', () => {
@@ -212,7 +230,7 @@ submitForm.addEventListener('submit', (event) => {
   formState.resetForm();
   document.getElementById('submit-button').disabled = true;
   document.getElementById('modal-background').style.display = 'none';
-  tableOfBooksLinksFilters();
+  events.tableOfBooksLinksFilters(collectionOfBooksObject);
 });
 // EDITING BOOK
 document.getElementById('list-of-books').addEventListener('click', (event) => {
@@ -262,7 +280,6 @@ document.getElementById('list-of-books').addEventListener('click', (event) => {
 // SORTING
 document.getElementById('sort-list').addEventListener('change', (event) => {
   const sortByPhrase = functions.findObjectInArray(event.target.value, formState.sortBy);
-  console.log(collectionOfBooksObject);
   if (collectionOfBooksObject.gettFilteredOrSortedState() === '') {
     const state = collectionOfBooksObject.getTotalCollectionOfBooks();
     collectionOfBooksObject.setFilteredOrSortedState(state);
@@ -272,6 +289,8 @@ document.getElementById('sort-list').addEventListener('change', (event) => {
     case 'priority':
       {
         const sortedData = collectionOfBooksObject.sortByPriority();
+        collectionOfBooksObject.setFilteredOrSortedState(sortedData);
+        localStorage.setItem('filtered', JSON.stringify(sortedData));
         const sortedListOfBooks = functions.displayTotalListOfBooks(sortedData);
         const locationForListOfBooks = document.getElementById('list-of-books');
         locationForListOfBooks.innerHTML = sortedListOfBooks;
@@ -280,6 +299,8 @@ document.getElementById('sort-list').addEventListener('change', (event) => {
     case 'author':
       {
         const sortedData = collectionOfBooksObject.sortByAuthor();
+        collectionOfBooksObject.setFilteredOrSortedState(sortedData);
+        localStorage.setItem('filtered', JSON.stringify(sortedData));
         const sortedListOfBooks = functions.displayTotalListOfBooks(sortedData);
         const locationForListOfBooks = document.getElementById('list-of-books');
         locationForListOfBooks.innerHTML = sortedListOfBooks;
@@ -288,6 +309,8 @@ document.getElementById('sort-list').addEventListener('change', (event) => {
     case 'title':
       {
         const sortedData = collectionOfBooksObject.sortByTitle();
+        collectionOfBooksObject.setFilteredOrSortedState(sortedData);
+        localStorage.setItem('filtered', JSON.stringify(sortedData));
         const sortedListOfBooks = functions.displayTotalListOfBooks(sortedData);
         const locationForListOfBooks = document.getElementById('list-of-books');
         locationForListOfBooks.innerHTML = sortedListOfBooks;
@@ -316,7 +339,6 @@ formState.categories.forEach((category) => {
       collectionOfBooksObject.setFilteredOrSortedState(filteredArrayOfBooks);
       const htmlListOfBooks = functions.displayTotalListOfBooks(filteredArrayOfBooks);
       functions.render(htmlListOfBooks, filteredArrayOfBooks);
-      
     });
   }
 });
@@ -326,8 +348,8 @@ document.getElementById('all-books').addEventListener('click', () => {
   const htmlListOfBooks = functions.displayTotalListOfBooks(collectionOfBooks);
   functions.render(htmlListOfBooks, collectionOfBooks);
   collectionOfBooksObject.resetFilter();
+  localStorage.setItem('filtered', JSON.stringify([]));
   events.tableOfBooksLinksFilters(collectionOfBooksObject);
-  console.log(collectionOfBooksObject)
 });
 
 window.addEventListener('click', (e) => {
