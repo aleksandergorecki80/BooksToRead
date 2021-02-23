@@ -22,9 +22,19 @@ export const pageElements = {
   },
 
   getBtnAllBooks() {
-    const btnAllBooks = document.createElement('button');
-    btnAllBooks.innerHTML = 'Wszystko';
-    btnAllBooks.id = 'all-books';
+    // const btnAllBooks = document.createElement('button');
+    // btnAllBooks.innerHTML = 'Wszystko';
+    // btnAllBooks.id = 'all-books';
+    
+    const btnAllBooks = document.createElement('label');
+    btnAllBooks.className = 'checkbox-container';
+    btnAllBooks.innerText = 'Wszystko';
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.id = 'all-books';
+    const span = document.createElement('span');
+    span.className = 'checkbox-span';
+    btnAllBooks.append(checkbox, span);
     return btnAllBooks;
   },
   getBtnAddNewCategory() {
@@ -41,13 +51,30 @@ export const pageElements = {
 
     return sortAndFilter;
   },
+  // getListOfCategories(sortAndFilter) {
+  //   return formState.categories.map((category) => {
+  //     if (category.name !== '') {
+  //       const button = document.createElement('button');
+  //       button.innerHTML = category.tekst;
+  //       button.id = category.name;
+  //       sortAndFilter.appendChild(button);
+  //     }
+  //     return sortAndFilter;
+  //   });
+  // },
   getListOfCategories(sortAndFilter) {
     return formState.categories.map((category) => {
       if (category.name !== '') {
-        const button = document.createElement('button');
-        button.innerHTML = category.tekst;
-        button.id = category.name;
-        sortAndFilter.appendChild(button);
+        const label = document.createElement('label');
+        label.className = 'checkbox-container';
+        label.innerText = category.tekst;
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = category.name;
+        const span = document.createElement('span');
+        span.className = 'checkbox-span';
+        label.append(checkbox, span);
+        sortAndFilter.appendChild(label);
       }
       return sortAndFilter;
     });
