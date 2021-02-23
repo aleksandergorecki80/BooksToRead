@@ -335,16 +335,15 @@ events.tableOfBooksLinksFilters(collectionOfBooksObject);
 formState.categories.forEach((category) => {
   if (category.name !== '') {
     document.getElementById(category.name).addEventListener('change', (event) => {
-      console.log(event.target)
+      console.log(event.target);
 
-      if(event.target.checked)
-      {
-        const category = formState.categories.find(category => category.name === event.target.id);
-    
-        console.log('zaznaczony')
-        console.log(category.tekst)
+      if (event.target.checked) {
+        const category = formState.categories.find((category) => category.name === event.target.id);
+
+        console.log('zaznaczony');
+        console.log(category.tekst);
       } else {
-        console.log('nie zaznaczony')
+        console.log('nie zaznaczony');
       }
       // const filteredArrayOfBooks = collectionOfBooksObject.filterByCategory(category.tekst);
       // collectionOfBooksObject.setFilteredOrSortedState(filteredArrayOfBooks);
@@ -366,18 +365,13 @@ formState.categories.forEach((category) => {
 // });
 
 document.getElementById('all-books').addEventListener('change', (event) => {
-  console.log(event.target)
+  console.log(event.target);
 
-  if(event.target.checked)
-  {
-
-
-    console.log('zaznaczony')
-    
+  if (event.target.checked) {
+    console.log('zaznaczony');
   } else {
-    console.log('nie zaznaczony')
+    console.log('nie zaznaczony');
   }
-
 
   // const collectionOfBooks = collectionOfBooksObject.getTotalCollectionOfBooks();
   // const htmlListOfBooks = functions.displayTotalListOfBooks(collectionOfBooks);

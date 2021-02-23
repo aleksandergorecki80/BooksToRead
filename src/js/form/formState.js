@@ -36,7 +36,7 @@ export const formState = {
   setCategory(value) {
     this.booksDataEnteredInForm.category = value;
   },
-  getBooksDataEnteredInForm(){
+  getBooksDataEnteredInForm() {
     return this.booksDataEnteredInForm;
   },
   /// NEW CATEGORY SECTION
