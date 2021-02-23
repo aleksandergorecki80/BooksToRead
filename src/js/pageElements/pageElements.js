@@ -32,6 +32,7 @@ export const pageElements = {
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.id = 'all-books';
+    checkbox.checked = true;
     const span = document.createElement('span');
     span.className = 'checkbox-span';
     btnAllBooks.append(checkbox, span);
