@@ -2,6 +2,7 @@ export class BooksList {
   constructor(totalBooksCollection) {
     this.totalBooksCollection = totalBooksCollection;
     this.filteredOrSortedState = '';
+    this.categoryFilters = '';
   }
 
   getTotalCollectionOfBooks() {
@@ -45,6 +46,24 @@ export class BooksList {
     });
   }
 
+  addCategoryToFiltersGroup(category){
+    this.categoryFilters = [...this.categoryFilters, category];
+  }
+  removeCategoryFromFiltersGroup(category){
+    this.categoryFilters = this.categoryFilters.filter(filter => filter !== category);
+  }
+
+  filterByMultipleCategories(){
+    let filtered = [];
+    this.categoryFilters.forEach(filterBy => {
+       const filteredOnce = this.totalBooksCollection.filter((book) => {
+            return book.category === filterBy;
+         });
+         filtered = [...filtered, ...filteredOnce]
+    });
+    return filtered;
+  }
+
   sortByPriority() {
     return this.filteredOrSortedState.sort((a, b) => {
       return b.priority - a.priority;
@@ -82,6 +101,7 @@ export class BooksList {
 
   resetFilter() {
     this.filteredOrSortedState = '';
+    this.categoryFilters = '';
   }
 }
 

@@ -335,20 +335,27 @@ events.tableOfBooksLinksFilters(collectionOfBooksObject);
 formState.categories.forEach((category) => {
   if (category.name !== '') {
     document.getElementById(category.name).addEventListener('change', (event) => {
-      console.log(event.target);
-
       if (event.target.checked) {
         const category = formState.categories.find((category) => category.name === event.target.id);
+        collectionOfBooksObject.addCategoryToFiltersGroup(category.tekst);
+        const filteredByMultipleCategories = collectionOfBooksObject.filterByMultipleCategories();
 
-        console.log('zaznaczony');
-        console.log(category.tekst);
+        collectionOfBooksObject.setFilteredOrSortedState(filteredByMultipleCategories);
+        const htmlListOfBooks = functions.displayTotalListOfBooks(filteredByMultipleCategories);
+        functions.render(htmlListOfBooks, filteredByMultipleCategories);
+        localStorage.setItem('filtered', JSON.stringify(filteredByMultipleCategories));
+        events.tableOfBooksLinksFilters(collectionOfBooksObject);
+        document.getElementById('all-books').checked = false;
       } else {
-        console.log('nie zaznaczony');
+        collectionOfBooksObject.removeCategoryFromFiltersGroup(category.tekst);
+
+        const filteredByMultipleCategories = collectionOfBooksObject.filterByMultipleCategories();
+        collectionOfBooksObject.setFilteredOrSortedState(filteredByMultipleCategories);
+        const htmlListOfBooks = functions.displayTotalListOfBooks(filteredByMultipleCategories);
+        functions.render(htmlListOfBooks, filteredByMultipleCategories);
+        localStorage.setItem('filtered', JSON.stringify(filteredByMultipleCategories));
+        events.tableOfBooksLinksFilters(collectionOfBooksObject);
       }
-      // const filteredArrayOfBooks = collectionOfBooksObject.filterByCategory(category.tekst);
-      // collectionOfBooksObject.setFilteredOrSortedState(filteredArrayOfBooks);
-      // const htmlListOfBooks = functions.displayTotalListOfBooks(filteredArrayOfBooks);
-      // functions.render(htmlListOfBooks, filteredArrayOfBooks);
     });
   }
 });
@@ -365,20 +372,24 @@ formState.categories.forEach((category) => {
 // });
 
 document.getElementById('all-books').addEventListener('change', (event) => {
-  console.log(event.target);
-
   if (event.target.checked) {
     console.log('zaznaczony');
   } else {
     console.log('nie zaznaczony');
   }
 
-  // const collectionOfBooks = collectionOfBooksObject.getTotalCollectionOfBooks();
-  // const htmlListOfBooks = functions.displayTotalListOfBooks(collectionOfBooks);
-  // functions.render(htmlListOfBooks, collectionOfBooks);
-  // collectionOfBooksObject.resetFilter();
-  // localStorage.setItem('filtered', JSON.stringify([]));
-  // events.tableOfBooksLinksFilters(collectionOfBooksObject);
+  const collectionOfBooks = collectionOfBooksObject.getTotalCollectionOfBooks();
+  const htmlListOfBooks = functions.displayTotalListOfBooks(collectionOfBooks);
+  functions.render(htmlListOfBooks, collectionOfBooks);
+  collectionOfBooksObject.resetFilter();
+  localStorage.setItem('filtered', JSON.stringify([]));
+  events.tableOfBooksLinksFilters(collectionOfBooksObject);
+
+  formState.categories.forEach((category) => {
+    if (category.name !== '') {
+      document.getElementById(category.name).checked = false;
+    }
+  });
 });
 
 window.addEventListener('click', (e) => {
@@ -403,4 +414,4 @@ document.onkeydown = function (evt) {
     document.getElementById('create-category').style.display = 'none';
   }
 };
-// console.log(collectionOfBooksObject)
+// console.log(collectionOfBooksObject);
