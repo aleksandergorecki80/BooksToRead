@@ -46,20 +46,21 @@ export class BooksList {
     });
   }
 
-  addCategoryToFiltersGroup(category){
+  addCategoryToFiltersGroup(category) {
     this.categoryFilters = [...this.categoryFilters, category];
   }
-  removeCategoryFromFiltersGroup(category){
-    this.categoryFilters = this.categoryFilters.filter(filter => filter !== category);
+
+  removeCategoryFromFiltersGroup(category) {
+    this.categoryFilters = this.categoryFilters.filter((filter) => filter !== category);
   }
 
-  filterByMultipleCategories(){
+  filterByMultipleCategories() {
     let filtered = [];
-    this.categoryFilters.forEach(filterBy => {
-       const filteredOnce = this.totalBooksCollection.filter((book) => {
-            return book.category === filterBy;
-         });
-         filtered = [...filtered, ...filteredOnce]
+    this.categoryFilters.forEach((filterBy) => {
+      const filteredOnce = this.totalBooksCollection.filter((book) => {
+        return book.category === filterBy;
+      });
+      filtered = [...filtered, ...filteredOnce];
     });
     return filtered;
   }
