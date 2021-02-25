@@ -54,6 +54,10 @@ export class BooksList {
     this.categoryFilters = this.categoryFilters.filter((filter) => filter !== category);
   }
 
+  removeAllCategoriesFromFiltersButSelected(category) {
+    this.categoryFilters = this.categoryFilters.filter((filter) => filter === category);
+  }
+
   filterByMultipleCategories() {
     let filtered = [];
     this.categoryFilters.forEach((filterBy) => {

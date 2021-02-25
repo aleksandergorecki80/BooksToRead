@@ -329,6 +329,7 @@ document.getElementById('sort-list').addEventListener('change', (event) => {
 //     events.linkedFilter(collectionOfBooksObject, linkClassName);
 //   });
 // }
+// FILTERING BY AUTHOR, CATEGORY OR RATING WHEN CLICKED
 events.tableOfBooksLinksFilters(collectionOfBooksObject);
 
 // // TOP PAGES FILTERING EVENT LISTENERS
