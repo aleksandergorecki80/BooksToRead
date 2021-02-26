@@ -9,7 +9,6 @@ export const pageElements = {
     const modalBackground = document.createElement('div');
     modalBackground.className = 'modal-background';
     modalBackground.id = 'modal-background';
-
     return modalBackground;
   },
   getAddNewBookForm() {
@@ -20,12 +19,7 @@ export const pageElements = {
     div.appendChild(formForAddingBooks);
     return div;
   },
-
-  getBtnAllBooks() {
-    // const btnAllBooks = document.createElement('button');
-    // btnAllBooks.innerHTML = 'Wszystko';
-    // btnAllBooks.id = 'all-books';
-    
+  getBtnAllBooks() {  
     const btnAllBooks = document.createElement('label');
     btnAllBooks.className = 'checkbox-container';
     btnAllBooks.innerText = 'Wszystko';
@@ -43,11 +37,6 @@ export const pageElements = {
     btnShowFilters.innerHTML = 'Show filters';
     btnShowFilters.id = 'show-filters';
     btnShowFilters.className = 'show-filters-btn';
-
-    // const buttonAddNewCategory = document.createElement('button');
-    // buttonAddNewCategory.innerHTML = 'Dodaj Nową Kategorię';
-    // buttonAddNewCategory.id = 'add-category';
-    // return buttonAddNewCategory;
     return btnShowFilters;
   },
   getCategories() {
@@ -58,17 +47,6 @@ export const pageElements = {
 
     return sortAndFilter;
   },
-  // getListOfCategories(sortAndFilter) {
-  //   return formState.categories.map((category) => {
-  //     if (category.name !== '') {
-  //       const button = document.createElement('button');
-  //       button.innerHTML = category.tekst;
-  //       button.id = category.name;
-  //       sortAndFilter.appendChild(button);
-  //     }
-  //     return sortAndFilter;
-  //   });
-  // },
   getListOfCategories(sortAndFilter) {
     return formState.categories.map((category) => {
       if (category.name !== '') {
@@ -119,10 +97,6 @@ export const pageElements = {
 
     const locationForListOfBooks = document.createElement('tbody');
     locationForListOfBooks.id = 'list-of-books';
-    // const collectionOfBooks = collectionOfBooksObject.getTotalCollectionOfBooks();
-    // const totalListOfBooks = functions.displayTotalListOfBooks(collectionOfBooks);
-    // locationForListOfBooks.innerHTML = totalListOfBooks;
-
     trNaglowek.append(thTitle, thCategory, thPriority, thPlaceholder);
     thead.append(trNaglowek);
     tableOfBooks.append(thead, locationForListOfBooks);

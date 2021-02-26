@@ -5,7 +5,6 @@
     padding-left: 30px;
     margin: 12px;
     cursor: pointer;
-    // font-size: 22px;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -31,14 +30,9 @@
     background-color: #eee;
   }
   
-  /* On mouse-over, add a grey background color */
-//   .checkbox-container:hover input ~ .checkbox-span {
-//     background-color: #ccc;
-//   }
-  
   /* When the checkbox is checked, add a blue background */
   .checkbox-container input:checked ~ .checkbox-span {
-    background-color: #2196F3;
+    background-color: $edit-book-bg;
   }
   
   /* Create the checkbox-span/indicator (hidden when not checked) */

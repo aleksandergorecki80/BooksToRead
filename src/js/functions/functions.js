@@ -108,19 +108,6 @@ export const createLabel = (htmlForValue, descriptionText) => {
   return label;
 };
 
-// export const returnAmountOfBoks = (amount) => {
-//   return `<p>Ilość książek na liście: ${amount} </p>`;
-// };
-
-// export const findObjectInArray = (keyword, array) => {
-//   return array.find((element) => {
-//     if (keyword === element.tekst) {
-//       return element.name;
-//     }
-//     return null;
-//   });
-// };
-
 export function resetForm() {
   document.getElementById('input-title').value = '';
   document.getElementById('input-author').value = '';

@@ -86,21 +86,18 @@ export class BooksList {
   filterByPriority(priority) {
     return this.totalBooksCollection.filter((book) => {
       if (priority === book.priority) return book;
-      return null;
     });
   }
 
   filterByAutor(author) {
     return this.totalBooksCollection.filter((book) => {
       if (author === book.author) return book;
-      return null;
-    });
+     });
   }
 
   filterByCategory(category) {
     return this.totalBooksCollection.filter((book) => {
       if (category === book.category) return book;
-      return null;
     });
   }
 
