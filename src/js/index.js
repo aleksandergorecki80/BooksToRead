@@ -38,12 +38,12 @@ const divToPlaceBookList = pageElements.getTableOfBooksDiv(collectionOfBooksObje
 const btnAllCategories = pageElements.getBtnAllBooks();
 sortAndFilter.appendChild(btnAllCategories);
 pageElements.getListOfCategories(sortAndFilter);
-const btnAddNewCategory = pageElements.getBtnAddNewCategory();
+const btnShowFilters = pageElements.getBtnShowFilters();
 
 app.append(
   modalBackground,
+  btnShowFilters,
   sortAndFilter,
-  btnAddNewCategory,
   labelForsortBooks,
   sortByList,
   booksCounterPlacer,
@@ -137,59 +137,59 @@ labelsArr.forEach((element) => {
   });
 });
 
-/// /  ***   ADD NEW CATEGORY - FORM EVENT LISTENERS  ***   ///
-document.getElementById('add-category').addEventListener('click', () => {
-  document.getElementById('modal-background').style.display = 'flex';
-  document.getElementById('create-category').style.display = 'flex';
-  document.getElementById('modal-body').style.display = 'none';
-});
+// /// /  ***   ADD NEW CATEGORY - FORM EVENT LISTENERS  ***   ///
+// document.getElementById('add-category').addEventListener('click', () => {
+//   document.getElementById('modal-background').style.display = 'flex';
+//   document.getElementById('create-category').style.display = 'flex';
+//   document.getElementById('modal-body').style.display = 'none';
+// });
 
 // // ADD NEW CATEGORY
-document.getElementById('input-category').addEventListener('keyup', (event) => {
-  const newCategory = event.target.value;
-  const trimmedNewCategory = newCategory.trim();
-  const validatedNewCategory = functions.validated(trimmedNewCategory);
-  if (validatedNewCategory) {
-    document.getElementById('add-category-error').innerText = '';
-    document.getElementById('new-category-submit-button').disabled = false;
-    formState.setNewCategory(trimmedNewCategory);
-  } else {
-    document.getElementById('add-category-error').innerText = 'Wypełnij formulaż';
-    document.getElementById('new-category-submit-button').disabled = true;
-  }
-});
-document.getElementById('create-category').addEventListener('submit', (event) => {
-  event.preventDefault();
-  const setCategory = formState.getNewCategory();
-  const name = functions.removePolishLetters(setCategory).toLowerCase();
-  const newCategoryObject = {
-    name,
-    tekst: setCategory,
-  };
-  formState.addNewCategory(newCategoryObject);
+// document.getElementById('input-category').addEventListener('keyup', (event) => {
+//   const newCategory = event.target.value;
+//   const trimmedNewCategory = newCategory.trim();
+//   const validatedNewCategory = functions.validated(trimmedNewCategory);
+//   if (validatedNewCategory) {
+//     document.getElementById('add-category-error').innerText = '';
+//     document.getElementById('new-category-submit-button').disabled = false;
+//     formState.setNewCategory(trimmedNewCategory);
+//   } else {
+//     document.getElementById('add-category-error').innerText = 'Wypełnij formulaż';
+//     document.getElementById('new-category-submit-button').disabled = true;
+//   }
+// });
+// document.getElementById('create-category').addEventListener('submit', (event) => {
+//   event.preventDefault();
+//   const setCategory = formState.getNewCategory();
+//   const name = functions.removePolishLetters(setCategory).toLowerCase();
+//   const newCategoryObject = {
+//     name,
+//     tekst: setCategory,
+//   };
+//   formState.addNewCategory(newCategoryObject);
 
-  // REMOVING DOM ELEMENTS
-  document.getElementById('sort-and-filter').remove();
-  document.getElementById('select-list').parentElement.remove();
+//   // REMOVING DOM ELEMENTS
+//   document.getElementById('sort-and-filter').remove();
+//   document.getElementById('select-list').parentElement.remove();
 
-  // Rebuild categories list
-  const sortAndFilter = pageElements.getCategories();
-  const btnAllCategories = pageElements.getBtnAllBooks();
-  sortAndFilter.appendChild(btnAllCategories);
-  pageElements.getListOfCategories(sortAndFilter);
-  // Rebuild select list in form
-  const category = form.getSelectCategory();
-  app.insertBefore(sortAndFilter, app.childNodes[0]);
-  const formOnDom = document.getElementById('form');
-  formOnDom.insertBefore(category, formOnDom.childNodes[2]);
+//   // Rebuild categories list
+//   const sortAndFilter = pageElements.getCategories();
+//   const btnAllCategories = pageElements.getBtnAllBooks();
+//   sortAndFilter.appendChild(btnAllCategories);
+//   pageElements.getListOfCategories(sortAndFilter);
+//   // Rebuild select list in form
+//   const category = form.getSelectCategory();
+//   app.insertBefore(sortAndFilter, app.childNodes[0]);
+//   const formOnDom = document.getElementById('form');
+//   formOnDom.insertBefore(category, formOnDom.childNodes[2]);
 
-  document.getElementById('modal-background').style.display = 'none';
-  document.getElementById('create-category').style.display = 'none';
+//   document.getElementById('modal-background').style.display = 'none';
+//   document.getElementById('create-category').style.display = 'none';
 
-  events.selectListEvent();
-  formState.reSetNewCategory();
-  document.getElementById('input-category').value = '';
-});
+//   events.selectListEvent();
+//   formState.reSetNewCategory();
+//   document.getElementById('input-category').value = '';
+// });
 
 // //  -- SAVE, REMOVE, EDIT --
 const submitForm = document.getElementById('form');
@@ -329,6 +329,8 @@ document.getElementById('sort-list').addEventListener('change', (event) => {
 //     events.linkedFilter(collectionOfBooksObject, linkClassName);
 //   });
 // }
+
+
 // FILTERING BY AUTHOR, CATEGORY OR RATING WHEN CLICKED
 events.tableOfBooksLinksFilters(collectionOfBooksObject);
 
@@ -360,6 +362,21 @@ formState.categories.forEach((category) => {
     });
   }
 });
+
+// SHOW & HIDE CATEGORY FILTERS
+const showFiletrsButton = document.getElementById('show-filters');
+showFiletrsButton.addEventListener('click', () => {
+  const div = document.getElementById('sort-and-filter');
+  const classList = div.classList.value;
+  const ifDisplay = classList.search('display-filters');
+  if(ifDisplay === -1){
+    div.classList.add('display-filters');
+    showFiletrsButton.innerText = "Hide filters"
+  } else {
+    div.classList.remove('display-filters');
+    showFiletrsButton.innerText = "Show filters"
+  }
+})
 
 // formState.categories.forEach((category) => {
 //   if (category.name !== '') {

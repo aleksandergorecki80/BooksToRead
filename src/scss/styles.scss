@@ -31,6 +31,22 @@ body {
       background-color: #283618;
     }
   }
+  .sort-and-filter {
+    display: block;
+    height: 0px;
+    transition: height 0.2s;
+    overflow: hidden;
+  }
+  .display-filters {
+
+    height: 100px;
+    /* animation-name: animacja; */
+    /* animation-duration: 3s; */
+    
+}
+.show-filters-btn {
+  width: 150px;
+}
   .div-books {
     margin-top: 20px;
     grid-column: 1/4;
@@ -71,6 +87,12 @@ body {
           justify-self: right;
           width: 100%;
           font-size: small;
+        }
+        .remove-book {
+          background-color: $remove-book-bg;
+        }
+        .edit-book {
+          background-color: $edit-book-bg;
         }
         .colspan {
             grid-column: 1/6;

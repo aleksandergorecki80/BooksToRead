@@ -38,11 +38,17 @@ export const pageElements = {
     btnAllBooks.append(checkbox, span);
     return btnAllBooks;
   },
-  getBtnAddNewCategory() {
-    const buttonAddNewCategory = document.createElement('button');
-    buttonAddNewCategory.innerHTML = 'Dodaj Nową Kategorię';
-    buttonAddNewCategory.id = 'add-category';
-    return buttonAddNewCategory;
+  getBtnShowFilters() {
+    const btnShowFilters = document.createElement('button');
+    btnShowFilters.innerHTML = 'Show filters';
+    btnShowFilters.id = 'show-filters';
+    btnShowFilters.className = 'show-filters-btn';
+
+    // const buttonAddNewCategory = document.createElement('button');
+    // buttonAddNewCategory.innerHTML = 'Dodaj Nową Kategorię';
+    // buttonAddNewCategory.id = 'add-category';
+    // return buttonAddNewCategory;
+    return btnShowFilters;
   },
   getCategories() {
     // KATEGORIE
