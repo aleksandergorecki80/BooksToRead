@@ -264,7 +264,7 @@ document.getElementById('sort-list').addEventListener('change', (event) => {
 
     default:
   }
-  document.getElementById('sort-list').value = '-- Wybierz --';
+  document.getElementById('sort-list').value = '-- Select --';
 });
 
 // FILTERING BY AUTHOR, CATEGORY OR RATING WHEN CLICKED

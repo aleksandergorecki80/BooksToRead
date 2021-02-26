@@ -13,7 +13,7 @@ export const form = {
       'text',
       'title',
       formState.booksDataEnteredInForm.title,
-      'Podaj tytuł'
+      'Add a title'
     );
     const titleInputField = titleInput.createTextInput();
     p.append(titleInputField);
@@ -27,7 +27,7 @@ export const form = {
       'text',
       'author',
       formState.booksDataEnteredInForm.author,
-      'Podaj autora'
+      'Add an author'
     );
     const authorInputField = authorInput.createTextInput();
     p.append(authorInputField);
@@ -45,7 +45,7 @@ export const form = {
   getSelectPriority() {
     const p = document.createElement('p');
     p.className = 'radio-buttons';
-    const label = createLabel('select', 'Jak barszo chcesz przeczytać');
+    const label = createLabel('select', 'How much do you want to read this book.');
     label.className = 'label-for-all';
     p.appendChild(label);
     for (let i = 1; i <= 5; i++) {
@@ -70,12 +70,12 @@ export const form = {
   getButtons() {
     const p = document.createElement('p');
     p.className = 'form-buttons';
-    const submitButton = new Submit('submit-button', 'submit', 'submit', 'Zapisz');
+    const submitButton = new Submit('submit-button', 'submit', 'submit', 'Save');
     const canceltButton = new Submit(
       'cancel-button',
       'button',
       'cancel',
-      'Anuluj',
+      'Cancel',
       'cancel-button'
     );
     const createdSubmit = submitButton.creteSubmit();

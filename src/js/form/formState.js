@@ -1,19 +1,19 @@
 export const formState = {
   newCategory: '',
   sortBy: [
-    { name: '', tekst: '-- Wybierz --' },
-    { name: 'title', tekst: 'Tytuł' },
-    { name: 'author', tekst: 'Autor' },
-    { name: 'priority', tekst: 'Priorytet' },
+    { name: '', tekst: '-- Select --' },
+    { name: 'title', tekst: 'Title' },
+    { name: 'author', tekst: 'Author' },
+    { name: 'priority', tekst: 'Priority' },
   ],
   categories: [
-    { name: '', tekst: ' -- Wybież kategorię -- ' },
-    { name: 'kryminal', tekst: 'Kryminał' },
+    { name: '', tekst: ' -- Select a category -- ' },
+    { name: 'kryminal', tekst: 'Crime fiction' },
     { name: 'sciFi', tekst: 'Science fiction' },
     { name: 'fantasy', tekst: 'Fantasy' },
-    { name: 'poezja', tekst: 'Poezja' },
-    { name: 'dramat', tekst: 'Dramat' },
-    { name: 'naukiScisle', tekst: 'Nauki ścisłe' },
+    { name: 'poezja', tekst: 'Poetry' },
+    { name: 'dramat', tekst: 'Drama' },
+    { name: 'naukiScisle', tekst: 'Science' },
   ],
   booksDataEnteredInForm: {
     id: '',
@@ -69,7 +69,7 @@ export const formState = {
   resetForm() {
     document.getElementById('input-title').value = '';
     document.getElementById('input-author').value = '';
-    document.getElementById('select-list').value = '-- Wybież kategorię --';
+    document.getElementById('select-list').value = '-- Select a category --';
     document.getElementById('5-priority').checked = true;
   },
 };

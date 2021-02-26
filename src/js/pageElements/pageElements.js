@@ -19,10 +19,10 @@ export const pageElements = {
     div.appendChild(formForAddingBooks);
     return div;
   },
-  getBtnAllBooks() {  
+  getBtnAllBooks() {
     const btnAllBooks = document.createElement('label');
     btnAllBooks.className = 'checkbox-container';
-    btnAllBooks.innerText = 'Wszystko';
+    btnAllBooks.innerText = 'All';
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.id = 'all-books';
@@ -85,13 +85,11 @@ export const pageElements = {
     const thead = document.createElement('thead');
     const trNaglowek = document.createElement('tr');
     const thTitle = document.createElement('th');
-    thTitle.innerText = 'Tytuł / Autor';
-    // const thAuthor = document.createElement('th');
-    // thAuthor.innerText = 'Autor';
+    thTitle.innerText = 'Title / Author';
     const thCategory = document.createElement('th');
-    thCategory.innerText = 'Kategoria';
+    thCategory.innerText = 'Category';
     const thPriority = document.createElement('th');
-    thPriority.innerText = 'Priorytet';
+    thPriority.innerText = 'Priority';
     const thPlaceholder = document.createElement('th');
     thPlaceholder.innerText = '';
 
@@ -115,7 +113,7 @@ export const pageElements = {
     // PRZYCISK DODAJ POZYCJĘ
     const addBookBtn = document.createElement('button');
     addBookBtn.id = 'add-book-btn';
-    addBookBtn.innerText = 'Dodaj nową pozycję';
+    addBookBtn.innerText = 'Add a new book';
     return addBookBtn;
   },
 };

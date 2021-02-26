@@ -30,8 +30,8 @@ export const functions = {
         <td class="category"><a class="a-category"> ${book.category} </a></td>
         <td class="priority"> <a class="a-priority">${book.priority}</a></td>
         <td>
-          <p><button class="remove-book">Usuń</button></p>
-          <p><button class="edit-book">Edytuj</button></p>
+          <p><button class="remove-book">Delete</button></p>
+          <p><button class="edit-book">Edit</button></p>
         </td>
         </tr>`;
       });
