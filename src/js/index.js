@@ -219,6 +219,7 @@ document.getElementById('list-of-books').addEventListener('click', (event) => {
     localStorage.setItem('books', JSON.stringify(replacedTotalBooksCollection));
     const htmlListOfBooks = functions.displayTotalListOfBooks(replacedTotalBooksCollection);
     functions.render(htmlListOfBooks, replacedTotalBooksCollection);
+    events.tableOfBooksLinksFilters(collectionOfBooksObject);
   }
 });
 
